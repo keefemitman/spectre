@@ -1,0 +1,320 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: src/Elliptic/Systems/Poisson/FirstOrderSystem.hpp Source File</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_230c67cf33a57f61172880426036f42c.html">src</a></li><li class="navelem"><a class="el" href="dir_102e4bda8d511a2139aab1e5fe5a004e.html">Elliptic</a></li><li class="navelem"><a class="el" href="dir_366b0aa35cb991322022db15d6825376.html">Systems</a></li><li class="navelem"><a class="el" href="dir_b601cbb427d9e7964c9260824198516d.html">Poisson</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="headertitle">
+<div class="title">FirstOrderSystem.hpp</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="Poisson_2FirstOrderSystem_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Distributed under the MIT License.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// See LICENSE.txt for details.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">/// \file</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">/// Defines class Poisson::FirstOrderSystem</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;<a class="codeRef" href="http://en.cppreference.com/w/cpp/header/cstddef.html">cstddef</a>&gt;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;DataStructures/DataBox/PrefixHelpers.hpp&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;DataStructures/Tensor/EagerMath/Magnitude.hpp&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;DataStructures/VariablesTag.hpp&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;Elliptic/Systems/Poisson/Equations.hpp&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;Elliptic/Systems/Poisson/Geometry.hpp&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="Elliptic_2Systems_2Poisson_2Tags_8hpp.html">Elliptic/Systems/Poisson/Tags.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="PartialDerivatives_8hpp.html">NumericalAlgorithms/LinearOperators/PartialDerivatives.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;PointwiseFunctions/GeneralRelativity/TagsDeclarations.hpp&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="TMPL_8hpp.html">Utilities/TMPL.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">namespace </span><a class="code" href="namespacePoisson.html">Poisson</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"></span> </div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">/*!</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"> * \brief The Poisson equation formulated as a set of coupled first-order PDEs.</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"> * \details This system formulates the Poisson equation \f$-\Delta_\gamma u(x) =</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"> * f(x)\f$ on a background metric \f$\gamma_{ij}\f$ as the set of coupled</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"> * first-order PDEs</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"> * \f[</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment"> * -\frac{1}{\sqrt{\gamma}} \partial_i \sqrt{\gamma}\gamma^{ij} v_j(x) = f(x) \\</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"> * -\partial_i u(x) + v_i(x) = 0</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment"> * \f]</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"> * where we have chosen the field gradient as an auxiliary variable \f$v_i\f$.</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"> * This scheme also goes by the name of _mixed_ or _flux_ formulation (see e.g.</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"> * \cite Arnold2002). The reason for the latter name is that we can write the</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment"> * set of coupled first-order PDEs in flux-form</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment"> * \f[</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment"> * -\partial_i F^i_A + S_A = f_A(x)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"> * \f]</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment"> * by choosing the fluxes and sources in terms of the system variables</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment"> * \f$u(x)\f$ and \f$v_i(x)\f$ as</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment"> * \f{align*}</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment"> * F^i_u &amp;= \sqrt{\gamma}\gamma^{ij} v_j(x) \\</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"> * S_u &amp;= 0 \\</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"> * f_u &amp;= \sqrt{\gamma} f(x) \\</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"> * F^i_{v_j} &amp;= u \delta^i_j \\</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"> * S_{v_j} &amp;= v_j \\</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"> * f_{v_j} &amp;= 0 \text{.}</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"> * \f}</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment"> * Note that we use the system variables to index the fluxes and sources, which</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"> * we also do in the code by using DataBox tags.</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment"> * Also note that we have defined the _fixed sources_ \f$f_A\f$ as those source</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"> * terms that are independent of the system variables.</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment"> *</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"> * The field gradient \f$v_i\f$ is treated on the same footing as the field</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"> * \f$u\f$ in this first-order formulation. This allows us to make use of the DG</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment"> * architecture developed for coupled first-order hyperbolic PDEs in flux-form,</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"> * in particular the flux communication and lifting code. It does, however,</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"> * introduce auxiliary degrees of freedom that can be avoided in the</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"> * second-order (or _primal_) formulation. Furthermore, the linear operator that</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"> * represents the DG discretization for this system is not symmetric. This</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"> * property further increase the computational cost (see \ref LinearSolverGroup)</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"> * and is remedied in the second-order formulation.</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">size_t</span> Dim, Geometry BackgroundGeometry&gt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="structPoisson_1_1FirstOrderSystem.html">   72</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structPoisson_1_1FirstOrderSystem.html">FirstOrderSystem</a> {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="keyword">using</span> <a class="code" href="structPoisson_1_1Tags_1_1Field.html">field</a> = <a class="code" href="structPoisson_1_1Tags_1_1Field.html">Tags::Field</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keyword">using</span> <a class="code" href="structTags_1_1deriv.html">field_gradient</a> =</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <a class="code" href="structTags_1_1deriv.html">::Tags::deriv&lt;field, tmpl::size_t&lt;Dim&gt;</a>, <a class="code" href="structFrame_1_1Inertial.html">Frame::Inertial</a>&gt;;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keyword">static</span> constexpr <span class="keywordtype">size_t</span> volume_dim = Dim;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  <span class="comment">// The physical fields to solve for</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keyword">using</span> primal_fields = tmpl::list&lt;field&gt;;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">using</span> auxiliary_fields = tmpl::list&lt;field_gradient&gt;;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">using</span> <a class="code" href="structTags_1_1Variables.html">fields_tag</a> =</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <a class="code" href="structTags_1_1Variables.html">::Tags::Variables&lt;tmpl::append&lt;primal_fields, auxiliary_fields&gt;</a>&gt;;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keyword">using</span> fluxes =</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      tmpl::conditional_t&lt;BackgroundGeometry == Geometry::Euclidean,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                          <a class="code" href="structPoisson_1_1EuclideanFluxes.html">EuclideanFluxes&lt;Dim&gt;</a>, <a class="code" href="structPoisson_1_1NonEuclideanFluxes.html">NonEuclideanFluxes&lt;Dim&gt;</a>&gt;;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keyword">using</span> <a class="code" href="structPoisson_1_1Sources.html">sources</a> = <a class="code" href="structPoisson_1_1Sources.html">Sources</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="comment">// The tag of the operator to compute magnitudes on the manifold, e.g. to</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="comment">// normalize vectors on the faces of an element</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Tag&gt;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keyword">using</span> magnitude_tag = tmpl::conditional_t&lt;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      BackgroundGeometry == Geometry::Euclidean,</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <a class="code" href="structTags_1_1EuclideanMagnitude.html">::Tags::EuclideanMagnitude&lt;Tag&gt;</a>,</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      <a class="code" href="structTags_1_1NonEuclideanMagnitude.html">::Tags::NonEuclideanMagnitude</a>&lt;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;          Tag, <a class="code" href="structgr_1_1Tags_1_1SpatialMetric.html">gr::Tags::SpatialMetric&lt;Dim, Frame::Inertial, DataVector&gt;</a>&gt;&gt;;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;};</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;}  <span class="comment">// namespace Poisson</span></div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="astructFrame_1_1Inertial_html"><div class="ttname"><a href="structFrame_1_1Inertial.html">Frame::Inertial</a></div><div class="ttdef"><b>Definition:</b> IndexType.hpp:44</div></div>
+<div class="ttc" id="astructgr_1_1Tags_1_1SpatialMetric_html"><div class="ttname"><a href="structgr_1_1Tags_1_1SpatialMetric.html">gr::Tags::SpatialMetric</a></div><div class="ttdef"><b>Definition:</b> Tags.hpp:26</div></div>
+<div class="ttc" id="astructPoisson_1_1NonEuclideanFluxes_html"><div class="ttname"><a href="structPoisson_1_1NonEuclideanFluxes.html">Poisson::NonEuclideanFluxes</a></div><div class="ttdoc">Compute the fluxes  for the curved-space Poisson equation on a spatial metric .</div><div class="ttdef"><b>Definition:</b> Equations.hpp:87</div></div>
+<div class="ttc" id="astructTags_1_1Variables_html"><div class="ttname"><a href="structTags_1_1Variables.html">Tags::Variables</a></div><div class="ttdef"><b>Definition:</b> VariablesTag.hpp:21</div></div>
+<div class="ttc" id="astructPoisson_1_1Sources_html"><div class="ttname"><a href="structPoisson_1_1Sources.html">Poisson::Sources</a></div><div class="ttdoc">Compute the sources  for the Poisson equation.</div><div class="ttdef"><b>Definition:</b> Equations.hpp:118</div></div>
+<div class="ttc" id="astructPoisson_1_1FirstOrderSystem_html"><div class="ttname"><a href="structPoisson_1_1FirstOrderSystem.html">Poisson::FirstOrderSystem</a></div><div class="ttdoc">The Poisson equation formulated as a set of coupled first-order PDEs.</div><div class="ttdef"><b>Definition:</b> FirstOrderSystem.hpp:72</div></div>
+<div class="ttc" id="astructTags_1_1EuclideanMagnitude_html"><div class="ttname"><a href="structTags_1_1EuclideanMagnitude.html">Tags::EuclideanMagnitude</a></div><div class="ttdef"><b>Definition:</b> Magnitude.hpp:115</div></div>
+<div class="ttc" id="acstddef_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/header/cstddef.html">cstddef</a></div></div>
+<div class="ttc" id="astructPoisson_1_1Tags_1_1Field_html"><div class="ttname"><a href="structPoisson_1_1Tags_1_1Field.html">Poisson::Tags::Field</a></div><div class="ttdoc">The scalar field  to solve for.</div><div class="ttdef"><b>Definition:</b> Tags.hpp:28</div></div>
+<div class="ttc" id="astructTags_1_1NonEuclideanMagnitude_html"><div class="ttname"><a href="structTags_1_1NonEuclideanMagnitude.html">Tags::NonEuclideanMagnitude</a></div><div class="ttdef"><b>Definition:</b> Magnitude.hpp:130</div></div>
+<div class="ttc" id="astructPoisson_1_1EuclideanFluxes_html"><div class="ttname"><a href="structPoisson_1_1EuclideanFluxes.html">Poisson::EuclideanFluxes</a></div><div class="ttdoc">Compute the fluxes  for the Poisson equation on a flat metric in Cartesian coordinates.</div><div class="ttdef"><b>Definition:</b> Equations.hpp:61</div></div>
+<div class="ttc" id="astructTags_1_1deriv_html"><div class="ttname"><a href="structTags_1_1deriv.html">Tags::deriv</a></div><div class="ttdoc">Prefix indicating spatial derivatives.</div><div class="ttdef"><b>Definition:</b> PartialDerivatives.hpp:54</div></div>
+<div class="ttc" id="aPartialDerivatives_8hpp_html"><div class="ttname"><a href="PartialDerivatives_8hpp.html">PartialDerivatives.hpp</a></div></div>
+<div class="ttc" id="anamespacePoisson_html"><div class="ttname"><a href="namespacePoisson.html">Poisson</a></div><div class="ttdoc">Items related to solving a Poisson equation .</div><div class="ttdef"><b>Definition:</b> Equations.cpp:15</div></div>
+<div class="ttc" id="aTMPL_8hpp_html"><div class="ttname"><a href="TMPL_8hpp.html">TMPL.hpp</a></div></div>
+<div class="ttc" id="aElliptic_2Systems_2Poisson_2Tags_8hpp_html"><div class="ttname"><a href="Elliptic_2Systems_2Poisson_2Tags_8hpp.html">Tags.hpp</a></div></div>
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: src/DataStructures/Tensor/Expressions/TensorExpression.hpp File Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="dir_230c67cf33a57f61172880426036f42c.html">src</a></li><li class="navelem"><a class="el" href="dir_f794354f56b7b0ecf5e40827268a3615.html">DataStructures</a></li><li class="navelem"><a class="el" href="dir_e969dbac9dfe3edfad5e001128532f32.html">Tensor</a></li><li class="navelem"><a class="el" href="dir_dd682bb394c8c7d2459504c9d0dadd87.html">Expressions</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#namespaces">Namespaces</a> &#124;
+<a href="#typedef-members">Typedefs</a>  </div>
+  <div class="headertitle">
+<div class="title">TensorExpression.hpp File Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<div class="textblock"><code>#include &lt;<a class="elRef" href="http://en.cppreference.com/w/cpp/header/array.html">array</a>&gt;</code><br />
+<code>#include &lt;<a class="elRef" href="http://en.cppreference.com/w/cpp/header/cstddef.html">cstddef</a>&gt;</code><br />
+<code>#include &quot;<a class="el" href="Assert_8hpp_source.html">ErrorHandling/Assert.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ForceInline_8hpp_source.html">Utilities/ForceInline.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Requires_8hpp_source.html">Utilities/Requires.hpp</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="TMPL_8hpp_source.html">Utilities/TMPL.hpp</a>&quot;</code><br />
+<code>#include &quot;Utilities/TypeTraits/IsA.hpp&quot;</code><br />
+</div>
+<p><a href="TensorExpression_8hpp_source.html">Go to the source code of this file.</a></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTensorIndex.html">TensorIndex&lt; I &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Represents the indices in a TensorExpression.  <a href="structTensorIndex.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtt_1_1is__tensor__index.html">tt::is_tensor_index&lt; T &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check if a type <code>T</code> is a <a class="el" href="structTensorIndex.html" title="Represents the indices in a TensorExpression.">TensorIndex</a> used in <a class="el" href="namespaceTensorExpressions.html">TensorExpressions</a>.  <a href="structtt_1_1is__tensor__index.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structtt_1_1is__tensor__index_3_01TensorIndex_3_01I_01_4_01_4.html">tt::is_tensor_index&lt; TensorIndex&lt; I &gt; &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structExpression.html">Expression</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Marks a class as being a TensorExpression.  <a href="structExpression.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structTensorExpression_3_01Derived_00_01DataType_00_01Symm_00_01IndexList_00_01ArgsList_3_01Args_8_8_8_01_4_01_4.html">TensorExpression&lt; Derived, DataType, Symm, IndexList, ArgsList&lt; Args... &gt; &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The base class all tensor expression implementations derive from.  <a href="structTensorExpression_3_01Derived_00_01DataType_00_01Symm_00_01IndexList_00_01ArgsList_3_01Args_8_8_8_01_4_01_4.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
+Namespaces</h2></td></tr>
+<tr class="memitem:namespacett"><td class="memItemLeft" align="right" valign="top"> &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespacett.html">tt</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ga4e3e7bcf352b9ea3d8dec615784331f9"><td class="memTemplParams" colspan="2">template&lt;typename T &gt; </td></tr>
+<tr class="memitem:ga4e3e7bcf352b9ea3d8dec615784331f9"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__TensorExpressionsGroup.html#ga4e3e7bcf352b9ea3d8dec615784331f9">next_tensor_index</a> = <a class="el" href="structTensorIndex.html">TensorIndex</a>&lt; T::value+1 &gt;</td></tr>
+<tr class="separator:ga4e3e7bcf352b9ea3d8dec615784331f9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga9d00e6077873db78d911e222226cb2ee"><td class="memTemplParams" colspan="2">template&lt;typename A , typename B &gt; </td></tr>
+<tr class="memitem:ga9d00e6077873db78d911e222226cb2ee"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__TensorExpressionsGroup.html#ga9d00e6077873db78d911e222226cb2ee">plus_tensor_index</a> = <a class="el" href="structTensorIndex.html">TensorIndex</a>&lt; A::value+B::value &gt;</td></tr>
+<tr class="separator:ga9d00e6077873db78d911e222226cb2ee"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c7bd1d8741f04ec0c7dee8e6f71a960"><td class="memItemLeft" align="right" valign="top"><a id="a4c7bd1d8741f04ec0c7dee8e6f71a960"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_a_t</b> = decltype(ti_a)</td></tr>
+<tr class="separator:a4c7bd1d8741f04ec0c7dee8e6f71a960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e72593ea656bff8300387cf196a4b8c"><td class="memItemLeft" align="right" valign="top"><a id="a8e72593ea656bff8300387cf196a4b8c"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_A_t</b> = decltype(ti_A)</td></tr>
+<tr class="separator:a8e72593ea656bff8300387cf196a4b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08767a7756ce4ee4adfaa31259a8fcf9"><td class="memItemLeft" align="right" valign="top"><a id="a08767a7756ce4ee4adfaa31259a8fcf9"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_b_t</b> = decltype(ti_b)</td></tr>
+<tr class="separator:a08767a7756ce4ee4adfaa31259a8fcf9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2bc36b210ba60869431fe2f7c276140e"><td class="memItemLeft" align="right" valign="top"><a id="a2bc36b210ba60869431fe2f7c276140e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_B_t</b> = decltype(ti_B)</td></tr>
+<tr class="separator:a2bc36b210ba60869431fe2f7c276140e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1c816207e9ecac81f993606c8d895fe"><td class="memItemLeft" align="right" valign="top"><a id="aa1c816207e9ecac81f993606c8d895fe"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_c_t</b> = decltype(ti_c)</td></tr>
+<tr class="separator:aa1c816207e9ecac81f993606c8d895fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6b3d9cb70866ea9a84ff1ff3df76b27"><td class="memItemLeft" align="right" valign="top"><a id="ab6b3d9cb70866ea9a84ff1ff3df76b27"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_C_t</b> = decltype(ti_C)</td></tr>
+<tr class="separator:ab6b3d9cb70866ea9a84ff1ff3df76b27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aedc5062189649d7dc2f2ed83851b4b29"><td class="memItemLeft" align="right" valign="top"><a id="aedc5062189649d7dc2f2ed83851b4b29"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_d_t</b> = decltype(ti_d)</td></tr>
+<tr class="separator:aedc5062189649d7dc2f2ed83851b4b29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28f2f9acebe8961b8109d7e54f612a23"><td class="memItemLeft" align="right" valign="top"><a id="a28f2f9acebe8961b8109d7e54f612a23"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_D_t</b> = decltype(ti_D)</td></tr>
+<tr class="separator:a28f2f9acebe8961b8109d7e54f612a23"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69ad7941ec41bfbbb823d0d1f768a34d"><td class="memItemLeft" align="right" valign="top"><a id="a69ad7941ec41bfbbb823d0d1f768a34d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_e_t</b> = decltype(ti_e)</td></tr>
+<tr class="separator:a69ad7941ec41bfbbb823d0d1f768a34d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1d203bdb407dfd4a00d334aa259c7d43"><td class="memItemLeft" align="right" valign="top"><a id="a1d203bdb407dfd4a00d334aa259c7d43"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_E_t</b> = decltype(ti_E)</td></tr>
+<tr class="separator:a1d203bdb407dfd4a00d334aa259c7d43"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9afabad39436df39da9ebfdad9627e19"><td class="memItemLeft" align="right" valign="top"><a id="a9afabad39436df39da9ebfdad9627e19"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_f_t</b> = decltype(ti_f)</td></tr>
+<tr class="separator:a9afabad39436df39da9ebfdad9627e19"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5588da718c55e8bbc1ddea384e31fe01"><td class="memItemLeft" align="right" valign="top"><a id="a5588da718c55e8bbc1ddea384e31fe01"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_F_t</b> = decltype(ti_F)</td></tr>
+<tr class="separator:a5588da718c55e8bbc1ddea384e31fe01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d75ed7c7b46e86b20490738e6551abc"><td class="memItemLeft" align="right" valign="top"><a id="a5d75ed7c7b46e86b20490738e6551abc"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_g_t</b> = decltype(ti_g)</td></tr>
+<tr class="separator:a5d75ed7c7b46e86b20490738e6551abc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa91371572f37baa9362143d8359f3dd4"><td class="memItemLeft" align="right" valign="top"><a id="aa91371572f37baa9362143d8359f3dd4"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_G_t</b> = decltype(ti_G)</td></tr>
+<tr class="separator:aa91371572f37baa9362143d8359f3dd4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aec83ca1988b5d7bd3c5999896cd9971d"><td class="memItemLeft" align="right" valign="top"><a id="aec83ca1988b5d7bd3c5999896cd9971d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_h_t</b> = decltype(ti_h)</td></tr>
+<tr class="separator:aec83ca1988b5d7bd3c5999896cd9971d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b88f130fa66746c6236e91f67b36942"><td class="memItemLeft" align="right" valign="top"><a id="a3b88f130fa66746c6236e91f67b36942"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_H_t</b> = decltype(ti_H)</td></tr>
+<tr class="separator:a3b88f130fa66746c6236e91f67b36942"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef0cdc58b84661d47e7c42f9b48ca017"><td class="memItemLeft" align="right" valign="top"><a id="aef0cdc58b84661d47e7c42f9b48ca017"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_i_t</b> = decltype(ti_i)</td></tr>
+<tr class="separator:aef0cdc58b84661d47e7c42f9b48ca017"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a382f7c4371c3a092ede174900b7bf943"><td class="memItemLeft" align="right" valign="top"><a id="a382f7c4371c3a092ede174900b7bf943"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_I_t</b> = decltype(ti_I)</td></tr>
+<tr class="separator:a382f7c4371c3a092ede174900b7bf943"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac06c9ced4d471362a030cf004049a3a0"><td class="memItemLeft" align="right" valign="top"><a id="ac06c9ced4d471362a030cf004049a3a0"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_j_t</b> = decltype(ti_j)</td></tr>
+<tr class="separator:ac06c9ced4d471362a030cf004049a3a0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a60bd287a9589e2ddd505174127cadaec"><td class="memItemLeft" align="right" valign="top"><a id="a60bd287a9589e2ddd505174127cadaec"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>ti_J_t</b> = decltype(ti_J)</td></tr>
+<tr class="separator:a60bd287a9589e2ddd505174127cadaec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gabb654b7a0322d916ac187ab45c47e4b8"><td class="memTemplParams" colspan="2">template&lt;typename Lhs , typename Rhs &gt; </td></tr>
+<tr class="memitem:gabb654b7a0322d916ac187ab45c47e4b8"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__TensorExpressionsGroup.html#gabb654b7a0322d916ac187ab45c47e4b8">rhs_elements_in_lhs</a> = tmpl::fold&lt; Rhs, tmpl::list&lt;&gt;, detail::rhs_elements_in_lhs_helper&lt; tmpl::_state, tmpl::_element, tmpl::pin&lt; Lhs &gt; &gt;&gt;</td></tr>
+<tr class="separator:gabb654b7a0322d916ac187ab45c47e4b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga88f7c9ca14eb7eb288bb972e241c18f6"><td class="memTemplParams" colspan="2">template&lt;typename Rhs , typename Lhs , typename RhsOnyWithLhs &gt; </td></tr>
+<tr class="memitem:ga88f7c9ca14eb7eb288bb972e241c18f6"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__TensorExpressionsGroup.html#ga88f7c9ca14eb7eb288bb972e241c18f6">generate_transformation</a> = tmpl::enumerated_fold&lt; Rhs, tmpl::list&lt;&gt;, detail::generate_transformation_impl&lt; tmpl::_state, tmpl::_element, tmpl::_3, tmpl::pin&lt; Lhs &gt;, tmpl::pin&lt; Rhs &gt;, tmpl::pin&lt; RhsOnyWithLhs &gt; &gt;&gt;</td></tr>
+<tr class="memdesc:ga88f7c9ca14eb7eb288bb972e241c18f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate transformation to account for index order difference in RHS and LHS.  <a href="group__TensorExpressionsGroup.html#ga88f7c9ca14eb7eb288bb972e241c18f6">More...</a><br /></td></tr>
+<tr class="separator:ga88f7c9ca14eb7eb288bb972e241c18f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ga18ac10ad0ede53c765da23f2c6a7a455"><td class="memTemplParams" colspan="2">template&lt;typename List &gt; </td></tr>
+<tr class="memitem:ga18ac10ad0ede53c765da23f2c6a7a455"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="group__TensorExpressionsGroup.html#ga18ac10ad0ede53c765da23f2c6a7a455">repeated</a> = tmpl::fold&lt; List, tmpl::list&lt;&gt;, detail::repeated_helper&lt; tmpl::pin&lt; List &gt;, tmpl::_state, tmpl::_element &gt; &gt;</td></tr>
+<tr class="separator:ga18ac10ad0ede53c765da23f2c6a7a455"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:gac3aa50aee820b5a407dd75aacafd0240"><td class="memTemplParams" colspan="2">
+template&lt;typename List , typename ReplaceList &gt; </td></tr>
+<tr class="memitem:gac3aa50aee820b5a407dd75aacafd0240"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>replace_indices</b> = typename detail::replace_indices_impl&lt; List, ReplaceList, 0 &gt;::type</td></tr>
+<tr class="separator:gac3aa50aee820b5a407dd75aacafd0240"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Defines class </p>
+</div></div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

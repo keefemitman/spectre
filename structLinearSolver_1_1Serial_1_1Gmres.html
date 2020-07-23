@@ -1,0 +1,417 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: LinearSolver::Serial::Gmres&lt; VarsType &gt; Struct Template Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceLinearSolver.html">LinearSolver</a></li><li class="navelem"><b>Serial</b></li><li class="navelem"><a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="structLinearSolver_1_1Serial_1_1Gmres-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">LinearSolver::Serial::Gmres&lt; VarsType &gt; Struct Template Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>A serial GMRES iterative solver for nonsymmetric linear systems of equations.  
+ <a href="structLinearSolver_1_1Serial_1_1Gmres.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="NumericalAlgorithms_2LinearSolver_2Gmres_8hpp_source.html">Gmres.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a67f477f2ea23d8a1d29b974b09dd8d02"><td class="memItemLeft" align="right" valign="top"><a id="a67f477f2ea23d8a1d29b974b09dd8d02"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>options</b> = tmpl::list&lt; ConvergenceCriteria, <a class="el" href="group__LoggingGroup.html#gabf3be10d03894afb391f3a2935e3b313">Verbosity</a>, Restart &gt;</td></tr>
+<tr class="separator:a67f477f2ea23d8a1d29b974b09dd8d02"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a672ac549b4e93ee106d4e995f998e7e5"><td class="memItemLeft" align="right" valign="top"><a id="a672ac549b4e93ee106d4e995f998e7e5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Gmres</b> (<a class="el" href="structConvergence_1_1Criteria.html">Convergence::Criteria</a> convergence_criteria, ::<a class="el" href="group__LoggingGroup.html#gabf3be10d03894afb391f3a2935e3b313">Verbosity</a> verbosity, size_t restart=0) noexcept</td></tr>
+<tr class="separator:a672ac549b4e93ee106d4e995f998e7e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a95f0214a73fcb539a893ac83e7559ab9"><td class="memItemLeft" align="right" valign="top"><a id="a95f0214a73fcb539a893ac83e7559ab9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Gmres</b> (const <a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a> &amp;)=default</td></tr>
+<tr class="separator:a95f0214a73fcb539a893ac83e7559ab9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a8467161be89bc4df03d139b8c9fc1a"><td class="memItemLeft" align="right" valign="top"><a id="a9a8467161be89bc4df03d139b8c9fc1a"></a>
+<a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a> &amp;)=default</td></tr>
+<tr class="separator:a9a8467161be89bc4df03d139b8c9fc1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0af548242ddd03d106ea6b1ba75c55b9"><td class="memItemLeft" align="right" valign="top"><a id="a0af548242ddd03d106ea6b1ba75c55b9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Gmres</b> (<a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a0af548242ddd03d106ea6b1ba75c55b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6093d68e65ed368fe50ceba432df93b9"><td class="memItemLeft" align="right" valign="top"><a id="a6093d68e65ed368fe50ceba432df93b9"></a>
+<a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">Gmres</a> &amp;&amp;)=default</td></tr>
+<tr class="separator:a6093d68e65ed368fe50ceba432df93b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c59a6603d0e5d77aaa21388e19ff311"><td class="memItemLeft" align="right" valign="top"><a id="a2c59a6603d0e5d77aaa21388e19ff311"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b> () noexcept</td></tr>
+<tr class="separator:a2c59a6603d0e5d77aaa21388e19ff311"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab2fa7f2c594c21857cb92fea342a036f"><td class="memItemLeft" align="right" valign="top"><a id="ab2fa7f2c594c21857cb92fea342a036f"></a>
+const <a class="el" href="structConvergence_1_1Criteria.html">Convergence::Criteria</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>convergence_criteria</b> () const noexcept</td></tr>
+<tr class="separator:ab2fa7f2c594c21857cb92fea342a036f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a90257d2f61e1d4af72875a1da8a7c06b"><td class="memItemLeft" align="right" valign="top"><a id="a90257d2f61e1d4af72875a1da8a7c06b"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>pup</b> (PUP::er &amp;p) noexcept</td></tr>
+<tr class="separator:a90257d2f61e1d4af72875a1da8a7c06b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed8f96c7d6532e35aa756e0b4e6399de"><td class="memTemplParams" colspan="2">template&lt;typename LinearOperator , typename SourceType , typename Preconditioner  = IdentityPreconditioner&lt;VarsType&gt;, typename IterationCallback  = NoIterationCallback&gt; </td></tr>
+<tr class="memitem:aed8f96c7d6532e35aa756e0b4e6399de"><td class="memTemplItemLeft" align="right" valign="top"><a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="el" href="structConvergence_1_1HasConverged.html">Convergence::HasConverged</a>, VarsType &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html#aed8f96c7d6532e35aa756e0b4e6399de">operator()</a> (LinearOperator &amp;&amp;linear_operator, const SourceType &amp;source, const VarsType &amp;initial_guess, Preconditioner &amp;&amp;preconditioner=<a class="el" href="structLinearSolver_1_1Serial_1_1IdentityPreconditioner.html">IdentityPreconditioner</a>&lt; VarsType &gt;{}, IterationCallback &amp;&amp;iteration_callback=<a class="el" href="structLinearSolver_1_1Serial_1_1NoIterationCallback.html">NoIterationCallback</a>{}) const noexcept</td></tr>
+<tr class="memdesc:aed8f96c7d6532e35aa756e0b4e6399de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Iteratively solve the problem \(Ax=b\) for \(x\) where \(A\) is the <code>linear_operator</code> and \(b\) is the <code>source</code>, starting \(x\) at <code>initial_guess</code>.  <a href="structLinearSolver_1_1Serial_1_1Gmres.html#aed8f96c7d6532e35aa756e0b4e6399de">More...</a><br /></td></tr>
+<tr class="separator:aed8f96c7d6532e35aa756e0b4e6399de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:a9207334a3406db8634c1c06aed2e4402"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="Options_8hpp.html#ac6df7d1b74fbddedd85b06a0087d93f6">OptionString</a>&#160;</td><td class="memItemRight" valign="bottom"><b>help</b></td></tr>
+<tr class="separator:a9207334a3406db8634c1c06aed2e4402"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename VarsType&gt;<br />
+struct LinearSolver::Serial::Gmres&lt; VarsType &gt;</h3>
+
+<p>A serial GMRES iterative solver for nonsymmetric linear systems of equations. </p>
+<p>This is an iterative algorithm to solve general linear equations \(Ax=b\) where \(A\) is a linear operator. See <a class="el" href="citelist.html#CITEREF_Saad2003">[56]</a>, chapter 6.5 for a description of the GMRES algorithm and Algorithm 9.6 for this implementation. It is matrix-free, which means the operator \(A\) needs not be provided explicity as a matrix but only the operator action \(A(x)\) must be provided for an argument \(x\).</p>
+<p>The GMRES algorithm does not require the operator \(A\) to be symmetric or positive-definite. Note that other algorithms such as conjugate gradients may be more efficient for symmetric positive-definite operators.</p>
+<dl class="section user"><dt>Convergence:</dt><dd>Given a set of \(N_A\) equations (e.g. through an \(N_A\times N_A\) matrix) the GMRES algorithm will converge to numerical precision in at most \(N_A\) iterations. However, depending on the properties of the linear operator, an approximate solution can ideally be obtained in only a few iterations. See <a class="el" href="citelist.html#CITEREF_Saad2003">[56]</a>, section 6.11.4 for details on the convergence of the GMRES algorithm.</dd></dl>
+<dl class="section user"><dt>Restarting:</dt><dd>This implementation of the GMRES algorithm supports restarting, as detailed in <a class="el" href="citelist.html#CITEREF_Saad2003">[56]</a>, section 6.5.5. Since the GMRES algorithm iteratively builds up an orthogonal basis of the solution space the cost of each iteration increases linearly with the number of iterations. Therefore it is sometimes helpful to restart the algorithm every \(N_\mathrm{restart}\) iterations, discarding the set of basis vectors and starting again from the current solution estimate. This strategy can improve the performance of the solver, but note that the solver can stagnate for non-positive-definite operators and is not guaranteed to converge within \(N_A\) iterations anymore. Set the <code>restart</code> argument of the constructor to \(N_\mathrm{restart}\) to activate restarting, or set it to zero to deactivate restarting (default behaviour).</dd></dl>
+<dl class="section user"><dt>Preconditioning:</dt><dd>This implementation of the GMRES algorithm also supports preconditioning. You can provide a linear operator \(P\) that approximates the inverse of the operator \(A\) to accelerate the convergence of the linear solve. The algorithm is right-preconditioned, which allows the preconditioner to change in every iteration ("flexible" variant). See <a class="el" href="citelist.html#CITEREF_Saad2003">[56]</a>, sections 9.3.2 and 9.4.1 for details. This implementation follows Algorithm 9.6 in <a class="el" href="citelist.html#CITEREF_Saad2003">[56]</a>.</dd></dl>
+<dl class="section user"><dt>Improvements:</dt><dd>Further improvements can potentially be implemented for this algorithm, see e.g. <a class="el" href="citelist.html#CITEREF_Ayachour2003">[3]</a>.</dd></dl>
+<h3>Example</h3>
+<div class="fragment"><div class="line">    INFO(<span class="stringliteral">&quot;Solve a symmetric 2x2 matrix&quot;</span>);</div>
+<div class="line">    <a class="code" href="classDenseMatrix.html">DenseMatrix&lt;double&gt;</a> matrix(2, 2);</div>
+<div class="line">    matrix(0, 0) = 4.;</div>
+<div class="line">    matrix(0, 1) = 1.;</div>
+<div class="line">    matrix(1, 0) = 1.;</div>
+<div class="line">    matrix(1, 1) = 3.;</div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classDenseVector.html">DenseVector&lt;double&gt;</a> source{1., 2.};</div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classDenseVector.html">DenseVector&lt;double&gt;</a> initial_guess{2., 1.};</div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="classDenseVector.html">DenseVector&lt;double&gt;</a> expected_solution{0.0909090909090909,</div>
+<div class="line">                                                0.6363636363636364};</div>
+<div class="line">    <span class="keyword">const</span> <a class="code" href="structConvergence_1_1Criteria.html">Convergence::Criteria</a> convergence_criteria{2, 1.e-14, 0.};</div>
+<div class="line">    <span class="keyword">const</span> Gmres&lt;DenseVector&lt;double&gt;&gt; gmres{convergence_criteria,</div>
+<div class="line">                                           ::Verbosity::Verbose};</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> linear_operator =</div>
+<div class="line">        [&amp;matrix](<span class="keyword">const</span> <a class="code" href="classDenseVector.html">DenseVector&lt;double&gt;</a>&amp; arg) noexcept {</div>
+<div class="line">          <span class="keywordflow">return</span> matrix * arg;</div>
+<div class="line">        };</div>
+<div class="line">    <a class="codeRef" href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector&lt;double&gt;</a> recorded_residuals;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span> result = gmres(</div>
+<div class="line">        linear_operator, source, initial_guess,</div>
+<div class="line">        IdentityPreconditioner&lt;<a class="code" href="classDenseVector.html">DenseVector&lt;double&gt;</a>&gt;{},</div>
+<div class="line">        [&amp;recorded_residuals](<span class="keyword">const</span> <a class="code" href="structConvergence_1_1HasConverged.html">Convergence::HasConverged</a>&amp; has_converged) {</div>
+<div class="line">          recorded_residuals.push_back(has_converged.residual_magnitude());</div>
+<div class="line">        });</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; has_converged = result.first;</div>
+<div class="line">    <span class="keyword">const</span> <span class="keyword">auto</span>&amp; solution = result.second;</div>
+<div class="line">    REQUIRE(has_converged);</div>
+<div class="line">    CHECK(has_converged.reason() == Convergence::Reason::AbsoluteResidual);</div>
+<div class="line">    CHECK(has_converged.num_iterations() == 2);</div>
+<div class="line">    CHECK(has_converged.residual_magnitude() &lt;= 1.e-14);</div>
+<div class="line">    CHECK(has_converged.initial_residual_magnitude() ==</div>
+<div class="line">          approx(8.54400374531753));</div>
+<div class="line">    <a class="code" href="group__TestingFrameworkGroup.html#ga6ce5d669c94418f197e4c55c53e64a64">CHECK_ITERABLE_APPROX</a>(solution, expected_solution);</div>
+<div class="line">    <span class="comment">// The residuals should decrease monotonically</span></div>
+<div class="line">    CHECK(recorded_residuals[0] == has_converged.initial_residual_magnitude());</div>
+<div class="line">    <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 1; i &lt; has_converged.num_iterations(); ++i) {</div>
+<div class="line">      CHECK(recorded_residuals[i] &lt;= recorded_residuals[i - 1]);</div>
+<div class="line">    }</div>
+</div><!-- fragment --></div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="aed8f96c7d6532e35aa756e0b4e6399de"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aed8f96c7d6532e35aa756e0b4e6399de">&#9670;&nbsp;</a></span>operator()()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename VarsType &gt; </div>
+<div class="memtemplate">
+template&lt;typename LinearOperator , typename SourceType , typename Preconditioner , typename IterationCallback &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="elRef" href="http://en.cppreference.com/w/cpp/utility/pair.html">std::pair</a>&lt; <a class="el" href="structConvergence_1_1HasConverged.html">Convergence::HasConverged</a>, VarsType &gt; <a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">LinearSolver::Serial::Gmres</a>&lt; VarsType &gt;::operator() </td>
+          <td>(</td>
+          <td class="paramtype">LinearOperator &amp;&amp;&#160;</td>
+          <td class="paramname"><em>linear_operator</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const SourceType &amp;&#160;</td>
+          <td class="paramname"><em>source</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const VarsType &amp;&#160;</td>
+          <td class="paramname"><em>initial_guess</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Preconditioner &amp;&amp;&#160;</td>
+          <td class="paramname"><em>preconditioner</em> = <code><a class="el" href="structLinearSolver_1_1Serial_1_1IdentityPreconditioner.html">IdentityPreconditioner</a>&lt;VarsType&gt;{}</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">IterationCallback &amp;&amp;&#160;</td>
+          <td class="paramname"><em>iteration_callback</em> = <code><a class="el" href="structLinearSolver_1_1Serial_1_1NoIterationCallback.html">NoIterationCallback</a>{}</code>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Iteratively solve the problem \(Ax=b\) for \(x\) where \(A\) is the <code>linear_operator</code> and \(b\) is the <code>source</code>, starting \(x\) at <code>initial_guess</code>. </p>
+<p>Optionally provide a <code>preconditioner</code> (see class documentation).</p>
+<p><em>Returns:</em> An instance of <code><a class="el" href="structConvergence_1_1HasConverged.html" title="Signals convergence of the algorithm.">Convergence::HasConverged</a></code> that provides information on the convergence status of the completed solve, and the approximate solution \(x\). </p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a id="a9207334a3406db8634c1c06aed2e4402"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9207334a3406db8634c1c06aed2e4402">&#9670;&nbsp;</a></span>help</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename VarsType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="Options_8hpp.html#ac6df7d1b74fbddedd85b06a0087d93f6">OptionString</a> <a class="el" href="structLinearSolver_1_1Serial_1_1Gmres.html">LinearSolver::Serial::Gmres</a>&lt; VarsType &gt;::help</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">=</div>
+<div class="line">      <span class="stringliteral">&quot;A serial GMRES iterative solver for nonsymmetric linear systems of\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;equations Ax=b. It will converge to numerical precision in at most N_A\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;iterations, where N_A is the number of equations represented by the\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;linear operator A, but will ideally converge to a reasonable\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;approximation of the solution x in only a few iterations.\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;Restarting: It is sometimes helpful to restart the algorithm every\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;N_restart iterations to speed it up. Note that it can stagnate for\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;non-positive-definite matrices and is not guaranteed to converge\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;within N_A iterations anymore when restarting is activated.\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;Activate restarting by setting the &#39;Restart&#39; option to N_restart, or\n&quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;deactivate restarting by setting it to zero (default).&quot;</span></div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/NumericalAlgorithms/LinearSolver/<a class="el" href="NumericalAlgorithms_2LinearSolver_2Gmres_8hpp_source.html">Gmres.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<div class="ttc" id="avector_html"><div class="ttname"><a href="http://en.cppreference.com/w/cpp/container/vector.html">std::vector&lt; double &gt;</a></div></div>
+<div class="ttc" id="astructConvergence_1_1Criteria_html"><div class="ttname"><a href="structConvergence_1_1Criteria.html">Convergence::Criteria</a></div><div class="ttdoc">Criteria that determine an iterative algorithm has converged.</div><div class="ttdef"><b>Definition:</b> Criteria.hpp:35</div></div>
+<div class="ttc" id="aclassDenseVector_html"><div class="ttname"><a href="classDenseVector.html">DenseVector&lt; double &gt;</a></div></div>
+<div class="ttc" id="astructConvergence_1_1HasConverged_html"><div class="ttname"><a href="structConvergence_1_1HasConverged.html">Convergence::HasConverged</a></div><div class="ttdoc">Signals convergence of the algorithm.</div><div class="ttdef"><b>Definition:</b> HasConverged.hpp:59</div></div>
+<div class="ttc" id="agroup__TestingFrameworkGroup_html_ga6ce5d669c94418f197e4c55c53e64a64"><div class="ttname"><a href="group__TestingFrameworkGroup.html#ga6ce5d669c94418f197e4c55c53e64a64">CHECK_ITERABLE_APPROX</a></div><div class="ttdeci">#define CHECK_ITERABLE_APPROX(a, b)</div><div class="ttdoc">A wrapper around Catch's CHECK macro that checks approximate equality of entries in iterable containe...</div><div class="ttdef"><b>Definition:</b> TestingFramework.hpp:139</div></div>
+<div class="ttc" id="aclassDenseMatrix_html"><div class="ttname"><a href="classDenseMatrix.html">DenseMatrix&lt; double &gt;</a></div></div>
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

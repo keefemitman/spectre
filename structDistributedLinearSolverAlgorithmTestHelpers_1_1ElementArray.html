@@ -1,0 +1,250 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: DistributedLinearSolverAlgorithmTestHelpers::ElementArray&lt; Metavariables &gt; Struct Template Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><b>DistributedLinearSolverAlgorithmTestHelpers</b></li><li class="navelem"><a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1ElementArray.html">ElementArray</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="structDistributedLinearSolverAlgorithmTestHelpers_1_1ElementArray-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">DistributedLinearSolverAlgorithmTestHelpers::ElementArray&lt; Metavariables &gt; Struct Template Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aa82b2a07c9c47933e33f3ebab4152dba"><td class="memItemLeft" align="right" valign="top"><a id="aa82b2a07c9c47933e33f3ebab4152dba"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>chare_type</b> = Parallel::Algorithms::Array</td></tr>
+<tr class="separator:aa82b2a07c9c47933e33f3ebab4152dba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a736f22b8318b7a69a756db036770529d"><td class="memItemLeft" align="right" valign="top"><a id="a736f22b8318b7a69a756db036770529d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>metavariables</b> = Metavariables</td></tr>
+<tr class="separator:a736f22b8318b7a69a756db036770529d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae860256d19a79d710963834d872af931"><td class="memItemLeft" align="right" valign="top"><a id="ae860256d19a79d710963834d872af931"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>linear_solver</b> = typename Metavariables::linear_solver</td></tr>
+<tr class="separator:ae860256d19a79d710963834d872af931"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac47b3f83879bc93cd2113f4d6de0818f"><td class="memItemLeft" align="right" valign="top"><a id="ac47b3f83879bc93cd2113f4d6de0818f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>preconditioner</b> = typename Metavariables::preconditioner</td></tr>
+<tr class="separator:ac47b3f83879bc93cd2113f4d6de0818f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a27395f2812a76fbb626164de988ccabb"><td class="memItemLeft" align="right" valign="top"><a id="a27395f2812a76fbb626164de988ccabb"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>phase_dependent_action_list</b> = tmpl::list&lt; <a class="el" href="structParallel_1_1PhaseActions.html">Parallel::PhaseActions</a>&lt; typename Metavariables::Phase, Metavariables::Phase::Initialization, tmpl::list&lt; <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1InitializeElement.html">InitializeElement</a>, typename linear_solver::initialize_element, <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1ComputeOperatorAction.html">ComputeOperatorAction</a>&lt; <a class="el" href="structTags_1_1Variables.html">fields_tag</a> &gt;, helpers::detail::init_preconditioner&lt; preconditioner &gt;, <a class="el" href="structParallel_1_1Actions_1_1TerminatePhase.html">Parallel::Actions::TerminatePhase</a> &gt; &gt;, <a class="el" href="structParallel_1_1PhaseActions.html">Parallel::PhaseActions</a>&lt; typename Metavariables::Phase, Metavariables::Phase::RegisterWithObserver, tmpl::list&lt; typename linear_solver::register_element, typename linear_solver::prepare_solve, <a class="el" href="structParallel_1_1Actions_1_1TerminatePhase.html">Parallel::Actions::TerminatePhase</a> &gt; &gt;, <a class="el" href="structParallel_1_1PhaseActions.html">Parallel::PhaseActions</a>&lt; typename Metavariables::Phase, Metavariables::Phase::PerformLinearSolve, tmpl::list&lt; <a class="el" href="structLinearSolver_1_1Actions_1_1TerminateIfConverged.html">LinearSolver::Actions::TerminateIfConverged</a>&lt; typename linear_solver::options_group &gt;, typename linear_solver::prepare_step, detail::run_preconditioner&lt; preconditioner &gt;, <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1ComputeOperatorAction.html">ComputeOperatorAction</a>&lt; typename linear_solver::operand_tag &gt;, typename linear_solver::perform_step &gt; &gt;, <a class="el" href="structParallel_1_1PhaseActions.html">Parallel::PhaseActions</a>&lt; typename Metavariables::Phase, Metavariables::Phase::TestResult, tmpl::list&lt; <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1TestResult.html">TestResult</a>&lt; typename linear_solver::options_group &gt; &gt;&gt; &gt;</td></tr>
+<tr class="separator:a27395f2812a76fbb626164de988ccabb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac2ee517abb9639022466a8da304ccf6f"><td class="memItemLeft" align="right" valign="top"><a id="ac2ee517abb9639022466a8da304ccf6f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>array_allocation_tags</b> = tmpl::list&lt; <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1Initialization_1_1Tags_1_1NumberOfElements.html">Initialization::Tags::NumberOfElements</a> &gt;</td></tr>
+<tr class="separator:ac2ee517abb9639022466a8da304ccf6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2a101f0c7210acf892595bf3c528b5d"><td class="memItemLeft" align="right" valign="top"><a id="ae2a101f0c7210acf892595bf3c528b5d"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>initialization_tags</b> = <a class="el" href="group__ParallelGroup.html#ga1e2e4c961e55eb461d66770393e4f45d">Parallel::get_initialization_tags</a>&lt; <a class="el" href="group__ParallelGroup.html#gac5fb42f8eaf4da2707e32ed37ecf4e66">Parallel::get_initialization_actions_list</a>&lt; phase_dependent_action_list &gt;, array_allocation_tags &gt;</td></tr>
+<tr class="separator:ae2a101f0c7210acf892595bf3c528b5d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9c5c9a70c351a3a59bcb1a30d8e818a3"><td class="memItemLeft" align="right" valign="top"><a id="a9c5c9a70c351a3a59bcb1a30d8e818a3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_global_cache_tags</b> = tmpl::list&lt; <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1LinearOperator.html">LinearOperator</a>, <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1Source.html">Source</a>, <a class="el" href="structDistributedLinearSolverAlgorithmTestHelpers_1_1ExpectedResult.html">ExpectedResult</a> &gt;</td></tr>
+<tr class="separator:a9c5c9a70c351a3a59bcb1a30d8e818a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acf69e357e4e73f2ff7fcd2c8e69aa292"><td class="memItemLeft" align="right" valign="top"><a id="acf69e357e4e73f2ff7fcd2c8e69aa292"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>array_index</b> = int</td></tr>
+<tr class="separator:acf69e357e4e73f2ff7fcd2c8e69aa292"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:abce7bfe46923fb748368357d88e7f795"><td class="memItemLeft" align="right" valign="top"><a id="abce7bfe46923fb748368357d88e7f795"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>allocate_array</b> (Parallel::CProxy_ConstGlobalCache&lt; Metavariables &gt; &amp;global_cache, const tuples::tagged_tuple_from_typelist&lt; initialization_tags &gt; &amp;initialization_items) noexcept</td></tr>
+<tr class="separator:abce7bfe46923fb748368357d88e7f795"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d20f18363689b5021ee4e174158da80"><td class="memItemLeft" align="right" valign="top"><a id="a3d20f18363689b5021ee4e174158da80"></a>
+static void&#160;</td><td class="memItemRight" valign="bottom"><b>execute_next_phase</b> (const typename Metavariables::Phase next_phase, Parallel::CProxy_ConstGlobalCache&lt; Metavariables &gt; &amp;global_cache) noexcept</td></tr>
+<tr class="separator:a3d20f18363689b5021ee4e174158da80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>tests/Unit/Helpers/ParallelAlgorithms/LinearSolver/<a class="el" href="DistributedLinearSolverAlgorithmTestHelpers_8hpp_source.html">DistributedLinearSolverAlgorithmTestHelpers.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

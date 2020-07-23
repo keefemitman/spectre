@@ -1,0 +1,455 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - a8c3e387addc34d8a4544728f405991e6c9e5e38 - Domain/Creators/BinaryCompactObject.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title"> SpECTRE Documentation Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../index.html">top level</a> - <a href="index.html">Domain/Creators</a> - BinaryCompactObject.cpp</td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+             <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/a8c3e387addc34d8a4544728f405991e6c9e5e38">a8c3e387addc34d8a4544728f405991e6c9e5e38</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">1</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-07-23 18:59:12</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span><span class="lineNoCov">          0 : // Distributed under the MIT License.</span></a>
+<a name="2"><span class="lineNum">       2 </span>            : // See LICENSE.txt for details.</a>
+<a name="3"><span class="lineNum">       3 </span>            : </a>
+<a name="4"><span class="lineNum">       4 </span>            : #include &quot;Domain/Creators/BinaryCompactObject.hpp&quot;</a>
+<a name="5"><span class="lineNum">       5 </span>            : </a>
+<a name="6"><span class="lineNum">       6 </span>            : #include &lt;algorithm&gt;</a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &lt;cmath&gt;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;iterator&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;memory&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;pup.h&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : #include &lt;string&gt;</a>
+<a name="12"><span class="lineNum">      12 </span>            : #include &lt;unordered_map&gt;</a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &lt;utility&gt;</a>
+<a name="14"><span class="lineNum">      14 </span>            : </a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &quot;DataStructures/Tensor/TypeAliases.hpp&quot;</a>
+<a name="16"><span class="lineNum">      16 </span>            : #include &quot;Domain/Block.hpp&quot;  // IWYU pragma: keep</a>
+<a name="17"><span class="lineNum">      17 </span>            : #include &quot;Domain/CoordinateMaps/Affine.hpp&quot;</a>
+<a name="18"><span class="lineNum">      18 </span>            : #include &quot;Domain/CoordinateMaps/CoordinateMap.hpp&quot;</a>
+<a name="19"><span class="lineNum">      19 </span>            : #include &quot;Domain/CoordinateMaps/CoordinateMap.tpp&quot;</a>
+<a name="20"><span class="lineNum">      20 </span>            : #include &quot;Domain/CoordinateMaps/Equiangular.hpp&quot;</a>
+<a name="21"><span class="lineNum">      21 </span>            : #include &quot;Domain/CoordinateMaps/Identity.hpp&quot;</a>
+<a name="22"><span class="lineNum">      22 </span>            : #include &quot;Domain/CoordinateMaps/ProductMaps.hpp&quot;</a>
+<a name="23"><span class="lineNum">      23 </span>            : #include &quot;Domain/CoordinateMaps/ProductMaps.tpp&quot;</a>
+<a name="24"><span class="lineNum">      24 </span>            : #include &quot;Domain/Creators/DomainCreator.hpp&quot;  // IWYU pragma: keep</a>
+<a name="25"><span class="lineNum">      25 </span>            : #include &quot;Domain/Creators/TimeDependence/None.hpp&quot;</a>
+<a name="26"><span class="lineNum">      26 </span>            : #include &quot;Domain/Domain.hpp&quot;</a>
+<a name="27"><span class="lineNum">      27 </span>            : #include &quot;Domain/DomainHelpers.hpp&quot;</a>
+<a name="28"><span class="lineNum">      28 </span>            : #include &quot;Domain/Structure/BlockNeighbor.hpp&quot;  // IWYU pragma: keep</a>
+<a name="29"><span class="lineNum">      29 </span>            : #include &quot;Utilities/MakeArray.hpp&quot;</a>
+<a name="30"><span class="lineNum">      30 </span>            : </a>
+<a name="31"><span class="lineNum">      31 </span>            : /// \cond</a>
+<a name="32"><span class="lineNum">      32 </span>            : namespace Frame {</a>
+<a name="33"><span class="lineNum">      33 </span>            : struct Logical;</a>
+<a name="34"><span class="lineNum">      34 </span>            : }  // namespace Frame</a>
+<a name="35"><span class="lineNum">      35 </span>            : /// \endcond</a>
+<a name="36"><span class="lineNum">      36 </span>            : </a>
+<a name="37"><span class="lineNum">      37 </span>            : namespace domain::creators {</a>
+<a name="38"><span class="lineNum">      38 </span>            : BinaryCompactObject::BinaryCompactObject(</a>
+<a name="39"><span class="lineNum">      39 </span>            :     typename InnerRadiusObjectA::type inner_radius_object_A,</a>
+<a name="40"><span class="lineNum">      40 </span>            :     typename OuterRadiusObjectA::type outer_radius_object_A,</a>
+<a name="41"><span class="lineNum">      41 </span>            :     typename XCoordObjectA::type xcoord_object_A,</a>
+<a name="42"><span class="lineNum">      42 </span>            :     typename ExciseInteriorA::type excise_interior_A,</a>
+<a name="43"><span class="lineNum">      43 </span>            :     typename InnerRadiusObjectB::type inner_radius_object_B,</a>
+<a name="44"><span class="lineNum">      44 </span>            :     typename OuterRadiusObjectB::type outer_radius_object_B,</a>
+<a name="45"><span class="lineNum">      45 </span>            :     typename XCoordObjectB::type xcoord_object_B,</a>
+<a name="46"><span class="lineNum">      46 </span>            :     typename ExciseInteriorB::type excise_interior_B,</a>
+<a name="47"><span class="lineNum">      47 </span>            :     typename RadiusOuterCube::type radius_enveloping_cube,</a>
+<a name="48"><span class="lineNum">      48 </span>            :     typename RadiusOuterSphere::type radius_enveloping_sphere,</a>
+<a name="49"><span class="lineNum">      49 </span>            :     typename InitialRefinement::type initial_refinement,</a>
+<a name="50"><span class="lineNum">      50 </span>            :     typename InitialGridPoints::type initial_grid_points_per_dim,</a>
+<a name="51"><span class="lineNum">      51 </span>            :     typename UseEquiangularMap::type use_equiangular_map,</a>
+<a name="52"><span class="lineNum">      52 </span>            :     typename UseProjectiveMap::type use_projective_map,</a>
+<a name="53"><span class="lineNum">      53 </span>            :     typename UseLogarithmicMapOuterSphericalShell::type</a>
+<a name="54"><span class="lineNum">      54 </span>            :         use_logarithmic_map_outer_spherical_shell,</a>
+<a name="55"><span class="lineNum">      55 </span>            :     typename AdditionToOuterLayerRadialRefinementLevel::type</a>
+<a name="56"><span class="lineNum">      56 </span>            :         addition_to_outer_layer_radial_refinement_level,</a>
+<a name="57"><span class="lineNum">      57 </span>            :     typename UseLogarithmicMapObjectA::type use_logarithmic_map_object_A,</a>
+<a name="58"><span class="lineNum">      58 </span>            :     typename AdditionToObjectARadialRefinementLevel::type</a>
+<a name="59"><span class="lineNum">      59 </span>            :         addition_to_object_A_radial_refinement_level,</a>
+<a name="60"><span class="lineNum">      60 </span>            :     typename UseLogarithmicMapObjectB::type use_logarithmic_map_object_B,</a>
+<a name="61"><span class="lineNum">      61 </span>            :     typename AdditionToObjectBRadialRefinementLevel::type</a>
+<a name="62"><span class="lineNum">      62 </span>            :         addition_to_object_B_radial_refinement_level,</a>
+<a name="63"><span class="lineNum">      63 </span>            :     std::unique_ptr&lt;domain::creators::time_dependence::TimeDependence&lt;3&gt;&gt;</a>
+<a name="64"><span class="lineNum">      64 </span>            :         time_dependence,</a>
+<a name="65"><span class="lineNum">      65 </span>            :     const OptionContext&amp; context)</a>
+<a name="66"><span class="lineNum">      66 </span>            :     // clang-tidy: trivially copyable</a>
+<a name="67"><span class="lineNum">      67 </span>            :     : inner_radius_object_A_(std::move(inner_radius_object_A)),        // NOLINT</a>
+<a name="68"><span class="lineNum">      68 </span>            :       outer_radius_object_A_(std::move(outer_radius_object_A)),        // NOLINT</a>
+<a name="69"><span class="lineNum">      69 </span>            :       xcoord_object_A_(std::move(xcoord_object_A)),                    // NOLINT</a>
+<a name="70"><span class="lineNum">      70 </span>            :       excise_interior_A_(std::move(excise_interior_A)),                // NOLINT</a>
+<a name="71"><span class="lineNum">      71 </span>            :       inner_radius_object_B_(std::move(inner_radius_object_B)),        // NOLINT</a>
+<a name="72"><span class="lineNum">      72 </span>            :       outer_radius_object_B_(std::move(outer_radius_object_B)),        // NOLINT</a>
+<a name="73"><span class="lineNum">      73 </span>            :       xcoord_object_B_(std::move(xcoord_object_B)),                    // NOLINT</a>
+<a name="74"><span class="lineNum">      74 </span>            :       excise_interior_B_(std::move(excise_interior_B)),                // NOLINT</a>
+<a name="75"><span class="lineNum">      75 </span>            :       radius_enveloping_cube_(std::move(radius_enveloping_cube)),      // NOLINT</a>
+<a name="76"><span class="lineNum">      76 </span>            :       radius_enveloping_sphere_(std::move(radius_enveloping_sphere)),  // NOLINT</a>
+<a name="77"><span class="lineNum">      77 </span>            :       initial_refinement_(                                             // NOLINT</a>
+<a name="78"><span class="lineNum">      78 </span>            :           std::move(initial_refinement)),                              // NOLINT</a>
+<a name="79"><span class="lineNum">      79 </span>            :       initial_grid_points_per_dim_(                                    // NOLINT</a>
+<a name="80"><span class="lineNum">      80 </span>            :           std::move(initial_grid_points_per_dim)),                     // NOLINT</a>
+<a name="81"><span class="lineNum">      81 </span>            :       use_equiangular_map_(std::move(use_equiangular_map)),            // NOLINT</a>
+<a name="82"><span class="lineNum">      82 </span>            :       use_projective_map_(std::move(use_projective_map)),              // NOLINT</a>
+<a name="83"><span class="lineNum">      83 </span>            :       use_logarithmic_map_outer_spherical_shell_(</a>
+<a name="84"><span class="lineNum">      84 </span>            :           std::move(use_logarithmic_map_outer_spherical_shell)),  // NOLINT</a>
+<a name="85"><span class="lineNum">      85 </span>            :       addition_to_outer_layer_radial_refinement_level_(</a>
+<a name="86"><span class="lineNum">      86 </span>            :           addition_to_outer_layer_radial_refinement_level),  // NOLINT</a>
+<a name="87"><span class="lineNum">      87 </span>            :       use_logarithmic_map_object_A_(</a>
+<a name="88"><span class="lineNum">      88 </span>            :           std::move(use_logarithmic_map_object_A)),  // NOLINT</a>
+<a name="89"><span class="lineNum">      89 </span>            :       addition_to_object_A_radial_refinement_level_(</a>
+<a name="90"><span class="lineNum">      90 </span>            :           addition_to_object_A_radial_refinement_level),  // NOLINT</a>
+<a name="91"><span class="lineNum">      91 </span>            :       use_logarithmic_map_object_B_(</a>
+<a name="92"><span class="lineNum">      92 </span>            :           std::move(use_logarithmic_map_object_B)),  // NOLINT</a>
+<a name="93"><span class="lineNum">      93 </span>            :       addition_to_object_B_radial_refinement_level_(</a>
+<a name="94"><span class="lineNum">      94 </span>            :           addition_to_object_B_radial_refinement_level),  // NOLINT</a>
+<a name="95"><span class="lineNum">      95 </span>            :       time_dependence_(std::move(time_dependence)) {</a>
+<a name="96"><span class="lineNum">      96 </span>            :   // Determination of parameters for domain construction:</a>
+<a name="97"><span class="lineNum">      97 </span>            :   translation_ = 0.5 * (xcoord_object_B_ + xcoord_object_A_);</a>
+<a name="98"><span class="lineNum">      98 </span>            :   length_inner_cube_ = abs(xcoord_object_A_ - xcoord_object_B_);</a>
+<a name="99"><span class="lineNum">      99 </span>            :   length_outer_cube_ = 2.0 * radius_enveloping_cube_ / sqrt(3.0);</a>
+<a name="100"><span class="lineNum">     100 </span>            :   if (xcoord_object_A_ &gt;= 0.0) {</a>
+<a name="101"><span class="lineNum">     101 </span>            :     PARSE_ERROR(</a>
+<a name="102"><span class="lineNum">     102 </span>            :         context,</a>
+<a name="103"><span class="lineNum">     103 </span>            :         &quot;The x-coordinate of ObjectA's center is expected to be negative.&quot;);</a>
+<a name="104"><span class="lineNum">     104 </span>            :   }</a>
+<a name="105"><span class="lineNum">     105 </span>            :   if (xcoord_object_B &lt;= 0.0) {</a>
+<a name="106"><span class="lineNum">     106 </span>            :     PARSE_ERROR(</a>
+<a name="107"><span class="lineNum">     107 </span>            :         context,</a>
+<a name="108"><span class="lineNum">     108 </span>            :         &quot;The x-coordinate of ObjectB's center is expected to be positive.&quot;);</a>
+<a name="109"><span class="lineNum">     109 </span>            :   }</a>
+<a name="110"><span class="lineNum">     110 </span>            :   if (length_outer_cube_ &lt;= 2.0 * length_inner_cube_) {</a>
+<a name="111"><span class="lineNum">     111 </span>            :     const double suggested_value = 2.0 * length_inner_cube_ * sqrt(3.0);</a>
+<a name="112"><span class="lineNum">     112 </span>            :     PARSE_ERROR(</a>
+<a name="113"><span class="lineNum">     113 </span>            :         context,</a>
+<a name="114"><span class="lineNum">     114 </span>            :         &quot;The radius for the enveloping cube is too small! The Frustums will be &quot;</a>
+<a name="115"><span class="lineNum">     115 </span>            :         &quot;malformed. A recommended radius is:\n&quot;</a>
+<a name="116"><span class="lineNum">     116 </span>            :             &lt;&lt; suggested_value);</a>
+<a name="117"><span class="lineNum">     117 </span>            :   }</a>
+<a name="118"><span class="lineNum">     118 </span>            :   if (outer_radius_object_A &lt; inner_radius_object_A) {</a>
+<a name="119"><span class="lineNum">     119 </span>            :     PARSE_ERROR(context,</a>
+<a name="120"><span class="lineNum">     120 </span>            :                 &quot;ObjectA's inner radius must be less than its outer radius.&quot;);</a>
+<a name="121"><span class="lineNum">     121 </span>            :   }</a>
+<a name="122"><span class="lineNum">     122 </span>            :   if (outer_radius_object_B &lt; inner_radius_object_B) {</a>
+<a name="123"><span class="lineNum">     123 </span>            :     PARSE_ERROR(context,</a>
+<a name="124"><span class="lineNum">     124 </span>            :                 &quot;ObjectB's inner radius must be less than its outer radius.&quot;);</a>
+<a name="125"><span class="lineNum">     125 </span>            :   }</a>
+<a name="126"><span class="lineNum">     126 </span>            :   if (use_projective_map_) {</a>
+<a name="127"><span class="lineNum">     127 </span>            :     projective_scale_factor_ = length_inner_cube_ / length_outer_cube_;</a>
+<a name="128"><span class="lineNum">     128 </span>            :   } else {</a>
+<a name="129"><span class="lineNum">     129 </span>            :     projective_scale_factor_ = 1.0;</a>
+<a name="130"><span class="lineNum">     130 </span>            :   }</a>
+<a name="131"><span class="lineNum">     131 </span>            :   if (time_dependence_ == nullptr) {</a>
+<a name="132"><span class="lineNum">     132 </span>            :     time_dependence_ =</a>
+<a name="133"><span class="lineNum">     133 </span>            :         std::make_unique&lt;domain::creators::time_dependence::None&lt;3&gt;&gt;();</a>
+<a name="134"><span class="lineNum">     134 </span>            :   }</a>
+<a name="135"><span class="lineNum">     135 </span>            :   if (use_logarithmic_map_object_A_ and not excise_interior_A_) {</a>
+<a name="136"><span class="lineNum">     136 </span>            :     PARSE_ERROR(</a>
+<a name="137"><span class="lineNum">     137 </span>            :         context,</a>
+<a name="138"><span class="lineNum">     138 </span>            :         &quot;excise_interior_A must be true if use_logarithmic_map_object_A is &quot;</a>
+<a name="139"><span class="lineNum">     139 </span>            :         &quot;true; that is, using a logarithmically spaced radial grid in the part &quot;</a>
+<a name="140"><span class="lineNum">     140 </span>            :         &quot;of Layer 1 enveloping Object A requires excising the interior of &quot;</a>
+<a name="141"><span class="lineNum">     141 </span>            :         &quot;Object A&quot;);</a>
+<a name="142"><span class="lineNum">     142 </span>            :   }</a>
+<a name="143"><span class="lineNum">     143 </span>            :   if (use_logarithmic_map_object_B_ and not excise_interior_B_) {</a>
+<a name="144"><span class="lineNum">     144 </span>            :     PARSE_ERROR(</a>
+<a name="145"><span class="lineNum">     145 </span>            :         context,</a>
+<a name="146"><span class="lineNum">     146 </span>            :         &quot;excise_interior_B must be true if use_logarithmic_map_object_B is &quot;</a>
+<a name="147"><span class="lineNum">     147 </span>            :         &quot;true; that is, using a logarithmically spaced radial grid in the part &quot;</a>
+<a name="148"><span class="lineNum">     148 </span>            :         &quot;of Layer 1 enveloping Object B requires excising the interior of &quot;</a>
+<a name="149"><span class="lineNum">     149 </span>            :         &quot;Object B&quot;);</a>
+<a name="150"><span class="lineNum">     150 </span>            :   }</a>
+<a name="151"><span class="lineNum">     151 </span>            : </a>
+<a name="152"><span class="lineNum">     152 </span>            :   // Calculate number of blocks</a>
+<a name="153"><span class="lineNum">     153 </span>            :   // Layers 1, 2, 3, 4, and 5 have 12, 12, 10, 10, and 10 blocks, respectively,</a>
+<a name="154"><span class="lineNum">     154 </span>            :   // for 54 total.</a>
+<a name="155"><span class="lineNum">     155 </span>            :   number_of_blocks_ = 54;</a>
+<a name="156"><span class="lineNum">     156 </span>            : </a>
+<a name="157"><span class="lineNum">     157 </span>            :   // For each object whose interior is not excised, add 1 block</a>
+<a name="158"><span class="lineNum">     158 </span>            :   if (not excise_interior_A_) {</a>
+<a name="159"><span class="lineNum">     159 </span>            :     number_of_blocks_++;</a>
+<a name="160"><span class="lineNum">     160 </span>            :   }</a>
+<a name="161"><span class="lineNum">     161 </span>            :   if (not excise_interior_B_) {</a>
+<a name="162"><span class="lineNum">     162 </span>            :     number_of_blocks_++;</a>
+<a name="163"><span class="lineNum">     163 </span>            :   }</a>
+<a name="164"><span class="lineNum">     164 </span>            : }</a>
+<a name="165"><span class="lineNum">     165 </span>            : </a>
+<a name="166"><span class="lineNum">     166 </span>            : Domain&lt;3&gt; BinaryCompactObject::create_domain() const noexcept {</a>
+<a name="167"><span class="lineNum">     167 </span>            :   const double inner_sphericity_A = excise_interior_A_ ? 1.0 : 0.0;</a>
+<a name="168"><span class="lineNum">     168 </span>            :   const double inner_sphericity_B = excise_interior_B_ ? 1.0 : 0.0;</a>
+<a name="169"><span class="lineNum">     169 </span>            : </a>
+<a name="170"><span class="lineNum">     170 </span>            :   using Maps = std::vector&lt;</a>
+<a name="171"><span class="lineNum">     171 </span>            :       std::unique_ptr&lt;CoordinateMapBase&lt;Frame::Logical, Frame::Inertial, 3&gt;&gt;&gt;;</a>
+<a name="172"><span class="lineNum">     172 </span>            : </a>
+<a name="173"><span class="lineNum">     173 </span>            :   Maps maps;</a>
+<a name="174"><span class="lineNum">     174 </span>            :   // ObjectA/B is on the left/right, respectively.</a>
+<a name="175"><span class="lineNum">     175 </span>            :   Maps maps_center_A = wedge_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="176"><span class="lineNum">     176 </span>            :       inner_radius_object_A_, outer_radius_object_A_, inner_sphericity_A, 1.0,</a>
+<a name="177"><span class="lineNum">     177 </span>            :       use_equiangular_map_, xcoord_object_A_, false, 1.0,</a>
+<a name="178"><span class="lineNum">     178 </span>            :       use_logarithmic_map_object_A_);</a>
+<a name="179"><span class="lineNum">     179 </span>            :   Maps maps_cube_A = wedge_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="180"><span class="lineNum">     180 </span>            :       outer_radius_object_A_, sqrt(3.0) * 0.5 * length_inner_cube_, 1.0, 0.0,</a>
+<a name="181"><span class="lineNum">     181 </span>            :       use_equiangular_map_, xcoord_object_A_, false);</a>
+<a name="182"><span class="lineNum">     182 </span>            :   Maps maps_center_B = wedge_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="183"><span class="lineNum">     183 </span>            :       inner_radius_object_B_, outer_radius_object_B_, inner_sphericity_B, 1.0,</a>
+<a name="184"><span class="lineNum">     184 </span>            :       use_equiangular_map_, xcoord_object_B_, false, 1.0,</a>
+<a name="185"><span class="lineNum">     185 </span>            :       use_logarithmic_map_object_B_);</a>
+<a name="186"><span class="lineNum">     186 </span>            :   Maps maps_cube_B = wedge_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="187"><span class="lineNum">     187 </span>            :       outer_radius_object_B_, sqrt(3.0) * 0.5 * length_inner_cube_, 1.0, 0.0,</a>
+<a name="188"><span class="lineNum">     188 </span>            :       use_equiangular_map_, xcoord_object_B_, false);</a>
+<a name="189"><span class="lineNum">     189 </span>            :   Maps maps_frustums = frustum_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="190"><span class="lineNum">     190 </span>            :       length_inner_cube_, length_outer_cube_, use_equiangular_map_,</a>
+<a name="191"><span class="lineNum">     191 </span>            :       {{-translation_, 0.0, 0.0}}, projective_scale_factor_);</a>
+<a name="192"><span class="lineNum">     192 </span>            : </a>
+<a name="193"><span class="lineNum">     193 </span>            :   std::move(maps_center_A.begin(), maps_center_A.end(),</a>
+<a name="194"><span class="lineNum">     194 </span>            :             std::back_inserter(maps));</a>
+<a name="195"><span class="lineNum">     195 </span>            :   std::move(maps_cube_A.begin(), maps_cube_A.end(), std::back_inserter(maps));</a>
+<a name="196"><span class="lineNum">     196 </span>            :   std::move(maps_center_B.begin(), maps_center_B.end(),</a>
+<a name="197"><span class="lineNum">     197 </span>            :             std::back_inserter(maps));</a>
+<a name="198"><span class="lineNum">     198 </span>            :   std::move(maps_cube_B.begin(), maps_cube_B.end(), std::back_inserter(maps));</a>
+<a name="199"><span class="lineNum">     199 </span>            :   std::move(maps_frustums.begin(), maps_frustums.end(),</a>
+<a name="200"><span class="lineNum">     200 </span>            :             std::back_inserter(maps));</a>
+<a name="201"><span class="lineNum">     201 </span>            : </a>
+<a name="202"><span class="lineNum">     202 </span>            :   // The first shell (Layer 4) goes from sphericity == 0.0 to sphericity</a>
+<a name="203"><span class="lineNum">     203 </span>            :   // == 1.0. This shell is surrounded by a shell with sphericity == 1.0</a>
+<a name="204"><span class="lineNum">     204 </span>            :   // throughout (Layer 5) that will have a radial refinement level of</a>
+<a name="205"><span class="lineNum">     205 </span>            :   // (addition_to_outer_layer_radial_refinement_level_ + initial_refinement_).</a>
+<a name="206"><span class="lineNum">     206 </span>            :   const double inner_radius_first_outer_shell =</a>
+<a name="207"><span class="lineNum">     207 </span>            :       sqrt(3.0) * 0.5 * length_outer_cube_;</a>
+<a name="208"><span class="lineNum">     208 </span>            : </a>
+<a name="209"><span class="lineNum">     209 </span>            :   // Adjust the outer boundary of the cubed sphere to conform to the</a>
+<a name="210"><span class="lineNum">     210 </span>            :   // spacing of the spherical shells after refinement, so the cubed sphere is</a>
+<a name="211"><span class="lineNum">     211 </span>            :   // the same size as the first radial division of the spherical shell</a>
+<a name="212"><span class="lineNum">     212 </span>            :   // (for linear mapping) or smaller by the same factor as adjacent radial</a>
+<a name="213"><span class="lineNum">     213 </span>            :   // divisions in the spherical shell (for logarithmic mapping)</a>
+<a name="214"><span class="lineNum">     214 </span>            :   const double radial_divisions_in_outer_layers =</a>
+<a name="215"><span class="lineNum">     215 </span>            :       pow(2, addition_to_outer_layer_radial_refinement_level_) + 1;</a>
+<a name="216"><span class="lineNum">     216 </span>            :   const double outer_radius_first_outer_shell =</a>
+<a name="217"><span class="lineNum">     217 </span>            :       use_logarithmic_map_outer_spherical_shell_</a>
+<a name="218"><span class="lineNum">     218 </span>            :           ? inner_radius_first_outer_shell *</a>
+<a name="219"><span class="lineNum">     219 </span>            :                 pow(radius_enveloping_sphere_ / inner_radius_first_outer_shell,</a>
+<a name="220"><span class="lineNum">     220 </span>            :                     1.0 / static_cast&lt;double&gt;(radial_divisions_in_outer_layers))</a>
+<a name="221"><span class="lineNum">     221 </span>            :           : inner_radius_first_outer_shell +</a>
+<a name="222"><span class="lineNum">     222 </span>            :                 (radius_enveloping_sphere_ - inner_radius_first_outer_shell) /</a>
+<a name="223"><span class="lineNum">     223 </span>            :                     static_cast&lt;double&gt;(radial_divisions_in_outer_layers);</a>
+<a name="224"><span class="lineNum">     224 </span>            :   Maps maps_first_outer_shell = wedge_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="225"><span class="lineNum">     225 </span>            :       inner_radius_first_outer_shell, outer_radius_first_outer_shell, 0.0, 1.0,</a>
+<a name="226"><span class="lineNum">     226 </span>            :       use_equiangular_map_, 0.0, true, 1.0, false, ShellWedges::All, 1);</a>
+<a name="227"><span class="lineNum">     227 </span>            :   Maps maps_second_outer_shell = wedge_coordinate_maps&lt;Frame::Inertial&gt;(</a>
+<a name="228"><span class="lineNum">     228 </span>            :       outer_radius_first_outer_shell, radius_enveloping_sphere_, 1.0, 1.0,</a>
+<a name="229"><span class="lineNum">     229 </span>            :       use_equiangular_map_, 0.0, true, 1.0,</a>
+<a name="230"><span class="lineNum">     230 </span>            :       use_logarithmic_map_outer_spherical_shell_, ShellWedges::All, 1);</a>
+<a name="231"><span class="lineNum">     231 </span>            :   std::move(maps_first_outer_shell.begin(), maps_first_outer_shell.end(),</a>
+<a name="232"><span class="lineNum">     232 </span>            :             std::back_inserter(maps));</a>
+<a name="233"><span class="lineNum">     233 </span>            :   std::move(maps_second_outer_shell.begin(), maps_second_outer_shell.end(),</a>
+<a name="234"><span class="lineNum">     234 </span>            :             std::back_inserter(maps));</a>
+<a name="235"><span class="lineNum">     235 </span>            : </a>
+<a name="236"><span class="lineNum">     236 </span>            :   // Set up the maps for the central cubes, if any exist.</a>
+<a name="237"><span class="lineNum">     237 </span>            :   using Affine = CoordinateMaps::Affine;</a>
+<a name="238"><span class="lineNum">     238 </span>            :   using Affine3D = CoordinateMaps::ProductOf3Maps&lt;Affine, Affine, Affine&gt;;</a>
+<a name="239"><span class="lineNum">     239 </span>            :   using Equiangular = CoordinateMaps::Equiangular;</a>
+<a name="240"><span class="lineNum">     240 </span>            :   using Equiangular3D =</a>
+<a name="241"><span class="lineNum">     241 </span>            :       CoordinateMaps::ProductOf3Maps&lt;Equiangular, Equiangular, Equiangular&gt;;</a>
+<a name="242"><span class="lineNum">     242 </span>            :   using Identity2D = CoordinateMaps::Identity&lt;2&gt;;</a>
+<a name="243"><span class="lineNum">     243 </span>            :   auto shift_1d_A =</a>
+<a name="244"><span class="lineNum">     244 </span>            :       Affine{-1.0, 1.0, -1.0 + xcoord_object_A_, 1.0 + xcoord_object_A_};</a>
+<a name="245"><span class="lineNum">     245 </span>            :   auto shift_1d_B =</a>
+<a name="246"><span class="lineNum">     246 </span>            :       Affine{-1.0, 1.0, -1.0 + xcoord_object_B_, 1.0 + xcoord_object_B_};</a>
+<a name="247"><span class="lineNum">     247 </span>            : </a>
+<a name="248"><span class="lineNum">     248 </span>            :   // clang-tidy: trivially copyable</a>
+<a name="249"><span class="lineNum">     249 </span>            :   const auto translation_A = CoordinateMaps::ProductOf2Maps&lt;Affine, Identity2D&gt;(</a>
+<a name="250"><span class="lineNum">     250 </span>            :       std::move(shift_1d_A), Identity2D{});  // NOLINT</a>
+<a name="251"><span class="lineNum">     251 </span>            :   const auto translation_B = CoordinateMaps::ProductOf2Maps&lt;Affine, Identity2D&gt;(</a>
+<a name="252"><span class="lineNum">     252 </span>            :       std::move(shift_1d_B), Identity2D{});  // NOLINT</a>
+<a name="253"><span class="lineNum">     253 </span>            :   if (not excise_interior_A_) {</a>
+<a name="254"><span class="lineNum">     254 </span>            :     const double scaled_r_inner_A = inner_radius_object_A_ / sqrt(3.0);</a>
+<a name="255"><span class="lineNum">     255 </span>            :     if (use_equiangular_map_) {</a>
+<a name="256"><span class="lineNum">     256 </span>            :       maps.emplace_back(</a>
+<a name="257"><span class="lineNum">     257 </span>            :           make_coordinate_map_base&lt;Frame::Logical, Frame::Inertial&gt;(</a>
+<a name="258"><span class="lineNum">     258 </span>            :               Equiangular3D{Equiangular(-1.0, 1.0, -1.0 * scaled_r_inner_A,</a>
+<a name="259"><span class="lineNum">     259 </span>            :                                         scaled_r_inner_A),</a>
+<a name="260"><span class="lineNum">     260 </span>            :                             Equiangular(-1.0, 1.0, -1.0 * scaled_r_inner_A,</a>
+<a name="261"><span class="lineNum">     261 </span>            :                                         scaled_r_inner_A),</a>
+<a name="262"><span class="lineNum">     262 </span>            :                             Equiangular(-1.0, 1.0, -1.0 * scaled_r_inner_A,</a>
+<a name="263"><span class="lineNum">     263 </span>            :                                         scaled_r_inner_A)},</a>
+<a name="264"><span class="lineNum">     264 </span>            :               translation_A));</a>
+<a name="265"><span class="lineNum">     265 </span>            :     } else {</a>
+<a name="266"><span class="lineNum">     266 </span>            :       maps.emplace_back(</a>
+<a name="267"><span class="lineNum">     267 </span>            :           make_coordinate_map_base&lt;Frame::Logical, Frame::Inertial&gt;(</a>
+<a name="268"><span class="lineNum">     268 </span>            :               Affine3D{</a>
+<a name="269"><span class="lineNum">     269 </span>            :                   Affine(-1.0, 1.0, -1.0 * scaled_r_inner_A, scaled_r_inner_A),</a>
+<a name="270"><span class="lineNum">     270 </span>            :                   Affine(-1.0, 1.0, -1.0 * scaled_r_inner_A, scaled_r_inner_A),</a>
+<a name="271"><span class="lineNum">     271 </span>            :                   Affine(-1.0, 1.0, -1.0 * scaled_r_inner_A, scaled_r_inner_A)},</a>
+<a name="272"><span class="lineNum">     272 </span>            :               translation_A));</a>
+<a name="273"><span class="lineNum">     273 </span>            :     }</a>
+<a name="274"><span class="lineNum">     274 </span>            :   }</a>
+<a name="275"><span class="lineNum">     275 </span>            :   if (not excise_interior_B_) {</a>
+<a name="276"><span class="lineNum">     276 </span>            :     const double scaled_r_inner_B = inner_radius_object_B_ / sqrt(3.0);</a>
+<a name="277"><span class="lineNum">     277 </span>            :     if (use_equiangular_map_) {</a>
+<a name="278"><span class="lineNum">     278 </span>            :       maps.emplace_back(</a>
+<a name="279"><span class="lineNum">     279 </span>            :           make_coordinate_map_base&lt;Frame::Logical, Frame::Inertial&gt;(</a>
+<a name="280"><span class="lineNum">     280 </span>            :               Equiangular3D{Equiangular(-1.0, 1.0, -1.0 * scaled_r_inner_B,</a>
+<a name="281"><span class="lineNum">     281 </span>            :                                         scaled_r_inner_B),</a>
+<a name="282"><span class="lineNum">     282 </span>            :                             Equiangular(-1.0, 1.0, -1.0 * scaled_r_inner_B,</a>
+<a name="283"><span class="lineNum">     283 </span>            :                                         scaled_r_inner_B),</a>
+<a name="284"><span class="lineNum">     284 </span>            :                             Equiangular(-1.0, 1.0, -1.0 * scaled_r_inner_B,</a>
+<a name="285"><span class="lineNum">     285 </span>            :                                         scaled_r_inner_B)},</a>
+<a name="286"><span class="lineNum">     286 </span>            :               translation_B));</a>
+<a name="287"><span class="lineNum">     287 </span>            :     } else {</a>
+<a name="288"><span class="lineNum">     288 </span>            :       maps.emplace_back(</a>
+<a name="289"><span class="lineNum">     289 </span>            :           make_coordinate_map_base&lt;Frame::Logical, Frame::Inertial&gt;(</a>
+<a name="290"><span class="lineNum">     290 </span>            :               Affine3D{</a>
+<a name="291"><span class="lineNum">     291 </span>            :                   Affine(-1.0, 1.0, -1.0 * scaled_r_inner_B, scaled_r_inner_B),</a>
+<a name="292"><span class="lineNum">     292 </span>            :                   Affine(-1.0, 1.0, -1.0 * scaled_r_inner_B, scaled_r_inner_B),</a>
+<a name="293"><span class="lineNum">     293 </span>            :                   Affine(-1.0, 1.0, -1.0 * scaled_r_inner_B, scaled_r_inner_B)},</a>
+<a name="294"><span class="lineNum">     294 </span>            :               translation_B));</a>
+<a name="295"><span class="lineNum">     295 </span>            :     }</a>
+<a name="296"><span class="lineNum">     296 </span>            :   }</a>
+<a name="297"><span class="lineNum">     297 </span>            :   Domain&lt;3&gt; domain{std::move(maps),</a>
+<a name="298"><span class="lineNum">     298 </span>            :                    corners_for_biradially_layered_domains(</a>
+<a name="299"><span class="lineNum">     299 </span>            :                        2, 3, not excise_interior_A_, not excise_interior_B_)};</a>
+<a name="300"><span class="lineNum">     300 </span>            :   if (not time_dependence_-&gt;is_none()) {</a>
+<a name="301"><span class="lineNum">     301 </span>            :     for (size_t block = 0; block &lt; number_of_blocks_; ++block) {</a>
+<a name="302"><span class="lineNum">     302 </span>            :       domain.inject_time_dependent_map_for_block(</a>
+<a name="303"><span class="lineNum">     303 </span>            :           block,</a>
+<a name="304"><span class="lineNum">     304 </span>            :           std::move(time_dependence_-&gt;block_maps(number_of_blocks_)[block]));</a>
+<a name="305"><span class="lineNum">     305 </span>            :     }</a>
+<a name="306"><span class="lineNum">     306 </span>            :   }</a>
+<a name="307"><span class="lineNum">     307 </span>            :   return domain;</a>
+<a name="308"><span class="lineNum">     308 </span>            : }</a>
+<a name="309"><span class="lineNum">     309 </span>            : </a>
+<a name="310"><span class="lineNum">     310 </span>            : std::unique_ptr&lt;domain::creators::time_dependence::TimeDependence&lt;3&gt;&gt;</a>
+<a name="311"><span class="lineNum">     311 </span>            : BinaryCompactObject::TimeDependence::default_value() noexcept {</a>
+<a name="312"><span class="lineNum">     312 </span>            :   return std::make_unique&lt;domain::creators::time_dependence::None&lt;3&gt;&gt;();</a>
+<a name="313"><span class="lineNum">     313 </span>            : }</a>
+<a name="314"><span class="lineNum">     314 </span>            : </a>
+<a name="315"><span class="lineNum">     315 </span>            : std::vector&lt;std::array&lt;size_t, 3&gt;&gt; BinaryCompactObject::initial_extents() const</a>
+<a name="316"><span class="lineNum">     316 </span>            :     noexcept {</a>
+<a name="317"><span class="lineNum">     317 </span>            :   return {number_of_blocks_, make_array&lt;3&gt;(initial_grid_points_per_dim_)};</a>
+<a name="318"><span class="lineNum">     318 </span>            : }</a>
+<a name="319"><span class="lineNum">     319 </span>            : </a>
+<a name="320"><span class="lineNum">     320 </span>            : std::vector&lt;std::array&lt;size_t, 3&gt;&gt;</a>
+<a name="321"><span class="lineNum">     321 </span>            : BinaryCompactObject::initial_refinement_levels() const noexcept {</a>
+<a name="322"><span class="lineNum">     322 </span>            :   std::vector&lt;std::array&lt;size_t, 3&gt;&gt; initial_levels{</a>
+<a name="323"><span class="lineNum">     323 </span>            :       number_of_blocks_, make_array&lt;3&gt;(initial_refinement_)};</a>
+<a name="324"><span class="lineNum">     324 </span>            :   // Increase the radial refinement level of the blocks corresponding to the</a>
+<a name="325"><span class="lineNum">     325 </span>            :   // part of Layer 1 enveloping object A (block 0 through block 5, inclusive)</a>
+<a name="326"><span class="lineNum">     326 </span>            :   if (addition_to_object_A_radial_refinement_level_ &gt; 0) {</a>
+<a name="327"><span class="lineNum">     327 </span>            :     for (size_t block = 0; block &lt; 6; ++block) {</a>
+<a name="328"><span class="lineNum">     328 </span>            :       // Refine in the radial direction, which is direction 2</a>
+<a name="329"><span class="lineNum">     329 </span>            :       // (i.e. the zeta direction)</a>
+<a name="330"><span class="lineNum">     330 </span>            :       gsl::at(initial_levels[block], 2) +=</a>
+<a name="331"><span class="lineNum">     331 </span>            :           addition_to_object_A_radial_refinement_level_;</a>
+<a name="332"><span class="lineNum">     332 </span>            :     }</a>
+<a name="333"><span class="lineNum">     333 </span>            :   }</a>
+<a name="334"><span class="lineNum">     334 </span>            : </a>
+<a name="335"><span class="lineNum">     335 </span>            :   // Increase the radial refinement level of the blocks corresponding to the</a>
+<a name="336"><span class="lineNum">     336 </span>            :   // part of Layer 1 enveloping object B (block 12 through block 17, inclusive).</a>
+<a name="337"><span class="lineNum">     337 </span>            :   if (addition_to_object_B_radial_refinement_level_ &gt; 0) {</a>
+<a name="338"><span class="lineNum">     338 </span>            :     for (size_t block = 12; block &lt; 18; ++block) {</a>
+<a name="339"><span class="lineNum">     339 </span>            :       // Refine in the radial direction, which is direction 2</a>
+<a name="340"><span class="lineNum">     340 </span>            :       // (i.e. the zeta direction)</a>
+<a name="341"><span class="lineNum">     341 </span>            :       gsl::at(initial_levels[block], 2) +=</a>
+<a name="342"><span class="lineNum">     342 </span>            :           addition_to_object_B_radial_refinement_level_;</a>
+<a name="343"><span class="lineNum">     343 </span>            :     }</a>
+<a name="344"><span class="lineNum">     344 </span>            :   }</a>
+<a name="345"><span class="lineNum">     345 </span>            : </a>
+<a name="346"><span class="lineNum">     346 </span>            :   // Increase the radial refinement of the blocks corresponding to the outer</a>
+<a name="347"><span class="lineNum">     347 </span>            :   // spherical shell (with sphericity == 1 throughout) to achieve the desired</a>
+<a name="348"><span class="lineNum">     348 </span>            :   // number of radial refinements. The outer layer consists of 10 blocks,</a>
+<a name="349"><span class="lineNum">     349 </span>            :   // created via wedge_coordinate_maps() with use_half_wedges == true. Because</a>
+<a name="350"><span class="lineNum">     350 </span>            :   // this outer layer of blocks is added last to the CoordinateMaps in</a>
+<a name="351"><span class="lineNum">     351 </span>            :   // create_domain(), the 10 blocks to refine are the last 10 blocks in the</a>
+<a name="352"><span class="lineNum">     352 </span>            :   // domain--unless one or both of the interiors are not excised. (For each</a>
+<a name="353"><span class="lineNum">     353 </span>            :   // interior not excised, there is one extra block appended to the list of</a>
+<a name="354"><span class="lineNum">     354 </span>            :   // CoordinateMaps.)</a>
+<a name="355"><span class="lineNum">     355 </span>            :   if (addition_to_outer_layer_radial_refinement_level_ &gt; 0) {</a>
+<a name="356"><span class="lineNum">     356 </span>            :     for (size_t block = 44; block &lt; 54; ++block) {</a>
+<a name="357"><span class="lineNum">     357 </span>            :       // Refine in the radial direction, which is direction 2</a>
+<a name="358"><span class="lineNum">     358 </span>            :       // (i.e. the zeta direction)</a>
+<a name="359"><span class="lineNum">     359 </span>            :       gsl::at(initial_levels[block], 2) +=</a>
+<a name="360"><span class="lineNum">     360 </span>            :           addition_to_outer_layer_radial_refinement_level_;</a>
+<a name="361"><span class="lineNum">     361 </span>            :     }</a>
+<a name="362"><span class="lineNum">     362 </span>            :   }</a>
+<a name="363"><span class="lineNum">     363 </span>            :   return initial_levels;</a>
+<a name="364"><span class="lineNum">     364 </span>            : }</a>
+<a name="365"><span class="lineNum">     365 </span>            : </a>
+<a name="366"><span class="lineNum">     366 </span>            : std::unordered_map&lt;std::string,</a>
+<a name="367"><span class="lineNum">     367 </span>            :                    std::unique_ptr&lt;domain::FunctionsOfTime::FunctionOfTime&gt;&gt;</a>
+<a name="368"><span class="lineNum">     368 </span>            : BinaryCompactObject::functions_of_time() const noexcept {</a>
+<a name="369"><span class="lineNum">     369 </span>            :   if (time_dependence_-&gt;is_none()) {</a>
+<a name="370"><span class="lineNum">     370 </span>            :     return {};</a>
+<a name="371"><span class="lineNum">     371 </span>            :   } else {</a>
+<a name="372"><span class="lineNum">     372 </span>            :     return time_dependence_-&gt;functions_of_time();</a>
+<a name="373"><span class="lineNum">     373 </span>            :   }</a>
+<a name="374"><span class="lineNum">     374 </span>            : }</a>
+<a name="375"><span class="lineNum">     375 </span>            : }  // namespace domain::creators</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>

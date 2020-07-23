@@ -1,0 +1,299 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: Cce::ReducedSpecWorldtubeH5BufferUpdater Class Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceCce.html">Cce</a></li><li class="navelem"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html">ReducedSpecWorldtubeH5BufferUpdater</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">Cce::ReducedSpecWorldtubeH5BufferUpdater Class Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>A <code><a class="el" href="classCce_1_1WorldtubeBufferUpdater.html" title="Abstract base class for utilities that are able to perform the buffer updating procedure needed by th...">WorldtubeBufferUpdater</a></code> specialized to the CCE input worldtube H5 file produced by the reduced SpEC format.  
+ <a href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ReadBoundaryDataH5_8hpp_source.html">ReadBoundaryDataH5.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a361611e1900525c53f3113c65af0f5c8"><td class="memItemLeft" align="right" valign="top"><a id="a361611e1900525c53f3113c65af0f5c8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a361611e1900525c53f3113c65af0f5c8">ReducedSpecWorldtubeH5BufferUpdater</a> (const <a class="elRef" href="http://en.cppreference.com/w/cpp/string/basic_string.html">std::string</a> &amp;cce_data_filename) noexcept</td></tr>
+<tr class="memdesc:a361611e1900525c53f3113c65af0f5c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">The constructor takes the filename of the SpEC <a class="el" href="namespaceh5.html" title="Contains functions and classes for manipulating HDF5 files.">h5</a> file that will be used for boundary data. Note that this assumes that the input data has correctly-normalized radial derivatives, and that the extraction radius is encoded as an integer in the filename. <br /></td></tr>
+<tr class="separator:a361611e1900525c53f3113c65af0f5c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a251e09515287deda2c1eb2d58c7e373a"><td class="memItemLeft" align="right" valign="top"><a id="a251e09515287deda2c1eb2d58c7e373a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>WRAPPED_PUPable_decl_template</b> (<a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html">ReducedSpecWorldtubeH5BufferUpdater</a>)</td></tr>
+<tr class="separator:a251e09515287deda2c1eb2d58c7e373a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb9632dac5298d2c8dbaac2ca5bbff9a"><td class="memItemLeft" align="right" valign="top"><a id="acb9632dac5298d2c8dbaac2ca5bbff9a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>ReducedSpecWorldtubeH5BufferUpdater</b> (CkMigrateMessage *) noexcept</td></tr>
+<tr class="separator:acb9632dac5298d2c8dbaac2ca5bbff9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6314b86cfb690ef71a4741cb01262372"><td class="memItemLeft" align="right" valign="top"><a id="a6314b86cfb690ef71a4741cb01262372"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a6314b86cfb690ef71a4741cb01262372">update_buffers_for_time</a> (<a class="el" href="classgsl_1_1not__null.html">gsl::not_null</a>&lt; Variables&lt; detail::reduced_cce_input_tags &gt; * &gt; buffers, <a class="el" href="classgsl_1_1not__null.html">gsl::not_null</a>&lt; size_t * &gt; time_span_start, <a class="el" href="classgsl_1_1not__null.html">gsl::not_null</a>&lt; size_t * &gt; time_span_end, double time, size_t computation_l_max, size_t interpolator_length, size_t buffer_depth) const noexcept override</td></tr>
+<tr class="memdesc:a6314b86cfb690ef71a4741cb01262372"><td class="mdescLeft">&#160;</td><td class="mdescRight">update the <code>buffers</code>, <code>time_span_start</code>, and <code>time_span_end</code> with time-varies-fastest, Goldberg modal data and the start and end index in the member <code>time_buffer_</code> covered by the newly updated <code>buffers</code>. <br /></td></tr>
+<tr class="separator:a6314b86cfb690ef71a4741cb01262372"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fd629f3cf0045c3b255244bea7b64d5"><td class="memItemLeft" align="right" valign="top"><a id="a9fd629f3cf0045c3b255244bea7b64d5"></a>
+<a class="elRef" href="http://en.cppreference.com/w/cpp/memory/unique_ptr.html">std::unique_ptr</a>&lt; <a class="el" href="classCce_1_1ReducedWorldtubeBufferUpdater.html">ReducedWorldtubeBufferUpdater</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>get_clone</b> () const noexcept override</td></tr>
+<tr class="separator:a9fd629f3cf0045c3b255244bea7b64d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8a937ed632afe6517023e7ba02166dbb"><td class="memItemLeft" align="right" valign="top"><a id="a8a937ed632afe6517023e7ba02166dbb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a8a937ed632afe6517023e7ba02166dbb">time_is_outside_range</a> (const double time) const noexcept override</td></tr>
+<tr class="memdesc:a8a937ed632afe6517023e7ba02166dbb"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time can only be supported in the buffer update if it is between the first and last time of the input file. <br /></td></tr>
+<tr class="separator:a8a937ed632afe6517023e7ba02166dbb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adedb9f7f638dd9578203b6d03140045f"><td class="memItemLeft" align="right" valign="top"><a id="adedb9f7f638dd9578203b6d03140045f"></a>
+size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#adedb9f7f638dd9578203b6d03140045f">get_l_max</a> () const noexcept override</td></tr>
+<tr class="memdesc:adedb9f7f638dd9578203b6d03140045f"><td class="mdescLeft">&#160;</td><td class="mdescRight">retrieves the l_max of the input file <br /></td></tr>
+<tr class="separator:adedb9f7f638dd9578203b6d03140045f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6dbbb90f700df559eeb7e6e05e43def9"><td class="memItemLeft" align="right" valign="top"><a id="a6dbbb90f700df559eeb7e6e05e43def9"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a6dbbb90f700df559eeb7e6e05e43def9">get_extraction_radius</a> () const noexcept override</td></tr>
+<tr class="memdesc:a6dbbb90f700df559eeb7e6e05e43def9"><td class="mdescLeft">&#160;</td><td class="mdescRight">retrieves the extraction radius encoded in the filename <br /></td></tr>
+<tr class="separator:a6dbbb90f700df559eeb7e6e05e43def9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74134fde45cbd9828e614ee774e018d7"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classDataVector.html">DataVector</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a74134fde45cbd9828e614ee774e018d7">get_time_buffer</a> () noexcept override</td></tr>
+<tr class="memdesc:a74134fde45cbd9828e614ee774e018d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">The time buffer is supplied by non-const reference to allow views to easily point into the buffer.  <a href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a74134fde45cbd9828e614ee774e018d7">More...</a><br /></td></tr>
+<tr class="separator:a74134fde45cbd9828e614ee774e018d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1bdc9d9d1719b3ae820399dca32a6d6c"><td class="memItemLeft" align="right" valign="top"><a id="a1bdc9d9d1719b3ae820399dca32a6d6c"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html#a1bdc9d9d1719b3ae820399dca32a6d6c">pup</a> (PUP::er &amp;p) noexcept override</td></tr>
+<tr class="memdesc:a1bdc9d9d1719b3ae820399dca32a6d6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Serialization for Charm++. <br /></td></tr>
+<tr class="separator:a1bdc9d9d1719b3ae820399dca32a6d6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_classCce_1_1ReducedWorldtubeBufferUpdater"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_classCce_1_1ReducedWorldtubeBufferUpdater')"><img src="closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="classCce_1_1ReducedWorldtubeBufferUpdater.html">Cce::ReducedWorldtubeBufferUpdater</a></td></tr>
+<tr class="memitem:a0f4ce3a8a8e9a8bd6f3e9694c886cc6a inherit pub_methods_classCce_1_1ReducedWorldtubeBufferUpdater"><td class="memItemLeft" align="right" valign="top"><a id="a0f4ce3a8a8e9a8bd6f3e9694c886cc6a"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>WRAPPED_PUPable_abstract</b> (<a class="el" href="classCce_1_1ReducedWorldtubeBufferUpdater.html">ReducedWorldtubeBufferUpdater</a>)</td></tr>
+<tr class="separator:a0f4ce3a8a8e9a8bd6f3e9694c886cc6a inherit pub_methods_classCce_1_1ReducedWorldtubeBufferUpdater"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pub_types_classCce_1_1ReducedWorldtubeBufferUpdater"><td colspan="2" onclick="javascript:toggleInherit('pub_types_classCce_1_1ReducedWorldtubeBufferUpdater')"><img src="closed.png" alt="-"/>&#160;Public Types inherited from <a class="el" href="classCce_1_1ReducedWorldtubeBufferUpdater.html">Cce::ReducedWorldtubeBufferUpdater</a></td></tr>
+<tr class="memitem:a143cb631e14bcc901b73e1bba5760fc1 inherit pub_types_classCce_1_1ReducedWorldtubeBufferUpdater"><td class="memItemLeft" align="right" valign="top"><a id="a143cb631e14bcc901b73e1bba5760fc1"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>creatable_classes</b> = tmpl::list&lt; <a class="el" href="classCce_1_1ReducedSpecWorldtubeH5BufferUpdater.html">ReducedSpecWorldtubeH5BufferUpdater</a> &gt;</td></tr>
+<tr class="separator:a143cb631e14bcc901b73e1bba5760fc1 inherit pub_types_classCce_1_1ReducedWorldtubeBufferUpdater"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A <code><a class="el" href="classCce_1_1WorldtubeBufferUpdater.html" title="Abstract base class for utilities that are able to perform the buffer updating procedure needed by th...">WorldtubeBufferUpdater</a></code> specialized to the CCE input worldtube H5 file produced by the reduced SpEC format. </p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="a74134fde45cbd9828e614ee774e018d7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74134fde45cbd9828e614ee774e018d7">&#9670;&nbsp;</a></span>get_time_buffer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classDataVector.html">DataVector</a>&amp; Cce::ReducedSpecWorldtubeH5BufferUpdater::get_time_buffer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">override</span><span class="mlabel">virtual</span><span class="mlabel">noexcept</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>The time buffer is supplied by non-const reference to allow views to easily point into the buffer. </p>
+<dl class="section warning"><dt>Warning</dt><dd>Altering this buffer outside of the constructor of this class results in undefined behavior! This should be supplied by const reference once there is a convenient method of producing a const view of a vector type. </dd></dl>
+
+<p>Implements <a class="el" href="classCce_1_1ReducedWorldtubeBufferUpdater.html">Cce::ReducedWorldtubeBufferUpdater</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>src/Evolution/Systems/Cce/<a class="el" href="ReadBoundaryDataH5_8hpp_source.html">ReadBoundaryDataH5.hpp</a></li>
+<li>src/Evolution/Systems/Cce/ReadBoundaryDataH5.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

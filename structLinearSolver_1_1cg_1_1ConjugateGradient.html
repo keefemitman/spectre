@@ -1,0 +1,402 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: LinearSolver::cg::ConjugateGradient&lt; Metavariables, FieldsTag, OptionsGroup &gt; Struct Template Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceLinearSolver.html">LinearSolver</a></li><li class="navelem"><a class="el" href="namespaceLinearSolver_1_1cg.html">cg</a></li><li class="navelem"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html">ConjugateGradient</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="structLinearSolver_1_1cg_1_1ConjugateGradient-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">LinearSolver::cg::ConjugateGradient&lt; Metavariables, FieldsTag, OptionsGroup &gt; Struct Template Reference<div class="ingroups"><a class="el" href="group__LinearSolverGroup.html">Linear Solver</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>A conjugate gradient solver for linear systems of equations \(Ax=b\) where the operator \(A\) is symmetric.  
+ <a href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="ConjugateGradient_8hpp_source.html">ConjugateGradient.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a75913d6742582fd2e90338d1d96bda69"><td class="memItemLeft" align="right" valign="top"><a id="a75913d6742582fd2e90338d1d96bda69"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>fields_tag</b> = FieldsTag</td></tr>
+<tr class="separator:a75913d6742582fd2e90338d1d96bda69"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9d708d987535c9f8e1a5b5d2d2f1f77b"><td class="memItemLeft" align="right" valign="top"><a id="a9d708d987535c9f8e1a5b5d2d2f1f77b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>options_group</b> = OptionsGroup</td></tr>
+<tr class="separator:a9d708d987535c9f8e1a5b5d2d2f1f77b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7cef3c87fbe00134256290f982af7dec"><td class="memItemLeft" align="right" valign="top"><a id="a7cef3c87fbe00134256290f982af7dec"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a7cef3c87fbe00134256290f982af7dec">operand_tag</a> = <a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt; <a class="el" href="structLinearSolver_1_1Tags_1_1Operand.html">LinearSolver::Tags::Operand</a>, fields_tag &gt;</td></tr>
+<tr class="memdesc:a7cef3c87fbe00134256290f982af7dec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Apply the linear operator to this tag in each iteration. <br /></td></tr>
+<tr class="separator:a7cef3c87fbe00134256290f982af7dec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae4cd219442ef335a8beaae4359eb31"><td class="memItemLeft" align="right" valign="top"><a id="acae4cd219442ef335a8beaae4359eb31"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#acae4cd219442ef335a8beaae4359eb31">component_list</a> = tmpl::list&lt; detail::ResidualMonitor&lt; Metavariables, FieldsTag, OptionsGroup &gt; &gt;</td></tr>
+<tr class="memdesc:acae4cd219442ef335a8beaae4359eb31"><td class="mdescLeft">&#160;</td><td class="mdescRight">The parallel components used by the conjugate gradient linear solver. <br /></td></tr>
+<tr class="separator:acae4cd219442ef335a8beaae4359eb31"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ee7127fef0a23b1de947a5939f81cb9"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a5ee7127fef0a23b1de947a5939f81cb9">initialize_element</a> = detail::InitializeElement&lt; FieldsTag, OptionsGroup &gt;</td></tr>
+<tr class="memdesc:a5ee7127fef0a23b1de947a5939f81cb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the tags used by the conjugate gradient linear solver.  <a href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a5ee7127fef0a23b1de947a5939f81cb9">More...</a><br /></td></tr>
+<tr class="separator:a5ee7127fef0a23b1de947a5939f81cb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0bd93abd0aa0ed066a675c912644eecc"><td class="memItemLeft" align="right" valign="top"><a id="a0bd93abd0aa0ed066a675c912644eecc"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>register_element</b> = <a class="el" href="structobservers_1_1Actions_1_1RegisterWithObservers.html">observers::Actions::RegisterWithObservers</a>&lt; observe_detail::Registration &gt;</td></tr>
+<tr class="separator:a0bd93abd0aa0ed066a675c912644eecc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7cdb36645d2ba53d6de15f87346604c"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#ae7cdb36645d2ba53d6de15f87346604c">prepare_solve</a> = detail::PrepareSolve&lt; FieldsTag, OptionsGroup &gt;</td></tr>
+<tr class="memdesc:ae7cdb36645d2ba53d6de15f87346604c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset the linear solver to its initial state.  <a href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#ae7cdb36645d2ba53d6de15f87346604c">More...</a><br /></td></tr>
+<tr class="separator:ae7cdb36645d2ba53d6de15f87346604c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0cceb8e70366ef2637a1d0d1c0cf8244"><td class="memItemLeft" align="right" valign="top"><a id="a0cceb8e70366ef2637a1d0d1c0cf8244"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>observed_reduction_data_tags</b> = observers::make_reduction_data_tags&lt; tmpl::list&lt; observe_detail::reduction_data &gt; &gt;</td></tr>
+<tr class="separator:a0cceb8e70366ef2637a1d0d1c0cf8244"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af844b48626e3906df2768087c3ecd51e"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#af844b48626e3906df2768087c3ecd51e">prepare_step</a> = detail::PrepareStep&lt; FieldsTag, OptionsGroup &gt;</td></tr>
+<tr class="memdesc:af844b48626e3906df2768087c3ecd51e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Advance the linear solver to the next iteration.  <a href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#af844b48626e3906df2768087c3ecd51e">More...</a><br /></td></tr>
+<tr class="separator:af844b48626e3906df2768087c3ecd51e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d7e4032c2b8324a9ae2b2523da6db51"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a3d7e4032c2b8324a9ae2b2523da6db51">perform_step</a> = detail::PerformStep&lt; FieldsTag, OptionsGroup &gt;</td></tr>
+<tr class="memdesc:a3d7e4032c2b8324a9ae2b2523da6db51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform an iteration of the conjugate gradient linear solver.  <a href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a3d7e4032c2b8324a9ae2b2523da6db51">More...</a><br /></td></tr>
+<tr class="separator:a3d7e4032c2b8324a9ae2b2523da6db51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><h3>template&lt;typename Metavariables, typename FieldsTag, typename OptionsGroup&gt;<br />
+struct LinearSolver::cg::ConjugateGradient&lt; Metavariables, FieldsTag, OptionsGroup &gt;</h3>
+
+<p>A conjugate gradient solver for linear systems of equations \(Ax=b\) where the operator \(A\) is symmetric. </p>
+<h3>Details</h3>
+<p>The only operation we need to supply to the algorithm is the result of the operation \(A(p)\) (see <a class="el" href="group__LinearSolverGroup.html">Linear Solver</a>) that in the case of the conjugate gradient algorithm must be symmetric. Each invocation of the <code>perform_step</code> action expects that \(A(p)\) has been computed in a preceding action and stored in the DataBox as db::add_tag_prefix&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1OperatorAppliedTo.html" title="The linear operator  applied to the data in Tag">LinearSolver::Tags::OperatorAppliedTo</a>, <a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix&lt;LinearSolver::Tags::Operand, FieldsTag&gt;</a>&gt;.</p>
+<p>Note that the operand \(p\) for which \(A(p)\) needs to be computed is not the field \(x\) we are solving for but <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Operand.html" title="The operand that the local linear operator  is applied to.">LinearSolver::Tags::Operand</a>, FieldsTag&gt;</code>. This field is initially set to the residual \(r = b - A(x_0)\) where \(x_0\) is the initial value of the <code>FieldsTag</code>.</p>
+<p>When the <code>perform_step</code> action is invoked after the operator action \(A(p)\) has been computed and stored in the DataBox, the conjugate gradient algorithm implemented here will converge the field \(x\) towards the solution and update the operand \(p\) in the process. This requires two reductions over all elements that are received by a <code>ResidualMonitor</code> singleton parallel component, processed, and then broadcast back to all elements. The actions are implemented in the <code>cg::detail</code> namespace and constitute the full algorithm in the following order:</p><ol type="1">
+<li><code>PerformStep</code> (on elements): Compute the inner product \(\langle p, A(p)\rangle\) and reduce.</li>
+<li><code>ComputeAlpha</code> (on <code>ResidualMonitor</code>): Compute \(\alpha=\frac{r^2}{\langle p, A(p)\rangle}\) and broadcast.</li>
+<li><code>UpdateFieldValues</code> (on elements): Update \(x\) and \(r\), then compute the inner product \(\langle r, r\rangle\) and reduce to find the new \(r^2\).</li>
+<li><code>UpdateResidual</code> (on <code>ResidualMonitor</code>): Store the new \(r^2\) and broadcast the ratio of the new and old \(r^2\), as well as a termination flag if the <code><a class="el" href="structLinearSolver_1_1Tags_1_1ConvergenceCriteria.html" title="Convergence::Criteria that determine the linear solve has converged">LinearSolver::Tags::ConvergenceCriteria</a></code> are met.</li>
+<li><code>UpdateOperand</code> (on elements): Update \(p\).</li>
+</ol>
+<dl class="section see"><dt>See also</dt><dd>Gmres for a linear solver that can invert nonsymmetric operators \(A\). </dd></dl>
+</div><h2 class="groupheader">Member Typedef Documentation</h2>
+<a id="a5ee7127fef0a23b1de947a5939f81cb9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5ee7127fef0a23b1de947a5939f81cb9">&#9670;&nbsp;</a></span>initialize_element</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Metavariables , typename FieldsTag , typename OptionsGroup &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html">LinearSolver::cg::ConjugateGradient</a>&lt; Metavariables, FieldsTag, OptionsGroup &gt;::<a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a5ee7127fef0a23b1de947a5939f81cb9">initialize_element</a> =  detail::InitializeElement&lt;FieldsTag, OptionsGroup&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Initialize the tags used by the conjugate gradient linear solver. </p>
+<p>Since we have not started iterating yet, we initialize the state <em>before</em> the first iteration. So <code><a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a></code> is undefined at this point and <code><a class="el" href="structTags_1_1Next.html" title="Prefix indicating the value a quantity will take on the next iteration of the algorithm.">Tags::Next</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a>&gt;</code> is the initial step number. Invoke <code>prepare_step</code> to advance the state to the first iteration.</p>
+<dl class="section warning"><dt>Warning</dt><dd>This action involves a blocking reduction, so it is a global synchronization point.</dd></dl>
+<p>With:</p><ul>
+<li><code>operand_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Operand.html" title="The operand that the local linear operator  is applied to.">LinearSolver::Tags::Operand</a>, FieldsTag&gt;</code></li>
+<li><code>operator_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1OperatorAppliedTo.html" title="The linear operator  applied to the data in Tag">LinearSolver::Tags::OperatorAppliedTo</a>, operand_tag&gt;</code></li>
+<li><code>residual_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Residual.html" title="The residual .">LinearSolver::Tags::Residual</a>, FieldsTag&gt;</code></li>
+</ul>
+<p>DataBox changes:</p><ul>
+<li>Adds:<ul>
+<li><code><a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a></code></li>
+<li><code><a class="el" href="structTags_1_1Next.html" title="Prefix indicating the value a quantity will take on the next iteration of the algorithm.">Tags::Next</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a>&gt;</code></li>
+<li><code>residual_tag</code></li>
+<li><code><a class="el" href="structLinearSolver_1_1Tags_1_1HasConverged.html" title="Holds a Convergence::HasConverged flag that signals the linear solver has converged,...">LinearSolver::Tags::HasConverged</a></code></li>
+</ul>
+</li>
+<li>Removes: nothing</li>
+<li>Modifies:<ul>
+<li><code>operand_tag</code></li>
+</ul>
+</li>
+</ul>
+<dl class="section note"><dt>Note</dt><dd>The <code>operand_tag</code> must already be present in the DataBox and is set to its initial value here. It is typically added to the DataBox by the system, which uses it to compute the <code>operator_tag</code> in each step. Also the <code>operator_tag</code> is typically added to the DataBox by the system, but does not need to be initialized until it is computed for the first time in the first step of the algorithm. </dd></dl>
+
+</div>
+</div>
+<a id="a3d7e4032c2b8324a9ae2b2523da6db51"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3d7e4032c2b8324a9ae2b2523da6db51">&#9670;&nbsp;</a></span>perform_step</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Metavariables , typename FieldsTag , typename OptionsGroup &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html">LinearSolver::cg::ConjugateGradient</a>&lt; Metavariables, FieldsTag, OptionsGroup &gt;::<a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a3d7e4032c2b8324a9ae2b2523da6db51">perform_step</a> =  detail::PerformStep&lt;FieldsTag, OptionsGroup&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Perform an iteration of the conjugate gradient linear solver. </p>
+<dl class="section warning"><dt>Warning</dt><dd>This action involves a blocking reduction, so it is a global synchronization point.</dd></dl>
+<p>With:</p><ul>
+<li><code>operand_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Operand.html" title="The operand that the local linear operator  is applied to.">LinearSolver::Tags::Operand</a>, FieldsTag&gt;</code></li>
+<li><code>residual_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Residual.html" title="The residual .">LinearSolver::Tags::Residual</a>, FieldsTag&gt;</code></li>
+</ul>
+<p>DataBox changes:</p><ul>
+<li>Adds: nothing</li>
+<li>Removes: nothing</li>
+<li>Modifies:<ul>
+<li><code>FieldsTag</code></li>
+<li><code>operand_tag</code></li>
+<li><code>residual_tag</code></li>
+<li><code><a class="el" href="structLinearSolver_1_1Tags_1_1HasConverged.html" title="Holds a Convergence::HasConverged flag that signals the linear solver has converged,...">LinearSolver::Tags::HasConverged</a></code> </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+<a id="ae7cdb36645d2ba53d6de15f87346604c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7cdb36645d2ba53d6de15f87346604c">&#9670;&nbsp;</a></span>prepare_solve</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Metavariables , typename FieldsTag , typename OptionsGroup &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html">LinearSolver::cg::ConjugateGradient</a>&lt; Metavariables, FieldsTag, OptionsGroup &gt;::<a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#ae7cdb36645d2ba53d6de15f87346604c">prepare_solve</a> =  detail::PrepareSolve&lt;FieldsTag, OptionsGroup&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Reset the linear solver to its initial state. </p>
+<p>With:</p><ul>
+<li><code>operand_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Operand.html" title="The operand that the local linear operator  is applied to.">LinearSolver::Tags::Operand</a>, FieldsTag&gt;</code></li>
+<li><code>residual_tag</code> = <code><a class="el" href="group__DataBoxTagsGroup.html#gab3e7a8857504fa5070c052bacba656cd">db::add_tag_prefix</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1Residual.html" title="The residual .">LinearSolver::Tags::Residual</a>, FieldsTag&gt;</code></li>
+</ul>
+<p>DataBox changes:</p><ul>
+<li>Adds: nothing</li>
+<li>Removes: nothing</li>
+<li>Modifies:<ul>
+<li><code><a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a></code></li>
+<li><code>residual_tag</code></li>
+<li><code><a class="el" href="structLinearSolver_1_1Tags_1_1HasConverged.html" title="Holds a Convergence::HasConverged flag that signals the linear solver has converged,...">LinearSolver::Tags::HasConverged</a></code></li>
+<li><code>operand_tag</code></li>
+</ul>
+</li>
+</ul>
+<dl class="section see"><dt>See also</dt><dd><code><a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#a5ee7127fef0a23b1de947a5939f81cb9" title="Initialize the tags used by the conjugate gradient linear solver.">initialize_element</a></code> </dd></dl>
+
+</div>
+</div>
+<a id="af844b48626e3906df2768087c3ecd51e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af844b48626e3906df2768087c3ecd51e">&#9670;&nbsp;</a></span>prepare_step</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Metavariables , typename FieldsTag , typename OptionsGroup &gt; </div>
+      <table class="memname">
+        <tr>
+          <td class="memname">using <a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html">LinearSolver::cg::ConjugateGradient</a>&lt; Metavariables, FieldsTag, OptionsGroup &gt;::<a class="el" href="structLinearSolver_1_1cg_1_1ConjugateGradient.html#af844b48626e3906df2768087c3ecd51e">prepare_step</a> =  detail::PrepareStep&lt;FieldsTag, OptionsGroup&gt;</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Advance the linear solver to the next iteration. </p>
+<p>DataBox changes:</p><ul>
+<li>Adds: nothing</li>
+<li>Removes: nothing</li>
+<li>Modifies:<ul>
+<li><code><a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a></code></li>
+<li><code><a class="el" href="structTags_1_1Next.html" title="Prefix indicating the value a quantity will take on the next iteration of the algorithm.">Tags::Next</a>&lt;<a class="el" href="structLinearSolver_1_1Tags_1_1IterationId.html" title="Holds an IterationId that identifies a step in the linear solver algorithm.">LinearSolver::Tags::IterationId</a>&gt;</code> </li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/ParallelAlgorithms/LinearSolver/ConjugateGradient/<a class="el" href="ConjugateGradient_8hpp_source.html">ConjugateGradient.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

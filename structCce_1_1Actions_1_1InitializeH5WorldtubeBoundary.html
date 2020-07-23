@@ -1,0 +1,260 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: Cce::Actions::InitializeH5WorldtubeBoundary Struct Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceCce.html">Cce</a></li><li class="navelem"><a class="el" href="namespaceCce_1_1Actions.html">Actions</a></li><li class="navelem"><a class="el" href="structCce_1_1Actions_1_1InitializeH5WorldtubeBoundary.html">InitializeH5WorldtubeBoundary</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="structCce_1_1Actions_1_1InitializeH5WorldtubeBoundary-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">Cce::Actions::InitializeH5WorldtubeBoundary Struct Reference<div class="ingroups"><a class="el" href="group__ActionsGroup.html">Actions</a></div></div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>Initializes a <a class="el" href="structCce_1_1H5WorldtubeBoundary.html" title="Component that supplies CCE worldtube boundary data.">H5WorldtubeBoundary</a>.  
+ <a href="structCce_1_1Actions_1_1InitializeH5WorldtubeBoundary.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="InitializeWorldtubeBoundary_8hpp_source.html">InitializeWorldtubeBoundary.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:aced3432458f6e546abead487f2918937"><td class="memItemLeft" align="right" valign="top"><a id="aced3432458f6e546abead487f2918937"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>initialization_tags</b> = tmpl::list&lt; <a class="el" href="structCce_1_1InitializationTags_1_1H5WorldtubeBoundaryDataManager.html">InitializationTags::H5WorldtubeBoundaryDataManager</a> &gt;</td></tr>
+<tr class="separator:aced3432458f6e546abead487f2918937"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4a7178f73903feda95cda6d2763a18b"><td class="memItemLeft" align="right" valign="top"><a id="ac4a7178f73903feda95cda6d2763a18b"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>const_global_cache_tags</b> = tmpl::list&lt; <a class="el" href="structCce_1_1Tags_1_1LMax.html">Tags::LMax</a>, <a class="el" href="structCce_1_1Tags_1_1EndTimeFromFile.html">Tags::EndTimeFromFile</a>, <a class="el" href="structCce_1_1Tags_1_1StartTimeFromFile.html">Tags::StartTimeFromFile</a> &gt;</td></tr>
+<tr class="separator:ac4a7178f73903feda95cda6d2763a18b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a05a23b63dc2f8b0f9eb669ddbd7009e6"><td class="memTemplParams" colspan="2"><a id="a05a23b63dc2f8b0f9eb669ddbd7009e6"></a>
+template&lt;class Metavariables &gt; </td></tr>
+<tr class="memitem:a05a23b63dc2f8b0f9eb669ddbd7009e6"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>h5_boundary_manager_simple_tags</b> = <a class="el" href="group__DataBoxGroup.html#ga3dc674ba575ece4a8be1c23fa6c2cdcb">db::AddSimpleTags</a>&lt; ::<a class="el" href="structTags_1_1Variables.html">Tags::Variables</a>&lt; typename Metavariables::cce_boundary_communication_tags &gt;, <a class="el" href="structCce_1_1Tags_1_1H5WorldtubeBoundaryDataManager.html">Tags::H5WorldtubeBoundaryDataManager</a> &gt;</td></tr>
+<tr class="separator:a05a23b63dc2f8b0f9eb669ddbd7009e6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a54f5a23d571d9f5ac1d746f7b295a05c"><td class="memTemplParams" colspan="2"><a id="a54f5a23d571d9f5ac1d746f7b295a05c"></a>
+template&lt;class Metavariables &gt; </td></tr>
+<tr class="memitem:a54f5a23d571d9f5ac1d746f7b295a05c"><td class="memTemplItemLeft" align="right" valign="top">using&#160;</td><td class="memTemplItemRight" valign="bottom"><b>return_tag_list</b> = h5_boundary_manager_simple_tags&lt; Metavariables &gt;</td></tr>
+<tr class="separator:a54f5a23d571d9f5ac1d746f7b295a05c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a12b21cd4caa9069c8d5cd1d5450c6ac1"><td class="memTemplParams" colspan="2"><a id="a12b21cd4caa9069c8d5cd1d5450c6ac1"></a>
+template&lt;typename DbTags , typename... InboxTags, typename Metavariables , typename ArrayIndex , typename ActionList , typename ParallelComponent , Requires&lt; tmpl::list_contains_v&lt; DbTags, InitializationTags::H5WorldtubeBoundaryDataManager &gt;&gt;  = nullptr&gt; </td></tr>
+<tr class="memitem:a12b21cd4caa9069c8d5cd1d5450c6ac1"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>apply</b> (<a class="el" href="classdb_1_1DataBox.html">db::DataBox</a>&lt; DbTags &gt; &amp;box, const <a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt; InboxTags... &gt; &amp;, const <a class="el" href="classParallel_1_1ConstGlobalCache.html">Parallel::ConstGlobalCache</a>&lt; Metavariables &gt; &amp;, const ArrayIndex &amp;, const ActionList, const ParallelComponent *const) noexcept</td></tr>
+<tr class="separator:a12b21cd4caa9069c8d5cd1d5450c6ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12b21cd4caa9069c8d5cd1d5450c6ac1"><td class="memTemplParams" colspan="2"><a id="a12b21cd4caa9069c8d5cd1d5450c6ac1"></a>
+template&lt;typename DbTags , typename... InboxTags, typename Metavariables , typename ArrayIndex , typename ActionList , typename ParallelComponent , Requires&lt; not tmpl::list_contains_v&lt; DbTags, InitializationTags::H5WorldtubeBoundaryDataManager &gt;&gt;  = nullptr&gt; </td></tr>
+<tr class="memitem:a12b21cd4caa9069c8d5cd1d5450c6ac1"><td class="memTemplItemLeft" align="right" valign="top">static auto&#160;</td><td class="memTemplItemRight" valign="bottom"><b>apply</b> (<a class="el" href="classdb_1_1DataBox.html">db::DataBox</a>&lt; DbTags &gt; &amp;box, const <a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt; InboxTags... &gt; &amp;, const <a class="el" href="classParallel_1_1ConstGlobalCache.html">Parallel::ConstGlobalCache</a>&lt; Metavariables &gt; &amp;, const ArrayIndex &amp;, const ActionList, const ParallelComponent *const) noexcept</td></tr>
+<tr class="separator:a12b21cd4caa9069c8d5cd1d5450c6ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Initializes a <a class="el" href="structCce_1_1H5WorldtubeBoundary.html" title="Component that supplies CCE worldtube boundary data.">H5WorldtubeBoundary</a>. </p>
+<h3>Details</h3>
+<p>Uses:</p><ul>
+<li>initialization tag <code><a class="el" href="structCce_1_1InitializationTags_1_1H5WorldtubeBoundaryDataManager.html" title="An initialization tag that constructs a WorldtubeDataManager from options.">Cce::InitializationTags::H5WorldtubeBoundaryDataManager</a></code>,</li>
+<li>const global cache tag <code><a class="el" href="structCce_1_1Tags_1_1LMax.html">Cce::Tags::LMax</a></code>.</li>
+</ul>
+<p>Databox changes:</p><ul>
+<li>Adds:<ul>
+<li><code><a class="el" href="structCce_1_1Tags_1_1H5WorldtubeBoundaryDataManager.html" title="A simple tag for the WorldtubeDataManager">Cce::Tags::H5WorldtubeBoundaryDataManager</a></code></li>
+<li><code><a class="el" href="structTags_1_1Variables.html">Tags::Variables</a>&lt;typename Metavariables::cce_boundary_communication_tags&gt;</code></li>
+</ul>
+</li>
+<li>Removes: nothing</li>
+<li>Modifies: nothing </li>
+</ul>
+</div><hr/>The documentation for this struct was generated from the following file:<ul>
+<li>src/Evolution/Systems/Cce/Actions/<a class="el" href="InitializeWorldtubeBoundary_8hpp_source.html">InitializeWorldtubeBoundary.hpp</a></li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

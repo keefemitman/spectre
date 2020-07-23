@@ -1,0 +1,355 @@
+<!-- HTML header for doxygen 1.8.10-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=9"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="SXS Collaboration">
+    <meta name="generator" content="Doxygen 1.8.17"/>
+    <style>
+        /*!
+         * IE10 viewport hack for Surface/desktop Windows 8 bug
+         * Copyright 2014-2015 Twitter, Inc.
+         * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+         */
+        @-webkit-viewport { width: device-width; }
+        @-moz-viewport    { width: device-width; }
+        @-ms-viewport     { width: device-width; }
+        @-o-viewport      { width: device-width; }
+        @viewport         { width: device-width; }
+      </style>
+  <title>SpECTRE: Elasticity::Solutions::BentBeam Class Reference</title>
+  <link href="tabs.css" rel="stylesheet" type="text/css"/>
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="dynsections.js"></script>
+  <link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+  <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX","output/HTML-CSS"],
+});
+</script>
+<script type="text/javascript" async="async" src="./MathJax.js"></script>
+  <link href="octicons.css" rel="stylesheet">
+  <link href="bootstrap.min.css" rel="stylesheet">
+  <link href="doxygen.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript" src="jquery.js"></script>
+  <script type="text/javascript" src="popper.min.js"></script>
+  <script type="text/javascript" src="bootstrap.min.js"></script>
+  <script type="text/javascript" src="spectre.js"></script>
+  </head>
+  <body>
+  <div id="top" class="navbar-fixed-top"><!-- do not remove this div, it is closed by doxygen! -->
+  <!-- BEGIN TITLEAREA -->
+  <div id="titlearea">
+  <script type="text/javascript">
+  var searchBox = new SearchBox("searchBox", "search",false,'Search');
+  </script>
+  <div id="main-nav">
+    <ul class="sm sm-dox" id="main-menu">
+      <li>
+      <a href="index.html">
+      SpECTRE &#160;
+        <span id="projectnumber">v0.0.0</span>
+      </a>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-book"></i><span>Documentation</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 135px;">
+            <a href="index.html">
+            <i class="octicon octicon-book"></i><span>Introduction</span></a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="installation.html">
+              <i class="octicon octicon-desktop-download"></i><span>Installation</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="tutorials.html">
+              <i class="octicon octicon-mortar-board"></i><span>User Tutorials</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="dev_guide.html">
+              <i class="octicon octicon-gist-secret"></i><span>Dev Guide</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="code_of_conduct.html">
+              <i class="octicon octicon-comment-discussion"></i><span>Code of Conduct</span>
+            </a>
+          </li>
+          <li style="min-width: 135px;">
+            <a href="contributing_to_spectre.html">
+              <i class="octicon octicon-git-pull-request"></i><span>Contributing Guide</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="#" id="selected">
+          <span id="selected">
+            <i class="octicon octicon-code"></i>
+              <span>Code Reference</span>
+          </span>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li style="min-width: 130px;">
+            <a href="modules.html">
+              <i class="octicon octicon-code"></i>
+              <span>Topics</span>
+            </a>
+          </li>
+          <li style="min-width: 130px;">
+            <a href="namespaces.html">
+              <i class="octicon octicon-gist"></i>
+              <span>Namespaces</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="files.html">
+          <i class="octicon octicon-file-directory"></i><span>Files</span>
+        </a>
+      </li>
+      <li>
+        <a href="citelist.html">
+          <i class="octicon octicon-file-text"></i><span>Bibliography</span>
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/sxs-collaboration/spectre" target="_blank">
+          <i class="octicon octicon-mark-github"></i><span>View on GitHub</span>
+        </a>
+      </li>
+      <!--The Search <li> is added by doxygen later-->
+    </ul>
+  </div><!-- main-nav -->
+  </div><!-- titlearea -->
+  <!-- window showing the filter options -->
+  <div id="MSearchSelectWindow"  style="position: fixed;"
+       onmouseover="return searchBox.OnSearchSelectShow()"
+       onmouseout="return searchBox.OnSearchSelectHide()"
+       onkeydown="return searchBox.OnSearchSelectKey(event)">
+  </div>
+  <!-- iframe showing the search results (closed by default) -->
+  <div id="MSearchResultsWindow"  style="position: fixed;">
+  <iframe src="javascript:void(0)" frameborder="0"
+          name="MSearchResults" id="MSearchResults">
+  </iframe>
+  </div>
+<!-- Generated by Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Search');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Search');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div id="nav-path" class="navpath">
+  <ul>
+<li class="navelem"><a class="el" href="namespaceElasticity.html">Elasticity</a></li><li class="navelem"><a class="el" href="namespaceElasticity_1_1Solutions.html">Solutions</a></li><li class="navelem"><a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a></li>  </ul>
+</div>
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#pub-types">Public Types</a> &#124;
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pub-static-methods">Static Public Member Functions</a> &#124;
+<a href="#pub-static-attribs">Static Public Attributes</a> &#124;
+<a href="#friends">Friends</a> &#124;
+<a href="classElasticity_1_1Solutions_1_1BentBeam-members.html">List of all members</a>  </div>
+  <div class="headertitle">
+<div class="title">Elasticity::Solutions::BentBeam Class Reference</div>  </div>
+</div><!--header-->
+<div class="contents">
+
+<p>A state of pure bending of an elastic beam in 2D.  
+ <a href="classElasticity_1_1Solutions_1_1BentBeam.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="BentBeam_8hpp_source.html">BentBeam.hpp</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
+Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1BendingMoment.html">BendingMoment</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1Height.html">Height</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1Length.html">Length</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1Material.html">Material</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
+Public Types</h2></td></tr>
+<tr class="memitem:a208d092c79744a2cb59bc4c554d85763"><td class="memItemLeft" align="right" valign="top"><a id="a208d092c79744a2cb59bc4c554d85763"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>constitutive_relation_type</b> = <a class="el" href="classElasticity_1_1ConstitutiveRelations_1_1IsotropicHomogeneous.html">Elasticity::ConstitutiveRelations::IsotropicHomogeneous</a>&lt; 2 &gt;</td></tr>
+<tr class="separator:a208d092c79744a2cb59bc4c554d85763"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a55fcc5885b1251eb37f75b3768da3745"><td class="memItemLeft" align="right" valign="top"><a id="a55fcc5885b1251eb37f75b3768da3745"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>options</b> = tmpl::list&lt; <a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1Length.html">Length</a>, <a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1Height.html">Height</a>, <a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1BendingMoment.html">BendingMoment</a>, <a class="el" href="structElasticity_1_1Solutions_1_1BentBeam_1_1Material.html">Material</a> &gt;</td></tr>
+<tr class="separator:a55fcc5885b1251eb37f75b3768da3745"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aaddbb60a946a5d8e4e79323b862c9781"><td class="memItemLeft" align="right" valign="top"><a id="aaddbb60a946a5d8e4e79323b862c9781"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BentBeam</b> (const <a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;) noexcept=delete</td></tr>
+<tr class="separator:aaddbb60a946a5d8e4e79323b862c9781"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8548f8cf956bcbc01425402df038b8c"><td class="memItemLeft" align="right" valign="top"><a id="ac8548f8cf956bcbc01425402df038b8c"></a>
+<a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (const <a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;) noexcept=delete</td></tr>
+<tr class="separator:ac8548f8cf956bcbc01425402df038b8c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0c71bdd3b53bf968a698dcbedcf03e09"><td class="memItemLeft" align="right" valign="top"><a id="a0c71bdd3b53bf968a698dcbedcf03e09"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BentBeam</b> (<a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:a0c71bdd3b53bf968a698dcbedcf03e09"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae8537e97ca242df621eeb5cfc0dca566"><td class="memItemLeft" align="right" valign="top"><a id="ae8537e97ca242df621eeb5cfc0dca566"></a>
+<a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operator=</b> (<a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;&amp;) noexcept=default</td></tr>
+<tr class="separator:ae8537e97ca242df621eeb5cfc0dca566"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa1d3315783b850f74b879ad5ce386d07"><td class="memItemLeft" align="right" valign="top"><a id="aa1d3315783b850f74b879ad5ce386d07"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>BentBeam</b> (double length, double height, double bending_moment, <a class="el" href="classElasticity_1_1ConstitutiveRelations_1_1IsotropicHomogeneous.html">constitutive_relation_type</a> constitutive_relation) noexcept</td></tr>
+<tr class="separator:aa1d3315783b850f74b879ad5ce386d07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1723bb498e391a94d4b4c2af6960f346"><td class="memItemLeft" align="right" valign="top"><a id="a1723bb498e391a94d4b4c2af6960f346"></a>
+const <a class="el" href="classElasticity_1_1ConstitutiveRelations_1_1IsotropicHomogeneous.html">constitutive_relation_type</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>constitutive_relation</b> () const noexcept</td></tr>
+<tr class="separator:a1723bb498e391a94d4b4c2af6960f346"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5032a9f5bd58662708870dd4aff1f731"><td class="memItemLeft" align="right" valign="top"><a id="a5032a9f5bd58662708870dd4aff1f731"></a>
+double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html#a5032a9f5bd58662708870dd4aff1f731">potential_energy</a> () const</td></tr>
+<tr class="memdesc:a5032a9f5bd58662708870dd4aff1f731"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return potential energy integrated over the whole beam material. <br /></td></tr>
+<tr class="separator:a5032a9f5bd58662708870dd4aff1f731"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae622a0170a511874bb6433c7e02c9017"><td class="memItemLeft" align="right" valign="top"><a id="ae622a0170a511874bb6433c7e02c9017"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html#ae622a0170a511874bb6433c7e02c9017">variables</a> (const tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, 2 &gt; &amp;x, tmpl::list&lt; <a class="el" href="structElasticity_1_1Tags_1_1Displacement.html">Tags::Displacement</a>&lt; 2 &gt;&gt;) const noexcept -&gt; <a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt; <a class="el" href="structElasticity_1_1Tags_1_1Displacement.html">Tags::Displacement</a>&lt; 2 &gt;&gt;</td></tr>
+<tr class="memdesc:ae622a0170a511874bb6433c7e02c9017"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve variable at coordinates <code>x</code> <br /></td></tr>
+<tr class="separator:ae622a0170a511874bb6433c7e02c9017"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aca69398b901946e6da7aec53a058eaf6"><td class="memItemLeft" align="right" valign="top"><a id="aca69398b901946e6da7aec53a058eaf6"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>variables</b> (const tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, 2 &gt; &amp;x, tmpl::list&lt; <a class="el" href="structElasticity_1_1Tags_1_1Strain.html">Tags::Strain</a>&lt; 2 &gt;&gt;) const noexcept -&gt; <a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt; <a class="el" href="structElasticity_1_1Tags_1_1Strain.html">Tags::Strain</a>&lt; 2 &gt;&gt;</td></tr>
+<tr class="separator:aca69398b901946e6da7aec53a058eaf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a93b7f91b970c0dd5099c379e214462bf"><td class="memItemLeft" align="right" valign="top"><a id="a93b7f91b970c0dd5099c379e214462bf"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>variables</b> (const tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, 2 &gt; &amp;x, tmpl::list&lt; <a class="el" href="structElasticity_1_1Tags_1_1Stress.html">Tags::Stress</a>&lt; 2 &gt;&gt;) const noexcept -&gt; <a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt; <a class="el" href="structElasticity_1_1Tags_1_1Stress.html">Tags::Stress</a>&lt; 2 &gt;&gt;</td></tr>
+<tr class="separator:a93b7f91b970c0dd5099c379e214462bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ac0d99a9c681c0f58181ec27543240f"><td class="memTemplParams" colspan="2"><a id="a5ac0d99a9c681c0f58181ec27543240f"></a>
+template&lt;typename... Tags&gt; </td></tr>
+<tr class="memitem:a5ac0d99a9c681c0f58181ec27543240f"><td class="memTemplItemLeft" align="right" valign="top"><a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt; Tags... &gt;&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html#a5ac0d99a9c681c0f58181ec27543240f">variables</a> (const tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, 2 &gt; &amp;x, tmpl::list&lt; Tags... &gt;) const noexcept</td></tr>
+<tr class="memdesc:a5ac0d99a9c681c0f58181ec27543240f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Retrieve a collection of variables at coordinates <code>x</code> <br /></td></tr>
+<tr class="separator:a5ac0d99a9c681c0f58181ec27543240f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5e17bcf9e2573656ac2841c36d678e5"><td class="memItemLeft" align="right" valign="top"><a id="ab5e17bcf9e2573656ac2841c36d678e5"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>pup</b> (PUP::er &amp;p) noexcept</td></tr>
+<tr class="separator:ab5e17bcf9e2573656ac2841c36d678e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Static Public Member Functions</h2></td></tr>
+<tr class="memitem:a015f2a8d46efcb23bf6ab3dacf9245bd"><td class="memItemLeft" align="right" valign="top"><a id="a015f2a8d46efcb23bf6ab3dacf9245bd"></a>
+static auto&#160;</td><td class="memItemRight" valign="bottom"><b>variables</b> (const tnsr::I&lt; <a class="el" href="classDataVector.html">DataVector</a>, 2 &gt; &amp;x, tmpl::list&lt;::<a class="el" href="structTags_1_1FixedSource.html">Tags::FixedSource</a>&lt; <a class="el" href="structElasticity_1_1Tags_1_1Displacement.html">Tags::Displacement</a>&lt; 2 &gt;&gt;&gt;) noexcept -&gt; <a class="el" href="classtuples_1_1TaggedTuple.html">tuples::TaggedTuple</a>&lt;::<a class="el" href="structTags_1_1FixedSource.html">Tags::FixedSource</a>&lt; <a class="el" href="structElasticity_1_1Tags_1_1Displacement.html">Tags::Displacement</a>&lt; 2 &gt;&gt;&gt;</td></tr>
+<tr class="separator:a015f2a8d46efcb23bf6ab3dacf9245bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-attribs"></a>
+Static Public Attributes</h2></td></tr>
+<tr class="memitem:aa7db736c271cec64411a795ee9998a25"><td class="memItemLeft" align="right" valign="top"><a id="aa7db736c271cec64411a795ee9998a25"></a>
+static constexpr size_t&#160;</td><td class="memItemRight" valign="bottom"><b>volume_dim</b> = 2</td></tr>
+<tr class="separator:aa7db736c271cec64411a795ee9998a25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ef6ad207774375fc5f1098ab3bc17b3"><td class="memItemLeft" align="right" valign="top">static constexpr <a class="el" href="Options_8hpp.html#ac6df7d1b74fbddedd85b06a0087d93f6">OptionString</a>&#160;</td><td class="memItemRight" valign="bottom"><b>help</b></td></tr>
+<tr class="separator:a4ef6ad207774375fc5f1098ab3bc17b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
+Friends</h2></td></tr>
+<tr class="memitem:ad332fdbe070c3f104ad98524e3798aa4"><td class="memItemLeft" align="right" valign="top"><a id="ad332fdbe070c3f104ad98524e3798aa4"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>operator==</b> (const <a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;lhs, const <a class="el" href="classElasticity_1_1Solutions_1_1BentBeam.html">BentBeam</a> &amp;rhs) noexcept</td></tr>
+<tr class="separator:ad332fdbe070c3f104ad98524e3798aa4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>A state of pure bending of an elastic beam in 2D. </p>
+<h3>Details</h3>
+<p>This solution describes a 2D slice through an elastic beam of length \(L\) and height \(H\), centered around (0, 0), that is subject to a bending moment \(M=\int T^{xx}y\mathrm{d}y\) (see e.g. <a class="el" href="citelist.html#CITEREF_ThorneBlandford2017">[62]</a>, Eq. 11.41c for a bending moment in 1D). The beam material is characterized by an isotropic and homogeneous constitutive relation \(Y^{ijkl}\) in the plane-stress approximation (see <code><a class="el" href="classElasticity_1_1ConstitutiveRelations_1_1IsotropicHomogeneous.html" title="An isotropic and homogeneous material.">Elasticity::ConstitutiveRelations::IsotropicHomogeneous</a></code>). In this scenario, no body-forces \(f_\mathrm{ext}^j\) act on the material, so the <a class="el" href="namespaceElasticity.html">Elasticity</a> equations reduce to \(\nabla_i T^{ij}=0\), but the bending moment \(M\) generates the stress</p>
+<p class="formulaDsp">
+\begin{align} T^{xx} &amp;= \frac{12 M}{H^3} y \\ T^{xy} &amp;= 0 = T^{yy} \text{.} \end{align}
+</p>
+<p>By fixing the rigid-body motions to</p>
+<p class="formulaDsp">
+\[ \xi^x(0,y)=0 \quad \text{and} \quad \xi^y\left(\pm \frac{L}{2},0\right)=0 \]
+</p>
+<p>we find that this stress is produced by the displacement field</p>
+<p class="formulaDsp">
+\begin{align} \xi^x&amp;=-\frac{12 M}{EH^3}xy \\ \xi^y&amp;=\frac{6 M}{EH^3}\left(x^2+\nu y^2-\frac{L^2}{4}\right) \end{align}
+</p>
+<p>in terms of the Young's modulus \(E\) and the <a class="el" href="namespacePoisson.html" title="Items related to solving a Poisson equation .">Poisson</a> ration \(\nu\) of the material. The corresponding strain \(S_{ij}=\partial_{(i}\xi_{j)}\) is</p>
+<p class="formulaDsp">
+\begin{align} S_{xx} &amp;= -\frac{12 M}{EH^3} y \\ S_{yy} &amp;= \frac{12 M}{EH^3} \nu y \\ S_{xy} &amp;= S_{yx} = 0 \end{align}
+</p>
+<p>and the potential energy stored in the entire infinitesimal slice is</p>
+<p class="formulaDsp">
+\[ \int_{-L/2}^{L/2} \int_{-H/2}^{H/2} U dy\,dx = \frac{6M^2}{EH^3}L \text{.} \]
+</p>
+ </div><h2 class="groupheader">Member Data Documentation</h2>
+<a id="a4ef6ad207774375fc5f1098ab3bc17b3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4ef6ad207774375fc5f1098ab3bc17b3">&#9670;&nbsp;</a></span>help</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="Options_8hpp.html#ac6df7d1b74fbddedd85b06a0087d93f6">OptionString</a> Elasticity::Solutions::BentBeam::help</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<b>Initial value:</b><div class="fragment"><div class="line">{</div>
+<div class="line">      <span class="stringliteral">&quot;A 2D slice through an elastic beam which is subject to a bending &quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;moment. The bending moment is applied along the length of the beam, &quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;i.e. the x-axis, so that the beam&#39;s left and right ends are bent &quot;</span></div>
+<div class="line">      <span class="stringliteral">&quot;towards the positive y-axis. It is measured in units of force.&quot;</span>}</div>
+</div><!-- fragment -->
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>src/PointwiseFunctions/AnalyticSolutions/Elasticity/<a class="el" href="BentBeam_8hpp_source.html">BentBeam.hpp</a></li>
+<li>src/PointwiseFunctions/AnalyticSolutions/Elasticity/BentBeam.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- HTML footer for doxygen 1.8.10-->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+&copy; Copyright 2017 - 2020
+<a href="https://black-holes.org">SXS Collaboration</a>,
+<a href="LICENSE.txt" target="_blank">
+<span class="hidden-xs">Distributed under the</span>
+MIT License</a>
+</small></address>
+</body>
+</html>

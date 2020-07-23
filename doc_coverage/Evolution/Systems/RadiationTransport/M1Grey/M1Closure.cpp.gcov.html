@@ -1,0 +1,376 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - a8c3e387addc34d8a4544728f405991e6c9e5e38 - Evolution/Systems/RadiationTransport/M1Grey/M1Closure.cpp</title>
+  <link rel="stylesheet" type="text/css" href="../../../../gcov.css">
+</head>
+
+<body>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="title"> SpECTRE Documentation Coverage Report</td></tr>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+
+    <tr>
+      <td width="100%">
+        <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="35%" class="headerValue"><a href="../../../../index.html">top level</a> - <a href="index.html">Evolution/Systems/RadiationTransport/M1Grey</a> - M1Closure.cpp</td>
+            <td width="5%"></td>
+            <td width="15%"></td>
+            <td width="10%" class="headerCovTableHead">Hit</td>
+            <td width="10%" class="headerCovTableHead">Total</td>
+            <td width="15%" class="headerCovTableHead">Coverage</td>
+          </tr>
+          <tr>
+             <td class="headerItem">Commit:</td>
+             <td class="headerValue"><a target="_blank" href="https://github.com/sxs-collaboration/spectre/commit/a8c3e387addc34d8a4544728f405991e6c9e5e38">a8c3e387addc34d8a4544728f405991e6c9e5e38</a></td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">2</td>
+            <td class="headerCovTableEntryLo">0.0 %</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Date:</td>
+            <td class="headerValue">2020-07-23 18:59:12</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td class="headerItem">Legend:</td>
+            <td class="headerValueLeg">            Lines:
+            <span class="coverLegendCov">hit</span>
+            <span class="coverLegendNoCov">not hit</span>
+</td>
+            <td></td>
+          </tr>
+          <tr><td><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+        </table>
+      </td>
+    </tr>
+
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+  </table>
+
+  <table cellpadding=0 cellspacing=0 border=0>
+    <tr>
+      <td><br></td>
+    </tr>
+    <tr>
+      <td>
+<pre class="sourceHeading">          Line data    Source code</pre>
+<pre class="source">
+<a name="1"><span class="lineNum">       1 </span><span class="lineNoCov">          0 : // Distributed under the MIT License.</span></a>
+<a name="2"><span class="lineNum">       2 </span>            : // See LICENSE.txt for details.</a>
+<a name="3"><span class="lineNum">       3 </span>            : </a>
+<a name="4"><span class="lineNum">       4 </span>            : #include &quot;Evolution/Systems/RadiationTransport/M1Grey/M1Closure.hpp&quot;</a>
+<a name="5"><span class="lineNum">       5 </span>            : </a>
+<a name="6"><span class="lineNum">       6 </span>            : #include &lt;algorithm&gt;</a>
+<a name="7"><span class="lineNum">       7 </span>            : #include &lt;array&gt;</a>
+<a name="8"><span class="lineNum">       8 </span>            : #include &lt;cmath&gt;</a>
+<a name="9"><span class="lineNum">       9 </span>            : #include &lt;cstddef&gt;</a>
+<a name="10"><span class="lineNum">      10 </span>            : #include &lt;utility&gt;</a>
+<a name="11"><span class="lineNum">      11 </span>            : </a>
+<a name="12"><span class="lineNum">      12 </span>            : #include &quot;DataStructures/DataVector.hpp&quot;</a>
+<a name="13"><span class="lineNum">      13 </span>            : #include &quot;DataStructures/Tensor/EagerMath/DotProduct.hpp&quot;</a>
+<a name="14"><span class="lineNum">      14 </span>            : #include &quot;DataStructures/Tensor/Tensor.hpp&quot;</a>
+<a name="15"><span class="lineNum">      15 </span>            : #include &quot;DataStructures/Variables.hpp&quot;</a>
+<a name="16"><span class="lineNum">      16 </span>            : #include &quot;NumericalAlgorithms/RootFinding/NewtonRaphson.hpp&quot;</a>
+<a name="17"><span class="lineNum">      17 </span>            : #include &quot;PointwiseFunctions/GeneralRelativity/IndexManipulation.hpp&quot;</a>
+<a name="18"><span class="lineNum">      18 </span>            : #include &quot;PointwiseFunctions/Hydro/Tags.hpp&quot;</a>
+<a name="19"><span class="lineNum">      19 </span>            : #include &quot;Utilities/ConstantExpressions.hpp&quot;</a>
+<a name="20"><span class="lineNum">      20 </span>            : #include &quot;Utilities/Gsl.hpp&quot;</a>
+<a name="21"><span class="lineNum">      21 </span>            : #include &quot;Utilities/TMPL.hpp&quot;</a>
+<a name="22"><span class="lineNum">      22 </span>            : </a>
+<a name="23"><span class="lineNum">      23 </span>            : // IWYU pragma: no_forward_declare Tensor</a>
+<a name="24"><span class="lineNum">      24 </span>            : </a>
+<a name="25"><span class="lineNum">      25 </span><span class="lineNoCov">          0 : namespace {</span></a>
+<a name="26"><span class="lineNum">      26 </span>            : /// \cond</a>
+<a name="27"><span class="lineNum">      27 </span>            : struct MomentumUp {</a>
+<a name="28"><span class="lineNum">      28 </span>            :   using type = tnsr::I&lt;DataVector, 3, Frame::Inertial&gt;;</a>
+<a name="29"><span class="lineNum">      29 </span>            : };</a>
+<a name="30"><span class="lineNum">      30 </span>            : struct MomentumSquared {</a>
+<a name="31"><span class="lineNum">      31 </span>            :   using type = Scalar&lt;DataVector&gt;;</a>
+<a name="32"><span class="lineNum">      32 </span>            : };</a>
+<a name="33"><span class="lineNum">      33 </span>            : /// \endcond</a>
+<a name="34"><span class="lineNum">      34 </span>            : </a>
+<a name="35"><span class="lineNum">      35 </span>            : /// Minerbo (maximum entropy) closure for the M1 scheme</a>
+<a name="36"><span class="lineNum">      36 </span>            : double minerbo_closure_function(const double zeta) noexcept {</a>
+<a name="37"><span class="lineNum">      37 </span>            :   return 1.0 / 3.0 +</a>
+<a name="38"><span class="lineNum">      38 </span>            :          square(zeta) * (0.4 - 2.0 / 15.0 * zeta + 0.4 * square(zeta));</a>
+<a name="39"><span class="lineNum">      39 </span>            : }</a>
+<a name="40"><span class="lineNum">      40 </span>            : double minerbo_closure_deriv(const double zeta) noexcept {</a>
+<a name="41"><span class="lineNum">      41 </span>            :   return 0.4 * zeta * (2.0 - zeta + 4.0 * square(zeta));</a>
+<a name="42"><span class="lineNum">      42 </span>            : }</a>
+<a name="43"><span class="lineNum">      43 </span>            : }  // namespace</a>
+<a name="44"><span class="lineNum">      44 </span>            : </a>
+<a name="45"><span class="lineNum">      45 </span>            : namespace RadiationTransport::M1Grey::detail {</a>
+<a name="46"><span class="lineNum">      46 </span>            : </a>
+<a name="47"><span class="lineNum">      47 </span>            : void compute_closure_impl(</a>
+<a name="48"><span class="lineNum">      48 </span>            :     const gsl::not_null&lt;Scalar&lt;DataVector&gt;*&gt; closure_factor,</a>
+<a name="49"><span class="lineNum">      49 </span>            :     const gsl::not_null&lt;tnsr::II&lt;DataVector, 3, Frame::Inertial&gt;*&gt;</a>
+<a name="50"><span class="lineNum">      50 </span>            :         pressure_tensor,</a>
+<a name="51"><span class="lineNum">      51 </span>            :     const gsl::not_null&lt;Scalar&lt;DataVector&gt;*&gt; comoving_energy_density,</a>
+<a name="52"><span class="lineNum">      52 </span>            :     const gsl::not_null&lt;Scalar&lt;DataVector&gt;*&gt; comoving_momentum_density_normal,</a>
+<a name="53"><span class="lineNum">      53 </span>            :     const gsl::not_null&lt;tnsr::i&lt;DataVector, 3, Frame::Inertial&gt;*&gt;</a>
+<a name="54"><span class="lineNum">      54 </span>            :         comoving_momentum_density_spatial,</a>
+<a name="55"><span class="lineNum">      55 </span>            :     const Scalar&lt;DataVector&gt;&amp; energy_density,</a>
+<a name="56"><span class="lineNum">      56 </span>            :     const tnsr::i&lt;DataVector, 3, Frame::Inertial&gt;&amp; momentum_density,</a>
+<a name="57"><span class="lineNum">      57 </span>            :     const tnsr::I&lt;DataVector, 3, Frame::Inertial&gt;&amp; fluid_velocity,</a>
+<a name="58"><span class="lineNum">      58 </span>            :     const Scalar&lt;DataVector&gt;&amp; fluid_lorentz_factor,</a>
+<a name="59"><span class="lineNum">      59 </span>            :     const tnsr::ii&lt;DataVector, 3, Frame::Inertial&gt;&amp; spatial_metric,</a>
+<a name="60"><span class="lineNum">      60 </span>            :     const tnsr::II&lt;DataVector, 3, Frame::Inertial&gt;&amp;</a>
+<a name="61"><span class="lineNum">      61 </span>            :         inv_spatial_metric) noexcept {</a>
+<a name="62"><span class="lineNum">      62 </span>            :   // Small number used to avoid divisions by zero</a>
+<a name="63"><span class="lineNum">      63 </span>            :   static constexpr double avoid_divisions_by_zero = 1.e-150;</a>
+<a name="64"><span class="lineNum">      64 </span>            :   // Below small_velocity, we use the v=0 closure,</a>
+<a name="65"><span class="lineNum">      65 </span>            :   // and we do not differentiate between fluid/inertial frames</a>
+<a name="66"><span class="lineNum">      66 </span>            :   static constexpr double small_velocity = 1.e-15;</a>
+<a name="67"><span class="lineNum">      67 </span>            :   // Dimension of spatial tensors</a>
+<a name="68"><span class="lineNum">      68 </span>            :   constexpr size_t spatial_dim = 3;</a>
+<a name="69"><span class="lineNum">      69 </span>            :   // Number of significant digits used in the rootfinding rooting</a>
+<a name="70"><span class="lineNum">      70 </span>            :   // used to find the closure factor</a>
+<a name="71"><span class="lineNum">      71 </span>            :   constexpr size_t root_find_number_of_digits = 6;</a>
+<a name="72"><span class="lineNum">      72 </span>            :   constexpr double root_find_tolerance = 1.e-6;</a>
+<a name="73"><span class="lineNum">      73 </span>            :   Variables&lt;</a>
+<a name="74"><span class="lineNum">      74 </span>            :       tmpl::list&lt;hydro::Tags::LorentzFactorSquared&lt;DataVector&gt;, MomentumSquared,</a>
+<a name="75"><span class="lineNum">      75 </span>            :                  MomentumUp, hydro::Tags::SpatialVelocityOneForm&lt;DataVector, 3&gt;,</a>
+<a name="76"><span class="lineNum">      76 </span>            :                  hydro::Tags::SpatialVelocitySquared&lt;DataVector&gt;&gt;&gt;</a>
+<a name="77"><span class="lineNum">      77 </span>            :       temp_closure_tensors(get(energy_density).size());</a>
+<a name="78"><span class="lineNum">      78 </span>            : </a>
+<a name="79"><span class="lineNum">      79 </span>            :   // The main calculation needed for the M1 closure is to find the</a>
+<a name="80"><span class="lineNum">      80 </span>            :   // roots of J^2 zeta^2 = H^a H_a, with J the fluid-frame energy density</a>
+<a name="81"><span class="lineNum">      81 </span>            :   // and H^a the fluid-frame momentum density (0th and 1st moments).</a>
+<a name="82"><span class="lineNum">      82 </span>            : </a>
+<a name="83"><span class="lineNum">      83 </span>            :   // We first compute various fluid quantities and contractions</a>
+<a name="84"><span class="lineNum">      84 </span>            :   // with inertial moments needed even if v^2 is small</a>
+<a name="85"><span class="lineNum">      85 </span>            :   auto&amp; w_sqr =</a>
+<a name="86"><span class="lineNum">      86 </span>            :       get&lt;hydro::Tags::LorentzFactorSquared&lt;DataVector&gt;&gt;(temp_closure_tensors);</a>
+<a name="87"><span class="lineNum">      87 </span>            :   get(w_sqr) = square(get(fluid_lorentz_factor));</a>
+<a name="88"><span class="lineNum">      88 </span>            :   auto&amp; v_sqr = get&lt;hydro::Tags::SpatialVelocitySquared&lt;DataVector&gt;&gt;(</a>
+<a name="89"><span class="lineNum">      89 </span>            :       temp_closure_tensors);</a>
+<a name="90"><span class="lineNum">      90 </span>            :   get(v_sqr) = 1. - 1. / get(w_sqr);</a>
+<a name="91"><span class="lineNum">      91 </span>            :   // S^i, the neutrino momentum tensor</a>
+<a name="92"><span class="lineNum">      92 </span>            :   auto&amp; s_M = get&lt;MomentumUp&gt;(temp_closure_tensors);</a>
+<a name="93"><span class="lineNum">      93 </span>            :   raise_or_lower_index(make_not_null(&amp;s_M), momentum_density,</a>
+<a name="94"><span class="lineNum">      94 </span>            :                        inv_spatial_metric);</a>
+<a name="95"><span class="lineNum">      95 </span>            :   // S^i S_i</a>
+<a name="96"><span class="lineNum">      96 </span>            :   auto&amp; s_sqr = get&lt;MomentumSquared&gt;(temp_closure_tensors);</a>
+<a name="97"><span class="lineNum">      97 </span>            :   dot_product(make_not_null(&amp;s_sqr), s_M, momentum_density);</a>
+<a name="98"><span class="lineNum">      98 </span>            :   // v_i, the spatial velocity one-form of the fluid</a>
+<a name="99"><span class="lineNum">      99 </span>            :   auto&amp; v_m = get&lt;hydro::Tags::SpatialVelocityOneForm&lt;DataVector, 3&gt;&gt;(</a>
+<a name="100"><span class="lineNum">     100 </span>            :       temp_closure_tensors);</a>
+<a name="101"><span class="lineNum">     101 </span>            :   raise_or_lower_index(make_not_null(&amp;v_m), fluid_velocity, spatial_metric);</a>
+<a name="102"><span class="lineNum">     102 </span>            : </a>
+<a name="103"><span class="lineNum">     103 </span>            :   // Allocate memory for H^i</a>
+<a name="104"><span class="lineNum">     104 </span>            :   tnsr::I&lt;double, 3, Frame::Inertial&gt; H_M(0.);</a>
+<a name="105"><span class="lineNum">     105 </span>            :   // Loop over points</a>
+<a name="106"><span class="lineNum">     106 </span>            :   for (size_t s = 0; s &lt; get(v_sqr).size(); ++s) {</a>
+<a name="107"><span class="lineNum">     107 </span>            :     const double&amp; v_sqr_pt = get(v_sqr)[s];</a>
+<a name="108"><span class="lineNum">     108 </span>            :     const double&amp; w_sqr_pt = get(w_sqr)[s];</a>
+<a name="109"><span class="lineNum">     109 </span>            :     const double&amp; e_pt = get(energy_density)[s];</a>
+<a name="110"><span class="lineNum">     110 </span>            :     const double&amp; s_sqr_pt = std::max(get(s_sqr)[s], avoid_divisions_by_zero);</a>
+<a name="111"><span class="lineNum">     111 </span>            :     // Ignore complicated closure calculations</a>
+<a name="112"><span class="lineNum">     112 </span>            :     // if the fluid velocity is very small</a>
+<a name="113"><span class="lineNum">     113 </span>            :     if (v_sqr_pt &lt; small_velocity) {</a>
+<a name="114"><span class="lineNum">     114 </span>            :       // Minerbo closure assuming v=0 (see definition of</a>
+<a name="115"><span class="lineNum">     115 </span>            :       // minerbo_closure_function)</a>
+<a name="116"><span class="lineNum">     116 </span>            :       const double zeta = sqrt(s_sqr_pt) / e_pt;</a>
+<a name="117"><span class="lineNum">     117 </span>            :       const double chi = minerbo_closure_function(zeta);</a>
+<a name="118"><span class="lineNum">     118 </span>            :       const double d_thin_e_pt_over_s_sqr = (1.5 * chi - 0.5) * e_pt / s_sqr_pt;</a>
+<a name="119"><span class="lineNum">     119 </span>            :       const double d_thick_e_pt_over_3 = (0.5 - 0.5 * chi) * e_pt;</a>
+<a name="120"><span class="lineNum">     120 </span>            : </a>
+<a name="121"><span class="lineNum">     121 </span>            :       get(*closure_factor)[s] = zeta;</a>
+<a name="122"><span class="lineNum">     122 </span>            :       get(*comoving_energy_density)[s] = e_pt;</a>
+<a name="123"><span class="lineNum">     123 </span>            :       get(*comoving_momentum_density_normal)[s] = 0.;</a>
+<a name="124"><span class="lineNum">     124 </span>            :       for (size_t i = 0; i &lt; spatial_dim; i++) {</a>
+<a name="125"><span class="lineNum">     125 </span>            :         comoving_momentum_density_spatial-&gt;get(i)[s] =</a>
+<a name="126"><span class="lineNum">     126 </span>            :             momentum_density.get(i)[s];</a>
+<a name="127"><span class="lineNum">     127 </span>            :         // Closure assuming that fluid-frame = inertial frame</a>
+<a name="128"><span class="lineNum">     128 </span>            :         for (size_t j = i; j &lt; spatial_dim; j++) {</a>
+<a name="129"><span class="lineNum">     129 </span>            :           pressure_tensor-&gt;get(i, j)[s] =</a>
+<a name="130"><span class="lineNum">     130 </span>            :               d_thick_e_pt_over_3 * inv_spatial_metric.get(i, j)[s] +</a>
+<a name="131"><span class="lineNum">     131 </span>            :               d_thin_e_pt_over_s_sqr * momentum_density.get(i)[s] *</a>
+<a name="132"><span class="lineNum">     132 </span>            :                   momentum_density.get(j)[s];</a>
+<a name="133"><span class="lineNum">     133 </span>            :         }</a>
+<a name="134"><span class="lineNum">     134 </span>            :       }</a>
+<a name="135"><span class="lineNum">     135 </span>            :     }</a>
+<a name="136"><span class="lineNum">     136 </span>            :     // If the fluid velocity cannot be ignored, we need to</a>
+<a name="137"><span class="lineNum">     137 </span>            :     // go through a more expensive closure calculation</a>
+<a name="138"><span class="lineNum">     138 </span>            :     else {</a>
+<a name="139"><span class="lineNum">     139 </span>            :       // Compute useful intermediate quantities from v^i, F_i</a>
+<a name="140"><span class="lineNum">     140 </span>            :       double v_dot_f_pt = 0.;</a>
+<a name="141"><span class="lineNum">     141 </span>            :       for (size_t m = 0; m &lt; spatial_dim; m++) {</a>
+<a name="142"><span class="lineNum">     142 </span>            :         v_dot_f_pt += fluid_velocity.get(m)[s] * momentum_density.get(m)[s];</a>
+<a name="143"><span class="lineNum">     143 </span>            :       }</a>
+<a name="144"><span class="lineNum">     144 </span>            :       // Decomposition of the fluid-frame energy density:</a>
+<a name="145"><span class="lineNum">     145 </span>            :       // J = J0 + d_thin * JThin + d_thick * JThick</a>
+<a name="146"><span class="lineNum">     146 </span>            :       // with d_thin, d_thick=1-d_thin coefficients</a>
+<a name="147"><span class="lineNum">     147 </span>            :       // obtained from the M1 closure.</a>
+<a name="148"><span class="lineNum">     148 </span>            :       const double j_0 = w_sqr_pt * (e_pt - 2. * v_dot_f_pt);</a>
+<a name="149"><span class="lineNum">     149 </span>            :       const double j_thin = w_sqr_pt * e_pt * square(v_dot_f_pt) / s_sqr_pt;</a>
+<a name="150"><span class="lineNum">     150 </span>            :       const double j_thick =</a>
+<a name="151"><span class="lineNum">     151 </span>            :           (w_sqr_pt - 1.) / (1. + 2. * w_sqr_pt) *</a>
+<a name="152"><span class="lineNum">     152 </span>            :           (4. * w_sqr_pt * v_dot_f_pt + e_pt * (3. - 2. * w_sqr_pt));</a>
+<a name="153"><span class="lineNum">     153 </span>            :       // Decomposition of the fluid-frame momentum density:</a>
+<a name="154"><span class="lineNum">     154 </span>            :       // H_a = -( h0T + d_thick hThickT + d_thin hThinT) t_a</a>
+<a name="155"><span class="lineNum">     155 </span>            :       //  - ( h0V + d_thick hThickV + d_thin hThinV) v_a</a>
+<a name="156"><span class="lineNum">     156 </span>            :       //  - ( h0F + d_thick hThickF + d_thin hThinF) F_a</a>
+<a name="157"><span class="lineNum">     157 </span>            :       // with t_a the unit normal, v_a the 3-velocity, and F_a the</a>
+<a name="158"><span class="lineNum">     158 </span>            :       // inertial frame momentum density. This is a decomposition of</a>
+<a name="159"><span class="lineNum">     159 </span>            :       // convenience, which is not unique: F_a and v_a are not</a>
+<a name="160"><span class="lineNum">     160 </span>            :       // orthogonal vectors, but both are normal to t_a.</a>
+<a name="161"><span class="lineNum">     161 </span>            :       const double&amp; w_pt = get(fluid_lorentz_factor)[s];</a>
+<a name="162"><span class="lineNum">     162 </span>            :       const double h_0_t = w_pt * (j_0 + v_dot_f_pt - e_pt);</a>
+<a name="163"><span class="lineNum">     163 </span>            :       const double h_0_v = w_pt * j_0;</a>
+<a name="164"><span class="lineNum">     164 </span>            :       const double h_0_f = -w_pt;</a>
+<a name="165"><span class="lineNum">     165 </span>            :       const double h_thin_t = w_pt * j_thin;</a>
+<a name="166"><span class="lineNum">     166 </span>            :       const double h_thin_v = h_thin_t;</a>
+<a name="167"><span class="lineNum">     167 </span>            :       const double h_thin_f = w_pt * e_pt * v_dot_f_pt / s_sqr_pt;</a>
+<a name="168"><span class="lineNum">     168 </span>            :       const double h_thick_t = w_pt * j_thick;</a>
+<a name="169"><span class="lineNum">     169 </span>            :       const double h_thick_v =</a>
+<a name="170"><span class="lineNum">     170 </span>            :           h_thick_t +</a>
+<a name="171"><span class="lineNum">     171 </span>            :           w_pt / (2. * w_sqr_pt + 1.) *</a>
+<a name="172"><span class="lineNum">     172 </span>            :               ((3. - 2. * w_sqr_pt) * e_pt + (2. * w_sqr_pt - 1.) * v_dot_f_pt);</a>
+<a name="173"><span class="lineNum">     173 </span>            :       const double h_thick_f = w_pt * v_sqr_pt;</a>
+<a name="174"><span class="lineNum">     174 </span>            :       // Quantities needed for the computation of H^2 = H^a H_a,</a>
+<a name="175"><span class="lineNum">     175 </span>            :       // independent of zeta. We write:</a>
+<a name="176"><span class="lineNum">     176 </span>            :       // H^2 = h_sqr_0 + h_sqr_thin * d_thin + h_sqr_thick*d_thick</a>
+<a name="177"><span class="lineNum">     177 </span>            :       // + h_sqr_thin_thin * d_thin^2 + h_sqr_thick_thick * d_thick^2</a>
+<a name="178"><span class="lineNum">     178 </span>            :       // + h_sqr_thin_thick * d_thin * d_thick;</a>
+<a name="179"><span class="lineNum">     179 </span>            :       const double h_sqr_0 = -square(h_0_t) + square(h_0_v) * v_sqr_pt +</a>
+<a name="180"><span class="lineNum">     180 </span>            :                              square(h_0_f) * s_sqr_pt +</a>
+<a name="181"><span class="lineNum">     181 </span>            :                              2. * h_0_v * h_0_f * v_dot_f_pt;</a>
+<a name="182"><span class="lineNum">     182 </span>            :       const double h_sqr_thin =</a>
+<a name="183"><span class="lineNum">     183 </span>            :           2. * (h_0_v * h_thin_v * v_sqr_pt + h_0_f * h_thin_f * s_sqr_pt +</a>
+<a name="184"><span class="lineNum">     184 </span>            :                 h_0_v * h_thin_f * v_dot_f_pt + h_0_f * h_thin_v * v_dot_f_pt -</a>
+<a name="185"><span class="lineNum">     185 </span>            :                 h_0_t * h_thin_t);</a>
+<a name="186"><span class="lineNum">     186 </span>            :       const double h_sqr_thick =</a>
+<a name="187"><span class="lineNum">     187 </span>            :           2. * (h_0_v * h_thick_v * v_sqr_pt + h_0_f * h_thick_f * s_sqr_pt +</a>
+<a name="188"><span class="lineNum">     188 </span>            :                 h_0_v * h_thick_f * v_dot_f_pt +</a>
+<a name="189"><span class="lineNum">     189 </span>            :                 h_0_f * h_thick_v * v_dot_f_pt - h_0_t * h_thick_t);</a>
+<a name="190"><span class="lineNum">     190 </span>            :       const double h_sqr_thin_thick =</a>
+<a name="191"><span class="lineNum">     191 </span>            :           2. *</a>
+<a name="192"><span class="lineNum">     192 </span>            :           (h_thin_v * h_thick_v * v_sqr_pt + h_thin_f * h_thick_f * s_sqr_pt +</a>
+<a name="193"><span class="lineNum">     193 </span>            :            h_thin_v * h_thick_f * v_dot_f_pt +</a>
+<a name="194"><span class="lineNum">     194 </span>            :            h_thin_f * h_thick_v * v_dot_f_pt - h_thin_t * h_thick_t);</a>
+<a name="195"><span class="lineNum">     195 </span>            :       const double h_sqr_thick_thick =</a>
+<a name="196"><span class="lineNum">     196 </span>            :           square(h_thick_v) * v_sqr_pt + square(h_thick_f) * s_sqr_pt +</a>
+<a name="197"><span class="lineNum">     197 </span>            :           2. * h_thick_v * h_thick_f * v_dot_f_pt - square(h_thick_t);</a>
+<a name="198"><span class="lineNum">     198 </span>            :       const double h_sqr_thin_thin =</a>
+<a name="199"><span class="lineNum">     199 </span>            :           square(h_thin_v) * v_sqr_pt + square(h_thin_f) * s_sqr_pt +</a>
+<a name="200"><span class="lineNum">     200 </span>            :           2. * h_thin_v * h_thin_f * v_dot_f_pt - square(h_thin_t);</a>
+<a name="201"><span class="lineNum">     201 </span>            : </a>
+<a name="202"><span class="lineNum">     202 </span>            :       // Root finding function</a>
+<a name="203"><span class="lineNum">     203 </span>            :       const auto zeta_j_sqr_minus_h_sqr = [</a>
+<a name="204"><span class="lineNum">     204 </span>            :         &amp;e_pt, &amp;j_0, &amp;j_thin, &amp;j_thick, &amp;h_sqr_0, &amp;h_sqr_thick, &amp;h_sqr_thin,</a>
+<a name="205"><span class="lineNum">     205 </span>            :         &amp;h_sqr_thin_thin, &amp;h_sqr_thick_thick, &amp;h_sqr_thin_thick</a>
+<a name="206"><span class="lineNum">     206 </span>            :       ](const double local_zeta) noexcept {</a>
+<a name="207"><span class="lineNum">     207 </span>            :         const double chi = minerbo_closure_function(local_zeta);</a>
+<a name="208"><span class="lineNum">     208 </span>            :         const double dchi_dzeta = minerbo_closure_deriv(local_zeta);</a>
+<a name="209"><span class="lineNum">     209 </span>            :         const double d_thin = 1.5 * chi - 0.5;</a>
+<a name="210"><span class="lineNum">     210 </span>            :         const double d_thick = 1. - d_thin;</a>
+<a name="211"><span class="lineNum">     211 </span>            :         const double d_thin_dzeta = 1.5 * dchi_dzeta;</a>
+<a name="212"><span class="lineNum">     212 </span>            :         const double d_thick_dzeta = -d_thin_dzeta;</a>
+<a name="213"><span class="lineNum">     213 </span>            : </a>
+<a name="214"><span class="lineNum">     214 </span>            :         const double e_fluid = j_0 + j_thin * d_thin + j_thick * d_thick;</a>
+<a name="215"><span class="lineNum">     215 </span>            :         const double de_fluid_dzeta =</a>
+<a name="216"><span class="lineNum">     216 </span>            :             j_thin * d_thin_dzeta + j_thick * d_thick_dzeta;</a>
+<a name="217"><span class="lineNum">     217 </span>            :         const double h_sqr = h_sqr_0 + h_sqr_thick * d_thick +</a>
+<a name="218"><span class="lineNum">     218 </span>            :                              h_sqr_thin * d_thin +</a>
+<a name="219"><span class="lineNum">     219 </span>            :                              h_sqr_thin_thin * square(d_thin) +</a>
+<a name="220"><span class="lineNum">     220 </span>            :                              h_sqr_thick_thick * square(d_thick) +</a>
+<a name="221"><span class="lineNum">     221 </span>            :                              h_sqr_thin_thick * d_thin * d_thick;</a>
+<a name="222"><span class="lineNum">     222 </span>            :         const double dh_sqr_dd_thin = h_sqr_thin + h_sqr_thin_thick * d_thick +</a>
+<a name="223"><span class="lineNum">     223 </span>            :                                       2. * h_sqr_thin_thin * d_thin;</a>
+<a name="224"><span class="lineNum">     224 </span>            :         const double dh_sqr_dd_thick = h_sqr_thick + h_sqr_thin_thick * d_thin +</a>
+<a name="225"><span class="lineNum">     225 </span>            :                                        2. * h_sqr_thick_thick * d_thick;</a>
+<a name="226"><span class="lineNum">     226 </span>            :         return std::make_pair(</a>
+<a name="227"><span class="lineNum">     227 </span>            :             (square(e_fluid * local_zeta) - h_sqr) / square(e_pt),</a>
+<a name="228"><span class="lineNum">     228 </span>            :             (2. * e_fluid * de_fluid_dzeta * square(local_zeta) +</a>
+<a name="229"><span class="lineNum">     229 </span>            :              2. * square(e_fluid) * local_zeta - d_thin_dzeta * dh_sqr_dd_thin -</a>
+<a name="230"><span class="lineNum">     230 </span>            :              d_thin_dzeta * dh_sqr_dd_thick) /</a>
+<a name="231"><span class="lineNum">     231 </span>            :                 square(e_pt));</a>
+<a name="232"><span class="lineNum">     232 </span>            :       };</a>
+<a name="233"><span class="lineNum">     233 </span>            :       const double&amp; zeta = get(*closure_factor)[s];</a>
+<a name="234"><span class="lineNum">     234 </span>            :       // Initial guess for root finding.</a>
+<a name="235"><span class="lineNum">     235 </span>            :       // Choice 1: previous value</a>
+<a name="236"><span class="lineNum">     236 </span>            :       // Choice 2: value for zero-velocity</a>
+<a name="237"><span class="lineNum">     237 </span>            :       const double zeta_guess =</a>
+<a name="238"><span class="lineNum">     238 </span>            :           (zeta &lt;= avoid_divisions_by_zero or zeta &gt;= 1. ? sqrt(s_sqr_pt) / e_pt</a>
+<a name="239"><span class="lineNum">     239 </span>            :                                                          : zeta);</a>
+<a name="240"><span class="lineNum">     240 </span>            :       // To avoid failures in Newton-Raphson solver at the boundary of</a>
+<a name="241"><span class="lineNum">     241 </span>            :       // the allowed domain for zeta, test the edge values first.</a>
+<a name="242"><span class="lineNum">     242 </span>            :       if (fabs(zeta_j_sqr_minus_h_sqr(0.).first) &lt; root_find_tolerance) {</a>
+<a name="243"><span class="lineNum">     243 </span>            :         get(*closure_factor)[s] = 0.;</a>
+<a name="244"><span class="lineNum">     244 </span>            :       } else if (fabs(zeta_j_sqr_minus_h_sqr(1.).first) &lt; root_find_tolerance) {</a>
+<a name="245"><span class="lineNum">     245 </span>            :         get(*closure_factor)[s] = 1.;</a>
+<a name="246"><span class="lineNum">     246 </span>            :       } else {</a>
+<a name="247"><span class="lineNum">     247 </span>            :         get(*closure_factor)[s] = RootFinder::newton_raphson(</a>
+<a name="248"><span class="lineNum">     248 </span>            :             zeta_j_sqr_minus_h_sqr, zeta_guess, 1.e-15, 1.,</a>
+<a name="249"><span class="lineNum">     249 </span>            :             root_find_number_of_digits);</a>
+<a name="250"><span class="lineNum">     250 </span>            :       }</a>
+<a name="251"><span class="lineNum">     251 </span>            : </a>
+<a name="252"><span class="lineNum">     252 </span>            :       // Assemble output quantities:</a>
+<a name="253"><span class="lineNum">     253 </span>            :       const double chi = minerbo_closure_function(zeta);</a>
+<a name="254"><span class="lineNum">     254 </span>            :       const double d_thin = 1.5 * chi - 0.5;</a>
+<a name="255"><span class="lineNum">     255 </span>            :       const double d_thick = 1. - d_thin;</a>
+<a name="256"><span class="lineNum">     256 </span>            :       get(*comoving_energy_density)[s] =</a>
+<a name="257"><span class="lineNum">     257 </span>            :           j_0 + j_thin * d_thin + j_thick * d_thick;</a>
+<a name="258"><span class="lineNum">     258 </span>            :       get(*comoving_momentum_density_normal)[s] =</a>
+<a name="259"><span class="lineNum">     259 </span>            :           h_0_t + h_thin_t * d_thin + h_thick_t * d_thick;</a>
+<a name="260"><span class="lineNum">     260 </span>            :       for (size_t i = 0; i &lt; spatial_dim; i++) {</a>
+<a name="261"><span class="lineNum">     261 </span>            :         comoving_momentum_density_spatial-&gt;get(i) =</a>
+<a name="262"><span class="lineNum">     262 </span>            :             -(h_0_v + h_thin_v * d_thin + h_thick_v * d_thick) * v_m.get(i)[s] -</a>
+<a name="263"><span class="lineNum">     263 </span>            :             (h_0_f + h_thin_f * d_thin + h_thick_f * d_thick) *</a>
+<a name="264"><span class="lineNum">     264 </span>            :                 momentum_density.get(i)[s];</a>
+<a name="265"><span class="lineNum">     265 </span>            :         for (size_t j = i; j &lt; spatial_dim; j++) {</a>
+<a name="266"><span class="lineNum">     266 </span>            :           // Optically thin part of pressure tensor</a>
+<a name="267"><span class="lineNum">     267 </span>            :           pressure_tensor-&gt;get(i, j) = d_thin * e_pt *</a>
+<a name="268"><span class="lineNum">     268 </span>            :                                        momentum_density.get(i)[s] *</a>
+<a name="269"><span class="lineNum">     269 </span>            :                                        momentum_density.get(j)[s] / s_sqr_pt;</a>
+<a name="270"><span class="lineNum">     270 </span>            :         }</a>
+<a name="271"><span class="lineNum">     271 </span>            :       }</a>
+<a name="272"><span class="lineNum">     272 </span>            :       // Optically thick limit</a>
+<a name="273"><span class="lineNum">     273 </span>            :       for (size_t i = 0; i &lt; spatial_dim; i++) {</a>
+<a name="274"><span class="lineNum">     274 </span>            :         H_M.get(i) =</a>
+<a name="275"><span class="lineNum">     275 </span>            :             s_M.get(i)[s] / w_pt +</a>
+<a name="276"><span class="lineNum">     276 </span>            :             fluid_velocity.get(i)[s] * w_pt / (2. * w_sqr_pt + 1.) *</a>
+<a name="277"><span class="lineNum">     277 </span>            :                 ((4. * w_sqr_pt + 1.) * v_dot_f_pt - 4. * w_sqr_pt * e_pt);</a>
+<a name="278"><span class="lineNum">     278 </span>            :       }</a>
+<a name="279"><span class="lineNum">     279 </span>            :       const double J_over_3 =</a>
+<a name="280"><span class="lineNum">     280 </span>            :           1. / (2. * w_sqr_pt + 1.) *</a>
+<a name="281"><span class="lineNum">     281 </span>            :           ((2. * w_sqr_pt - 1.) * e_pt - 2. * w_sqr_pt * v_dot_f_pt);</a>
+<a name="282"><span class="lineNum">     282 </span>            :       for (size_t i = 0; i &lt; spatial_dim; i++) {</a>
+<a name="283"><span class="lineNum">     283 </span>            :         for (size_t j = i; j &lt; spatial_dim; j++) {</a>
+<a name="284"><span class="lineNum">     284 </span>            :           pressure_tensor-&gt;get(i, j) +=</a>
+<a name="285"><span class="lineNum">     285 </span>            :               d_thick * (J_over_3 * (4. * w_sqr_pt * fluid_velocity.get(i)[s] *</a>
+<a name="286"><span class="lineNum">     286 </span>            :                                          fluid_velocity.get(j)[s] +</a>
+<a name="287"><span class="lineNum">     287 </span>            :                                      inv_spatial_metric.get(i, j)[s]) +</a>
+<a name="288"><span class="lineNum">     288 </span>            :                          w_pt * (H_M.get(i) * fluid_velocity.get(j)[s] +</a>
+<a name="289"><span class="lineNum">     289 </span>            :                                  H_M.get(j) * fluid_velocity.get(i)[s]));</a>
+<a name="290"><span class="lineNum">     290 </span>            :         }</a>
+<a name="291"><span class="lineNum">     291 </span>            :       }</a>
+<a name="292"><span class="lineNum">     292 </span>            :     }</a>
+<a name="293"><span class="lineNum">     293 </span>            :   }</a>
+<a name="294"><span class="lineNum">     294 </span>            : }</a>
+<a name="295"><span class="lineNum">     295 </span>            : </a>
+<a name="296"><span class="lineNum">     296 </span>            : }  // namespace RadiationTransport::M1Grey::detail</a>
+</pre>
+      </td>
+    </tr>
+  </table>
+  <br>
+
+  <table width="100%" border=0 cellspacing=0 cellpadding=0>
+    <tr><td class="ruler"><img src="../../../../glass.png" width=3 height=3 alt=""></td></tr>
+    <tr><td class="versionInfo">Generated by: <a href="http://ltp.sourceforge.net/coverage/lcov.php" target="_parent">LCOV version 1.14</a></td></tr>
+  </table>
+  <br>
+
+</body>
+</html>
