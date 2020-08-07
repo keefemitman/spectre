@@ -16,19 +16,44 @@
 
 /// \cond
 class ComplexDataVector;
-class ComplexModalVector;
 /// \endcond
 
 namespace Cce {
 namespace InitializeJ {
 
 struct GeneratePsi0 : InitializeJ {
-  using options = tmpl::list<>;
-  static constexpr OptionString help = {
-      "Generate Psi0 from J"};
+  struct Files {
+    using type = std::vector<std::string>;
+    static constexpr OptionString help = {
+        "Input worldtube files from Cauchy evolution"};
+    static type default_value() noexcept {
+        return std::vector<std::string>{""}; }
+  };
 
-  //WRAPPED_PUPable_decl_template(GeneratePsi0);  // NOLINT
+  struct TargetIndex {
+    using type = size_t;
+    static constexpr OptionString help = {
+        "Index of file in files with target extraction radius"};
+    static type default_value() noexcept { return 0.0; }
+  };
+
+  struct TargetTime {
+    using type = double;
+    static constexpr OptionString help = {
+        "Initial time for CCE"};
+    static type default_value() noexcept { return 0.0; }
+  };
+
+  using options = tmpl::list<Files, TargetIndex, TargetTime>;
+  static constexpr OptionString help = {
+      "Generate Psi0 from J, DrJ, and R"};
+
+  WRAPPED_PUPable_decl_template(GeneratePsi0);  // NOLINT
   explicit GeneratePsi0(CkMigrateMessage* /*unused*/) noexcept {}
+
+  GeneratePsi0(std::vector<std::string> files,
+               size_t target_idx,
+               double target_time) noexcept;
 
   GeneratePsi0() = default;
 
@@ -40,13 +65,17 @@ struct GeneratePsi0 : InitializeJ {
       gsl::not_null<
           tnsr::i<DataVector, 2, ::Frame::Spherical<::Frame::Inertial>>*>
           angular_cauchy_coordinates,
-      const Scalar<SpinWeighted<ComplexModalVector, 2>>& bondi_j,
-      const Scalar<SpinWeighted<ComplexModalVector, 2>>& dr_bondi_j,
-      const Scalar<SpinWeighted<ComplexModalVector, 0>>& bondi_r,
-      const size_t l_max,
-      const size_t number_of_radial_points) const noexcept;
+      const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_j,
+      const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
+      const Scalar<SpinWeighted<ComplexDataVector, 0>>& r, size_t l_max,
+      size_t number_of_radial_points) const noexcept override;
 
   void pup(PUP::er& /*p*/) noexcept override;
+
+  private:
+   std::vector<std::string> files_{""};
+   size_t target_idx_ = 0.0;
+   double target_time_ = 0.0;
 };
 }  // namespace InitializeJ
 }  // namespace Cce
