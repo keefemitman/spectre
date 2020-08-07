@@ -4,11 +4,12 @@
 #include "Evolution/Systems/Cce/Initialize/GeneratePsi0.hpp"
 
 #include <array>
+#include <boost/math/differentiation/finite_difference.hpp>
+#include <complex>
 #include <cstddef>
 #include <memory>
+#include <string>
 #include <type_traits>
-#include <complex>
-#include <boost/math/differentiation/finite_difference.hpp>
 
 #include "DataStructures/ComplexDataVector.hpp"
 #include "DataStructures/DataVector.hpp"
@@ -28,6 +29,7 @@
 #include "NumericalAlgorithms/Spectral/SwshDerivatives.hpp"
 #include "NumericalAlgorithms/Spectral/SwshInterpolation.hpp"
 #include "NumericalAlgorithms/Spectral/SwshTags.hpp"
+#include "Parallel/Printf.hpp"
 #include "Utilities/Gsl.hpp"
 #include "Utilities/TMPL.hpp"
 
@@ -222,10 +224,8 @@ void GeneratePsi0::operator()(
 
   // compute psi_0
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_minus_y{
-      std::complex<double>(1.0, 0.0) *
-      (1.0 - Spectral::collocation_points<Spectral::Basis::Legendre,
-                                          Spectral::Quadrature::GaussLobatto>(
-             files_.size()))};
+      number_of_angular_points};
+  get(one_minus_y).data() = std::complex<double>(2.0,0.0);
   Scalar<SpinWeighted<ComplexDataVector, 2>> psi_0{
       number_of_angular_points};
   VolumeWeyl<Tags::Psi0>::apply(make_not_null(&psi_0),
@@ -235,6 +235,9 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
+  for(int i = 0; i < get(psi_0).data().size(); ++i) {
+    Parallel::printf(std::to_string(real(get(psi_0).data()[i])));
+  }
 }
 
 void GeneratePsi0::pup(PUP::er& p) noexcept {
