@@ -164,7 +164,7 @@ void NoIncomingRadiation::operator()(
   }
 }
 
-void InitializeJ::NoIncomingRadiation::pup(PUP::er& p) noexcept {
+void NoIncomingRadiation::pup(PUP::er& p) noexcept {
   p | require_convergence_;
   p | angular_coordinate_tolerance_;
   p | max_iterations_;
