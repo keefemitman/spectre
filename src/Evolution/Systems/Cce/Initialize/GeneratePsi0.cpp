@@ -49,8 +49,7 @@ void read_in_worldtube_data(
     const size_t target_idx,
     const double target_time) noexcept {
 
-  Parallel::printf("reading");
-  ReducedSpecWorldtubeH5BufferUpdater target_buffer_updater{files[target_idx]};
+  SpecWorldtubeH5BufferUpdater target_buffer_updater{files[target_idx]};
   const double target_radius = target_buffer_updater.get_extraction_radius();
 
   const size_t number_of_angular_points =
@@ -58,10 +57,10 @@ void read_in_worldtube_data(
   Variables<Tags::characteristic_worldtube_boundary_tags<Tags::BoundaryValue>>
       variables{number_of_angular_points};
   for(size_t i = 0; i < files.size(); ++i) {
-    ReducedSpecWorldtubeH5BufferUpdater buffer_updater{files[i]};
-    ReducedWorldtubeDataManager data_manager{
+    SpecWorldtubeH5BufferUpdater buffer_updater{files[i]};
+    WorldtubeDataManager data_manager{
         std::make_unique<
-            ReducedSpecWorldtubeH5BufferUpdater>(files[i]),
+            SpecWorldtubeH5BufferUpdater>(files[i]),
         l_max, 100,
         std::make_unique<
             intrp::BarycentricRationalSpanInterpolator>(10_st, 10_st)};
@@ -105,7 +104,6 @@ void second_derivative_of_j_from_worldtubes(
     const size_t l_max,
     const size_t target_idx) noexcept {
 
-  Parallel::printf("derivative");
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   const size_t number_of_radial_points =
@@ -192,7 +190,6 @@ void GeneratePsi0::operator()(
       make_not_null(&dr_j_container), make_not_null(&r_container),
       files_, l_max, target_idx_, target_time_);
 
-  Parallel::printf("starting");
   // compute dr_dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius{
       number_of_angular_points};
