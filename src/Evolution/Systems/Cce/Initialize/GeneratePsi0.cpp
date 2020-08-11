@@ -130,6 +130,12 @@ void second_derivative_of_j_from_worldtubes(
     intrp::BarycentricRationalSpanInterpolator interpolator{3_st, 4_st};
 
     Parallel::printf("span stuff\n");
+    Parallel::printf("r\n");
+    Parallel::printf(std::to_string(span_r_real_part.data())+"\n");
+    Parallel::printf("dr_j_real\n");
+    Parallel::printf(std::to_string(span_dr_j_real_part.data())+"\n");
+    Parallel::printf("dr_j_imag\n");
+    Parallel::printf(std::to_string(span_dr_j_imag_part.data())+"\n");
     auto interpolated_dr_j_real_part =
         [&span_r_real_part, &span_dr_j_real_part, &interpolator](const double r)
         noexcept {
