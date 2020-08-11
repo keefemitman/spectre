@@ -117,16 +117,12 @@ void second_derivative_of_j_from_worldtubes(
   for(size_t i = 0; i < number_of_angular_points; ++i) {
     const DataVector r_real_part = real(get(r).data());
     const DataVector dr_j_real_part = real(get(dr_j).data());
-    const DataVector r_imag_part = imag(get(r).data());
     const DataVector dr_j_imag_part = imag(get(dr_j).data());
     gsl::span<const double> span_r_real_part(
         r_real_part.data()
             + number_of_radial_points * i, number_of_radial_points);
     gsl::span<const double> span_dr_j_real_part(
         dr_j_real_part.data()
-            + number_of_radial_points * i, number_of_radial_points);
-    gsl::span<const double> span_r_imag_part(
-        r_imag_part.data()
             + number_of_radial_points * i, number_of_radial_points);
     gsl::span<const double> span_dr_j_imag_part(
         dr_j_imag_part.data()
@@ -148,6 +144,8 @@ void second_derivative_of_j_from_worldtubes(
         };
 
     Parallel::printf("real\n");
+    Parallel::printf(std::to_string(
+        r_real_part.data()[target_idx + number_of_angular_points * i])+"\n");
     auto real_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_real_part,
             r_real_part.data()[target_idx + number_of_angular_points * i]);
