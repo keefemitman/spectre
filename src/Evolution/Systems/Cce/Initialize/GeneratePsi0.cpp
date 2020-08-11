@@ -108,10 +108,13 @@ void second_derivative_of_j_from_worldtubes(
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   const size_t number_of_radial_points =
       get(r).size() / number_of_angular_points;
+
+  Parallel::printf(std::to_string(get(r).data().size)+"\n");
   transpose(get(r).data(),
       number_of_angular_points, number_of_radial_points);
   transpose(get(dr_j).data(),
       number_of_angular_points, number_of_radial_points);
+  Parallel::printf(std::to_string(get(r).data().size)+"\n");
 
   Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
