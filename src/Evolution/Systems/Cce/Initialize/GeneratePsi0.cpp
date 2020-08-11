@@ -129,8 +129,8 @@ void second_derivative_of_j_from_worldtubes(
         r_imag_part.data()
             + number_of_radial_points * i, number_of_radial_points);
     gsl::span<const double> span_dr_j_imag_part(
-        dr_j_imag_part.data() +
-            number_of_radial_points * i, number_of_radial_points);
+        dr_j_imag_part.data()
+            + number_of_radial_points * i, number_of_radial_points);
     intrp::BarycentricRationalSpanInterpolator interpolator{3_st, 4_st};
 
     Parallel::printf("span stuff\n");
@@ -146,6 +146,16 @@ void second_derivative_of_j_from_worldtubes(
             return interpolator.interpolate(
                 span_r_imag_part, span_dr_j_imag_part, r);
         };
+
+    for(int i = 0; i < interpolated_dr_j_real_part.data().size(); ++i) {
+      Parallel::printf(std::to_string(
+          interpolated_dr_j_real_part.data()[i])+"\n");
+    }
+    for(int i = 0; i < interpolated_dr_j_imag_part.data().size(); ++i) {
+      Parallel::printf(std::to_string(
+          interpolated_dr_j_imag_part.data()[i])+"\n");
+    }
+
     Parallel::printf("real\n");
     auto real_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_real_part,
