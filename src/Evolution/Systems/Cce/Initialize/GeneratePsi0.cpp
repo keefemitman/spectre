@@ -49,6 +49,7 @@ void read_in_worldtube_data(
     const size_t target_idx,
     const double target_time) noexcept {
 
+  Parallel::printf("reading");
   ReducedSpecWorldtubeH5BufferUpdater target_buffer_updater{files[target_idx]};
   const double target_radius = target_buffer_updater.get_extraction_radius();
 
@@ -104,6 +105,7 @@ void second_derivative_of_j_from_worldtubes(
     const size_t l_max,
     const size_t target_idx) noexcept {
 
+  Parallel::printf("derivative");
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   const size_t number_of_radial_points =
@@ -190,6 +192,7 @@ void GeneratePsi0::operator()(
       make_not_null(&dr_j_container), make_not_null(&r_container),
       files_, l_max, target_idx_, target_time_);
 
+  Parallel::printf("starting");
   // compute dr_dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius{
       number_of_angular_points};
