@@ -127,7 +127,7 @@ void second_derivative_of_j_from_worldtubes(
     gsl::span<const double> span_dr_j_imag_part(
         dr_j_imag_part.data()
             + number_of_radial_points * i, number_of_radial_points);
-    intrp::BarycentricRationalSpanInterpolator interpolator{10_st, 10_st};
+    intrp::BarycentricRationalSpanInterpolator interpolator{3_st, 4_st};
 
     Parallel::printf("span stuff\n");
     auto interpolated_dr_j_real_part =
