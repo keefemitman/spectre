@@ -141,7 +141,7 @@ void second_derivative_of_j_from_worldtubes(
                 span_r_real_part, span_dr_j_real_part, r);
         };
     auto interpolated_dr_j_imag_part =
-        [&span_r_imag_part, &span_dr_j_imag_part, &interpolator](const double r)
+        [&span_r_real_part, &span_dr_j_imag_part, &interpolator](const double r)
         noexcept {
             return interpolator.interpolate(
                 span_r_real_part, span_dr_j_imag_part, r);
