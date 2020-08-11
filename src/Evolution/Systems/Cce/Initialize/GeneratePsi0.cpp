@@ -147,11 +147,11 @@ void second_derivative_of_j_from_worldtubes(
                 span_r_imag_part, span_dr_j_imag_part, r);
         };
 
-    for(int i = 0; i < r_real_part.data().size(); ++i) {
+    for(int i = 0; i < r_real_part.size(); ++i) {
       Parallel::printf(std::to_string(
           r_real_part.data()[i])+"\n");
     }
-    for(int i = 0; i < r_imag_part.data().size(); ++i) {
+    for(int i = 0; i < r_imag_part.size(); ++i) {
       Parallel::printf(std::to_string(
           r_imag_part.data()[i])+"\n");
     }
