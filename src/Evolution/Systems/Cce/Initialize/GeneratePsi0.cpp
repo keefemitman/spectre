@@ -144,17 +144,8 @@ void second_derivative_of_j_from_worldtubes(
         [&span_r_imag_part, &span_dr_j_imag_part, &interpolator](const double r)
         noexcept {
             return interpolator.interpolate(
-                span_r_imag_part, span_dr_j_imag_part, r);
+                span_r_real_part, span_dr_j_imag_part, r);
         };
-
-    for(int i = 0; i < r_real_part.size(); ++i) {
-      Parallel::printf(std::to_string(
-          r_real_part.data()[i])+"\n");
-    }
-    for(int i = 0; i < r_imag_part.size(); ++i) {
-      Parallel::printf(std::to_string(
-          r_imag_part.data()[i])+"\n");
-    }
 
     Parallel::printf("real\n");
     auto real_dr_dr_j = boost::math::differentiation::
@@ -163,7 +154,7 @@ void second_derivative_of_j_from_worldtubes(
     Parallel::printf("imag\n");
     auto imag_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_imag_part,
-            r_imag_part.data()[target_idx + number_of_angular_points * i]);
+            r_real_part.data()[target_idx + number_of_angular_points * i]);
     Parallel::printf("combine\n");
     get(*dr_dr_j).data()[i] = std::complex(real_dr_dr_j, imag_dr_dr_j);
   }
