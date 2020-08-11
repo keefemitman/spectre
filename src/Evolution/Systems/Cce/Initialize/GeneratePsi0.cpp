@@ -48,7 +48,7 @@ void read_in_worldtube_data(
     const size_t l_max,
     const size_t target_idx,
     const double target_time) noexcept {
-
+  Parallel::printf("reading\n");
   SpecWorldtubeH5BufferUpdater target_buffer_updater{files[target_idx]};
   const double target_radius = target_buffer_updater.get_extraction_radius();
 
@@ -103,7 +103,7 @@ void second_derivative_of_j_from_worldtubes(
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r,
     const size_t l_max,
     const size_t target_idx) noexcept {
-
+  Parallel::printf("dr_dr_j\n");
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   const size_t number_of_radial_points =
@@ -177,7 +177,7 @@ void GeneratePsi0::operator()(
     const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r, const size_t l_max,
     const size_t number_of_radial_points) const noexcept {
-
+  Parallel::printf("starting\n");
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_container{
@@ -236,7 +236,7 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf(std::to_string(real(get(psi_0).data()[i])));
+    Parallel::printf(std::to_string(real(get(psi_0).data()[i]))+"\n");
   }
 }
 
