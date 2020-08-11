@@ -115,9 +115,9 @@ void second_derivative_of_j_from_worldtubes(
 
   Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
-    const DataVector r_real_part = real(get(r).data());
-    const DataVector dr_j_real_part = real(get(dr_j).data());
-    const DataVector dr_j_imag_part = imag(get(dr_j).data());
+    const DataVector r_real_part = real(get(r_transpose).data());
+    const DataVector dr_j_real_part = real(get(dr_j_transpose).data());
+    const DataVector dr_j_imag_part = imag(get(dr_j_transpose).data());
     gsl::span<const double> span_r_real_part(
         r_real_part.data()
             + number_of_radial_points * i, number_of_radial_points);
@@ -130,8 +130,8 @@ void second_derivative_of_j_from_worldtubes(
     intrp::BarycentricRationalSpanInterpolator interpolator{3_st, 4_st};
 
     Parallel::printf("span stuff\n");
-    Parallel::printf("r\n");
     for(int i=0; i < span_r_real_part.size(); ++i) {
+      Parallel::printf("r\n");
       Parallel::printf(std::to_string(span_r_real_part[i])+"\n");
       Parallel::printf("dr_j_real\n");
       Parallel::printf(std::to_string(span_dr_j_real_part[i])+"\n");
