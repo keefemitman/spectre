@@ -7,6 +7,7 @@
 #include <limits>
 #include <string>
 
+#include "Evolution/Systems/Cce/Initialize/GeneratePsi0.hpp"
 #include "Evolution/Systems/Cce/Initialize/InitializeJ.hpp"
 #include "Evolution/Systems/Cce/Initialize/InverseCubic.hpp"
 #include "Evolution/Systems/Cce/Initialize/NoIncomingRadiation.hpp"
