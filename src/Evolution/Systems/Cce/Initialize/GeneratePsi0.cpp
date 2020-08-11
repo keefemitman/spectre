@@ -147,11 +147,13 @@ void second_derivative_of_j_from_worldtubes(
     Parallel::printf(std::to_string(
         r_real_part.data()[target_idx + number_of_angular_points * i])+"\n");
     Parallel::printf(std::to_string(
-    interpolated_dr_j_real_part(
-        r_real_part.data()[target_idx + number_of_angular_points * i])+"\n"));
+        interpolated_dr_j_real_part(
+            r_real_part.data()
+                [target_idx + number_of_angular_points * i]))+"\n");
     Parallel::printf(std::to_string(
-    interpolated_dr_j_imag_part(
-        r_real_part.data()[target_idx + number_of_angular_points * i])+"\n"));
+        interpolated_dr_j_imag_part(
+            r_real_part.data()
+                [target_idx + number_of_angular_points * i]))+"\n");
     auto real_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_real_part,
             r_real_part.data()[target_idx + number_of_angular_points * i]);
