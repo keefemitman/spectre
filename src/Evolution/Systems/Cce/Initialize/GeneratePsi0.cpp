@@ -200,6 +200,7 @@ void GeneratePsi0::operator()(
       make_not_null(&dr_dr_j_at_radius),
       dr_j_container, r_container, l_max, target_idx_);
 
+  Parallel::printf("psi_0 variables\n");
   // acquire variables for psi_0
   size_t start_idx = number_of_angular_points * target_idx_;
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_at_radius;
@@ -225,6 +226,7 @@ void GeneratePsi0::operator()(
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
       get(r_at_radius).data() * get(dr_dr_j_at_radius).data()};
 
+  Parallel::printf("compute psi_0\n");
   // compute psi_0
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_minus_y{
       number_of_angular_points};
@@ -238,6 +240,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
+  Parallel::printf("print psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
     Parallel::printf(std::to_string(real(get(psi_0).data()[i]))+"\n");
   }
