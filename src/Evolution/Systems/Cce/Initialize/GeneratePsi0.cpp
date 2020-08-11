@@ -113,6 +113,7 @@ void second_derivative_of_j_from_worldtubes(
   auto dr_j_transpose = transpose(
       get(dr_j).data(), number_of_angular_points, number_of_radial_points);
 
+  Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
     const DataVector r_real_part = real(get(r).data());
     const DataVector dr_j_real_part = real(get(dr_j).data());
@@ -132,6 +133,7 @@ void second_derivative_of_j_from_worldtubes(
             number_of_radial_points * i, number_of_radial_points);
     intrp::BarycentricRationalSpanInterpolator interpolator{3_st, 4_st};
 
+    Parallel::printf("span stuff\n");
     auto interpolated_dr_j_real_part =
         [&span_r_real_part, &span_dr_j_real_part, &interpolator](const double r)
         noexcept {
@@ -144,6 +146,7 @@ void second_derivative_of_j_from_worldtubes(
             return interpolator.interpolate(
                 span_r_imag_part, span_dr_j_imag_part, r);
         };
+    Parallel::printf("differentiation\n");
     auto real_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_real_part,
             r_real_part.data()[target_idx + number_of_angular_points * i]);
