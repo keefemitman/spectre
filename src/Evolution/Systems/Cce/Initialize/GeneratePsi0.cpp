@@ -195,7 +195,14 @@ void GeneratePsi0::operator()(
       make_not_null(&dr_dr_j_at_radius),
       dr_j_container, r_container, l_max, target_idx_);
 
-  Parallel::printf("psi_0 variables\n");
+  Parallel::printf("Print dr_dr_j\n");
+  for(int i = 0; i < get(dr_dr_j_at_radius).data().size(); ++i) {
+    Parallel::printf("%d / %d: %e + i %e \n",
+        i, get(dr_dr_j_at_radius).data().size(),
+        real(get(dr_dr_j_at_radius).data()[i]),
+        imag(get(dr_dr_j_at_radius).data()[i]));
+  }
+
   // acquire variables for psi_0
   size_t start_idx = number_of_angular_points * target_idx_;
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_at_radius;
@@ -219,7 +226,8 @@ void GeneratePsi0::operator()(
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
       get(r_at_radius).data() * get(dr_j_at_radius).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
-      get(r_at_radius).data() * get(dr_dr_j_at_radius).data()};
+      get(r_at_radius).data() * get(r_at_radius).data()
+          * get(dr_dr_j_at_radius).data()};
 
   Parallel::printf("Compute Psi_0\n");
   // compute psi_0
@@ -237,7 +245,8 @@ void GeneratePsi0::operator()(
                                 one_minus_y);
   Parallel::printf("Print Psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf("%e + i %e \n",
+    Parallel::printf("%d / %d: %e + i %e \n",
+        i, get(psi_0).data().size(),
         real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]));
   }
   Parallel::printf("Finished Running!\n");
