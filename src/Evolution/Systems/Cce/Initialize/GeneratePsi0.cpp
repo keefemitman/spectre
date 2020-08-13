@@ -235,11 +235,11 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("Print Psi_0\n");
+
+  Parallel::printf("%s / %s: %s %s\n",
+      "index","number of indices","Psi_0","dr_dr_j");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf("%s / %s: %s %s\n",
-        "index","number of indices","Psi_0","dr_dr_j");
-    Parallel::printf("%d / %d: %e + %e i\n",
+    Parallel::printf("%d / %d: %e + %e i; %e + %e i\n",
         i, get(psi_0).data().size()-1,
         real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]),
         real(get(dr_dr_j_at_radius).data()[i]),
