@@ -235,24 +235,14 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
 
-  Parallel::printf("%s / %s: %s ; %s ; %s ; %s ; %s ; %s\n",
-      "index","number of indices","Psi_0","j","dy_j","dy_dy_j","k","1-y");
+  Parallel::printf("%s / %s: %s \n",
+      "index","number of indices","Psi_0+dr_dr_j");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
     Parallel::printf(
-        "%d / %d: %e + %e i; %e + %e i; %e + %e i; "
-        "%e + %e i; %e + %e i; %e + %e i\n",
+        "%d / %d: %e + %e i \n",
         i, get(psi_0).data().size()-1,
-        real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]),
-        real(get(j_at_radius).data()[i]),
-        imag(get(j_at_radius).data()[i]),
-        real(get(dy_j_at_radius).data()[i]),
-        imag(get(dy_j_at_radius).data()[i]),
-        real(get(dy_dy_j_at_radius).data()[i]),
-        imag(get(dy_dy_j_at_radius).data()[i]),
-        real(get(k_at_radius).data()[i]),
-        imag(get(k_at_radius).data()[i]),
-        real(get(one_minus_y).data()[i]),
-        imag(get(one_minus_y).data()[i]));
+        real(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]),
+        imag(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]));
   }
   Parallel::printf("Finished Running!\n");
 }
