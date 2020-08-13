@@ -109,25 +109,16 @@ void second_derivative_of_j_from_worldtubes(
   const size_t number_of_radial_points =
       get(r).size() / number_of_angular_points;
 
-  Parallel::printf("before transpose\n");
-  for(size_t i = 0; i < get(r).data().size(); ++i) {
-    Parallel::printf(std::to_string(real(get(r).data().data()[i]))+"\n");
-  }
-  auto trans_r = transpose(get(r).data(),
+  auto r_transpose = transpose(get(r).data(),
       number_of_angular_points, number_of_radial_points);
-  auto trans_dr_j = transpose(get(dr_j).data(),
+  auto dr_j_transpose = transpose(get(dr_j).data(),
       number_of_angular_points, number_of_radial_points);
-
-  Parallel::printf("after transpose\n");
-  for(size_t i = 0; i < trans_r.size(); ++i) {
-    Parallel::printf(std::to_string(real(trans_r.data()[i]))+"\n");
-  }
 
   Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
-    const DataVector r_real_part = real(get(r).data());
-    const DataVector dr_j_real_part = real(get(dr_j).data());
-    const DataVector dr_j_imag_part = imag(get(dr_j).data());
+    const DataVector r_real_part = real(r_tranpose);
+    const DataVector dr_j_real_part = real(dr_j_transpose);
+    const DataVector dr_j_imag_part = imag(dr_j_transpose);
     gsl::span<const double> span_r_real_part(
         r_real_part.data()
             + number_of_radial_points * i, number_of_radial_points);
