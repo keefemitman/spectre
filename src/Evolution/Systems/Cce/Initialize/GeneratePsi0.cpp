@@ -237,8 +237,8 @@ void GeneratePsi0::operator()(
                                 one_minus_y);
   Parallel::printf("Print Psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf("%e",real(get(psi_0).data()[i])+"\n");
-    Parallel::printf("%e",imag(get(psi_0).data()[i])+"\n");
+    Parallel::printf("%e + i %e \n",
+        real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]));
   }
   Parallel::printf("Finished Running!\n");
 }
