@@ -238,7 +238,7 @@ void GeneratePsi0::operator()(
   Parallel::printf("Print Psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
     Parallel::printf("%s / %s: %s %s\n",
-        "index","number of indices","Psi_0","dr_dr_j")
+        "index","number of indices","Psi_0","dr_dr_j");
     Parallel::printf("%d / %d: %e + %e i\n",
         i, get(psi_0).data().size()-1,
         real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]),
