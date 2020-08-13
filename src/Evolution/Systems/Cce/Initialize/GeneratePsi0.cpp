@@ -48,7 +48,7 @@ void read_in_worldtube_data(
     const size_t l_max,
     const size_t target_idx,
     const double target_time) noexcept {
-  Parallel::printf("reading\n");
+
   SpecWorldtubeH5BufferUpdater target_buffer_updater{files[target_idx]};
   const double target_radius = target_buffer_updater.get_extraction_radius();
 
@@ -103,7 +103,7 @@ void second_derivative_of_j_from_worldtubes(
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r,
     const size_t l_max,
     const size_t target_idx) noexcept {
-  Parallel::printf("dr_dr_j\n");
+
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   const size_t number_of_radial_points =
@@ -114,7 +114,6 @@ void second_derivative_of_j_from_worldtubes(
   auto dr_j_transpose = transpose(get(dr_j).data(),
       number_of_angular_points, number_of_radial_points);
 
-  Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
     const DataVector r_real_part = real(r_transpose);
     const DataVector dr_j_real_part = real(dr_j_transpose);
@@ -130,15 +129,6 @@ void second_derivative_of_j_from_worldtubes(
             + number_of_radial_points * i, number_of_radial_points);
     intrp::BarycentricRationalSpanInterpolator interpolator{3_st, 4_st};
 
-    Parallel::printf("span stuff\n");
-    for(int i=0; i < span_r_real_part.size(); ++i) {
-      Parallel::printf("r\n");
-      Parallel::printf(std::to_string(span_r_real_part[i])+"\n");
-      Parallel::printf("dr_j_real\n");
-      Parallel::printf(std::to_string(span_dr_j_real_part[i])+"\n");
-      Parallel::printf("dr_j_imag\n");
-      Parallel::printf(std::to_string(span_dr_j_imag_part[i])+"\n");
-    }
     auto interpolated_dr_j_real_part =
         [&span_r_real_part, &span_dr_j_real_part, &interpolator](const double r)
         noexcept {
@@ -152,25 +142,12 @@ void second_derivative_of_j_from_worldtubes(
                 span_r_real_part, span_dr_j_imag_part, r);
         };
 
-    Parallel::printf("real\n");
-    Parallel::printf(std::to_string(
-        r_real_part.data()[target_idx + number_of_radial_points * i])+"\n");
-    Parallel::printf(std::to_string(
-        interpolated_dr_j_real_part(
-            r_real_part.data()
-                [target_idx + number_of_radial_points * i]))+"\n");
-    Parallel::printf(std::to_string(
-        interpolated_dr_j_imag_part(
-            r_real_part.data()
-                [target_idx + number_of_radial_points * i]))+"\n");
     auto real_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_real_part,
             r_real_part.data()[target_idx + number_of_radial_points * i]);
-    Parallel::printf("imag\n");
     auto imag_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_imag_part,
             r_real_part.data()[target_idx + number_of_radial_points * i]);
-    Parallel::printf("combine\n");
     get(*dr_dr_j).data()[i] = std::complex(real_dr_dr_j, imag_dr_dr_j);
   }
 }
@@ -198,7 +175,7 @@ void GeneratePsi0::operator()(
     const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r, const size_t l_max,
     const size_t number_of_radial_points) const noexcept {
-  Parallel::printf("starting\n");
+
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_container{
@@ -244,7 +221,7 @@ void GeneratePsi0::operator()(
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
       get(r_at_radius).data() * get(dr_dr_j_at_radius).data()};
 
-  Parallel::printf("compute psi_0\n");
+  Parallel::printf("Compute Psi_0\n");
   // compute psi_0
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_minus_y{
       number_of_angular_points};
@@ -258,10 +235,12 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("print psi_0\n");
+  Parallel::printf("Print Psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf(std::to_string(real(get(psi_0).data()[i]))+"\n");
+    Parallel::printf("%e",real(get(psi_0).data()[i])+"\n");
+    Parallel::printf("%e",imag(get(psi_0).data()[i])+"\n");
   }
+  Parallel::printf("Finished Running!\n");
 }
 
 void GeneratePsi0::pup(PUP::er& p) noexcept {
