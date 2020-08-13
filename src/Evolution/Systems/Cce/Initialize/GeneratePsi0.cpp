@@ -154,22 +154,22 @@ void second_derivative_of_j_from_worldtubes(
 
     Parallel::printf("real\n");
     Parallel::printf(std::to_string(
-        r_real_part.data()[target_idx + number_of_angular_points * i])+"\n");
+        r_real_part.data()[target_idx + number_of_radial_points * i])+"\n");
     Parallel::printf(std::to_string(
         interpolated_dr_j_real_part(
             r_real_part.data()
-                [target_idx + number_of_angular_points * i]))+"\n");
+                [target_idx + number_of_radial_points * i]))+"\n");
     Parallel::printf(std::to_string(
         interpolated_dr_j_imag_part(
             r_real_part.data()
-                [target_idx + number_of_angular_points * i]))+"\n");
+                [target_idx + number_of_radial_points * i]))+"\n");
     auto real_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_real_part,
-            r_real_part.data()[target_idx + number_of_angular_points * i]);
+            r_real_part.data()[target_idx + number_of_radial_points * i]);
     Parallel::printf("imag\n");
     auto imag_dr_dr_j = boost::math::differentiation::
         finite_difference_derivative(interpolated_dr_j_imag_part,
-            r_real_part.data()[target_idx + number_of_angular_points * i]);
+            r_real_part.data()[target_idx + number_of_radial_points * i]);
     Parallel::printf("combine\n");
     get(*dr_dr_j).data()[i] = std::complex(real_dr_dr_j, imag_dr_dr_j);
   }
