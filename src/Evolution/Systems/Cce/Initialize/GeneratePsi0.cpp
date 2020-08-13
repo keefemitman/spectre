@@ -239,7 +239,7 @@ void GeneratePsi0::operator()(
       "index","number of indices","Psi_0","j","dy_j","dy_dy_j","k","1-y");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
     Parallel::printf(
-        "%d / %d: %e + %e i; %e + %e i; %e + %e i; "+
+        "%d / %d: %e + %e i; %e + %e i; %e + %e i; "
         "%e + %e i; %e + %e i; %e + %e i\n",
         i, get(psi_0).data().size()-1,
         real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]),
