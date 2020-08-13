@@ -116,7 +116,7 @@ void second_derivative_of_j_from_worldtubes(
 
   Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
-    const DataVector r_real_part = real(r_tranpose);
+    const DataVector r_real_part = real(r_transpose);
     const DataVector dr_j_real_part = real(dr_j_transpose);
     const DataVector dr_j_imag_part = imag(dr_j_transpose);
     gsl::span<const double> span_r_real_part(
