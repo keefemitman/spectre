@@ -109,12 +109,19 @@ void second_derivative_of_j_from_worldtubes(
   const size_t number_of_radial_points =
       get(r).size() / number_of_angular_points;
 
-  Parallel::printf(std::to_string(get(r).data().size())+"\n");
+  Parallel::printf("before transpose\n");
+  for(size_t i = 0; i < get(r).data().size()) {
+    Parallel::printf(std::to_string(get(r).data()[i])+"\n");
+  }
   transpose(get(r).data(),
       number_of_angular_points, number_of_radial_points);
   transpose(get(dr_j).data(),
       number_of_angular_points, number_of_radial_points);
-  Parallel::printf(std::to_string(get(r).data().size())+"\n");
+
+  Parallel::printf("after transpose\n");
+  for(size_t i = 0; i < get(r).data().size()) {
+    Parallel::printf(std::to_string(get(r).data()[i])+"\n");
+  }
 
   Parallel::printf("for loop\n");
   for(size_t i = 0; i < number_of_angular_points; ++i) {
