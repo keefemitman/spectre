@@ -197,8 +197,8 @@ void GeneratePsi0::operator()(
 
   Parallel::printf("Print dr_dr_j\n");
   for(int i = 0; i < get(dr_dr_j_at_radius).data().size(); ++i) {
-    Parallel::printf("%d / %d: %e + i %e \n",
-        i, get(dr_dr_j_at_radius).data().size(),
+    Parallel::printf("%d / %d: %e + %e i\n",
+        i, get(dr_dr_j_at_radius).data().size()-1,
         real(get(dr_dr_j_at_radius).data()[i]),
         imag(get(dr_dr_j_at_radius).data()[i]));
   }
@@ -243,10 +243,16 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
+  Parallel::printf("Check r\n");
+  for(int i = 0; i < get(r_at_radius).data().size(); ++i) {
+    Parallel::printf("%d / %d: %e + %e i\n",
+        i, get(r_at_radius).data().size()-1,
+        real(get(r_at_radius).data()[i]),imag(get(r_at_radius).data()[i]));
+  }
   Parallel::printf("Print Psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf("%d / %d: %e + i %e \n",
-        i, get(psi_0).data().size(),
+    Parallel::printf("%d / %d: %e + %e i\n",
+        i, get(psi_0).data().size()-1,
         real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]));
   }
   Parallel::printf("Finished Running!\n");
