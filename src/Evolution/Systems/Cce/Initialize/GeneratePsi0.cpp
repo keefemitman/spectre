@@ -195,14 +195,6 @@ void GeneratePsi0::operator()(
       make_not_null(&dr_dr_j_at_radius),
       dr_j_container, r_container, l_max, target_idx_);
 
-  Parallel::printf("Print dr_dr_j\n");
-  for(int i = 0; i < get(dr_dr_j_at_radius).data().size(); ++i) {
-    Parallel::printf("%d / %d: %e + %e i\n",
-        i, get(dr_dr_j_at_radius).data().size()-1,
-        real(get(dr_dr_j_at_radius).data()[i]),
-        imag(get(dr_dr_j_at_radius).data()[i]));
-  }
-
   // acquire variables for psi_0
   size_t start_idx = number_of_angular_points * target_idx_;
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_at_radius;
@@ -243,17 +235,15 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("Check r\n");
-  for(int i = 0; i < get(r_at_radius).data().size(); ++i) {
-    Parallel::printf("%d / %d: %e + %e i\n",
-        i, get(r_at_radius).data().size()-1,
-        real(get(r_at_radius).data()[i]),imag(get(r_at_radius).data()[i]));
-  }
   Parallel::printf("Print Psi_0\n");
   for(int i = 0; i < get(psi_0).data().size(); ++i) {
+    Parallel::printf("%s / %s: %s %s\n",
+        "index","number of indices","Psi_0","dr_dr_j")
     Parallel::printf("%d / %d: %e + %e i\n",
         i, get(psi_0).data().size()-1,
-        real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]));
+        real(get(psi_0).data()[i]),imag(get(psi_0).data()[i]),
+        real(get(dr_dr_j_at_radius).data()[i]),
+        imag(get(dr_dr_j_at_radius).data()[i]));
   }
   Parallel::printf("Finished Running!\n");
 }
