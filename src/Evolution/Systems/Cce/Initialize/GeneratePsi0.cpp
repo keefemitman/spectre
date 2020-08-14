@@ -167,7 +167,7 @@ void radial_evolve_psi0_condition(
     const size_t number_of_radial_points) noexcept {
   // use the maximum to measure the scale for the vector quantities
   const double j_scale = max(abs(boundary_j.data()));
-  const double dy_j_scale = max(abs(boundary_dr_j.data() * r.data()));
+  const double dy_j_scale = max(abs(0.5 * boundary_dr_j.data() * r.data()));
   // set initial step size according to the first couple of steps in section
   // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
   // Wanner
@@ -204,10 +204,10 @@ void radial_evolve_psi0_condition(
       dense_stepper = boost::numeric::odeint::make_dense_output(
           1.0e-14, 1.0e-14,
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<ComplexDataVector, 2>>{});
+              std::array<ComplexDataVector, 3>>{});
   dense_stepper.initialize(
       std::array<ComplexDataVector, 3>{
-          {boundary_j.data(), boundary_dr_j.data() * r.data(),
+          {boundary_j.data(), 0.5 * boundary_dr_j.data() * r.data(),
            boundary_psi_0.data()}},
       -1.0, initial_radial_step);
   auto state_buffer =
@@ -305,9 +305,9 @@ void GeneratePsi0::operator()(
       sqrt(1.0 + get(j_at_radius).data() * conj(get(j_at_radius).data()))};
 
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
-      get(r_at_radius).data() * get(dr_j_at_radius).data()};
+      0.5 * get(r_at_radius).data() * get(dr_j_at_radius).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
-      get(r_at_radius).data() * get(r_at_radius).data()
+      (0.5 * get(r_at_radius).data()) ** 2.0
           * get(dr_dr_j_at_radius).data()};
 
   // compute psi_0
