@@ -24,12 +24,17 @@
 #include "Evolution/Systems/Cce/ReadBoundaryDataH5.hpp"
 #include "NumericalAlgorithms/Interpolation/BarycentricRationalSpanInterpolator.hpp"
 #include "NumericalAlgorithms/Interpolation/SpanInterpolator.hpp"
+#include "NumericalAlgorithms/OdeIntegration/OdeIntegration.hpp"
 #include "NumericalAlgorithms/Spectral/Spectral.hpp"
 #include "NumericalAlgorithms/Spectral/SwshCollocation.hpp"
 #include "NumericalAlgorithms/Spectral/SwshDerivatives.hpp"
 #include "NumericalAlgorithms/Spectral/SwshInterpolation.hpp"
 #include "NumericalAlgorithms/Spectral/SwshTags.hpp"
 #include "Parallel/Printf.hpp"
+#include "Time/Slab.hpp"
+#include "Time/Time.hpp"
+#include "Time/TimeStepId.hpp"
+#include "Time/TimeSteppers/RungeKutta3.hpp"
 #include "Utilities/Gsl.hpp"
 #include "Utilities/TMPL.hpp"
 
@@ -151,6 +156,91 @@ void second_derivative_of_j_from_worldtubes(
     get(*dr_dr_j).data()[i] = std::complex(real_dr_dr_j, imag_dr_dr_j);
   }
 }
+
+void radial_evolve_psi0_condition(
+    const gsl::not_null<SpinWeighted<ComplexDataVector, 2>*> volume_j_id,
+    const SpinWeighted<ComplexDataVector, 2>& boundary_j,
+    const SpinWeighted<ComplexDataVector, 2>& boundary_dr_j,
+    const SpinWeighted<ComplexDataVector, 0>& boundary_psi_0,
+    const SpinWeighted<ComplexDataVector, 0>& r, const size_t l_max,
+    const size_t number_of_radial_points) noexcept {
+  // use the maximum to measure the scale for the vector quantities
+  const double j_scale = max(abs(boundary_j.data()));
+  const double dy_j_scale = max(abs(0.5 * boundary_dr_j.data() * r.data()));
+  // set initial step size according to the first couple of steps in section
+  // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
+  // Wanner
+  double initial_radial_step = 1.0e-6;
+  if (j_scale > 1.0e-5 and dy_j_scale > 1.0e-5) {
+    initial_radial_step = 0.01 * j_scale / dy_j_scale;
+  }
+
+  const auto psi_0_condition_system =
+      [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+         std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
+         std::array<ComplexDataVector, 0>& psi_0
+         const double y) noexcept {
+        dy_j_and_dy_i[0] = bondi_j_and_i[1];
+        const auto& bondi_j = bondi_j_and_i[0];
+        const auto& bondi_i = bondi_j_and_i[1];
+        const auto& bondi_psi_0 = psi_0[0];
+        dy_j_and_dy_i[1] =
+            0.5 *
+            (conj(bondi_psi_0) * square(bondi_j)
+            / (2.0 + conj(bondi_j) * bondi_j +
+               2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
+            bondi_psi_0) +
+            -0.0625 *
+            (square(conj(bondi_i) * bondi_j) + square(conj(bondi_j) * bondi_i) -
+             2.0 * bondi_i * conj(bondi_i) * (2.0 + bondi_j * conj(bondi_j))) *
+            (4.0 * bondi_j + bondi_i * (1.0 - y)) /
+            (1.0 + bondi_j * conj(bondi_j));
+      };
+
+  boost::numeric::odeint::dense_output_runge_kutta<
+      boost::numeric::odeint::controlled_runge_kutta<
+          boost::numeric::odeint::runge_kutta_dopri5<
+              std::array<ComplexDataVector, 2>>>>
+      dense_stepper = boost::numeric::odeint::make_dense_output(
+          1.0e-14, 1.0e-14,
+          boost::numeric::odeint::runge_kutta_dopri5<
+              std::array<ComplexDataVector, 2>>{});
+  dense_stepper.initialize(
+      std::array<ComplexDataVector, 2>{
+          {boundary_j.data(), boundary_dr_j.data() * r.data()}},
+      std::array<ComplexDataVector, 0>{
+          {boundary_psi_0.data()}},
+      -1.0, initial_radial_step);
+  auto state_buffer =
+      std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
+                                        ComplexDataVector{boundary_j.size()}}};
+
+  std::pair<double, double> step_range =
+      dense_stepper.do_step(psi_0_condition_system);
+  const auto& y_collocation =
+      Spectral::collocation_points<Spectral::Basis::Legendre,
+                                   Spectral::Quadrature::GaussLobatto>(
+                                       number_of_radial_points);
+  for (size_t y_collocation_point = 0;
+       y_collocation_point < number_of_radial_points; ++y_collocation_point) {
+    while(step_range.second < y_collocation[y_collocation_point]) {
+      step_range = dense_stepper.do_step(psi_0_condition_system);
+    }
+    if (step_range.second < y_collocation[y_collocation_point] or
+        step_range.first > y_collocation[y_collocation_point]) {
+      ERROR(
+          "Psi 0 radial integration failed. The current y value is "
+          "incompatible with the required Gauss-Lobatto point.");
+    }
+    dense_stepper.calc_state(y_collocation[y_collocation_point], state_buffer);
+    ComplexDataVector angular_view{
+        volume_j_id->data().data() +
+            y_collocation_point *
+                Spectral::Swsh::number_of_swsh_collocation_points(l_max),
+        Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
+    angular_view = state_buffer[0];
+  }
+}
 }  // namespace detail
 
 GeneratePsi0::GeneratePsi0(
@@ -235,15 +325,56 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
 
-  Parallel::printf("%s / %s: %s \n",
-      "index","number of indices","Psi_0+dr_dr_j");
-  for(int i = 0; i < get(psi_0).data().size(); ++i) {
+  //Parallel::printf("%s / %s: %s \n",
+  //    "index","number of indices","Psi_0+dr_dr_j");
+  //for(int i = 0; i < get(psi_0).data().size(); ++i) {
+  //  Parallel::printf(
+  //      "%d / %d: %e + %e i \n",
+  //      i, get(psi_0).data().size()-1,
+  //      real(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]),
+  //      imag(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]));
+  //}
+
+  detail::radial_evolve_psi_0_condition(
+      make_not_null(&get(*j)), get(j_at_radius),
+      get(dr_j_at_radius), get(r), l_max, number_of_radial_points);
+  const SpinWeighted<ComplexDataVector, 2> j_at_scri_view;
+  make_const_view(make_not_null(&j_at_scri_view), get(*j),
+                  (number_of_radial_points - 1) * number_of_angular_points,
+                  number_of_angular_points);
+
+  const double final_angular_coordinate_deviation =
+      detail::adjust_angular_coordinates_for_j(
+          j, cartesian_cauchy_coordinates, angular_cauchy_coordinates,
+          j_at_scri_view, l_max, angular_coordinate_tolerance_, max_iterations_,
+          true);
+
+  bool require_convergence_ = false;
+  double angular_coordinate_tolerance_ = 1.0e-10;
+  size_t max_iterations_ = 300;
+  if (final_angular_coordinate_deviation > angular_coordinate_tolerance_ and
+      require_convergence_) {
+    ERROR(
+        "Initial data iterative angular solve did not reach "
+        "target tolerance "
+        << angular_coordinate_tolerance_ << ".\n"
+        << "Exited after " << max_iterations_
+        << " iterations, achieving final\n"
+           "maximum over collocation points deviation of J from target of "
+        << final_angular_coordinate_deviation);
+  } else if (final_angular_coordinate_deviation >
+             angular_coordinate_tolerance_) {
     Parallel::printf(
-        "%d / %d: %e + %e i \n",
-        i, get(psi_0).data().size()-1,
-        real(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]),
-        imag(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]));
+        "Warning: iterative angular solve did not reach "
+        "target tolerance %e.\n"
+        "Exited after %zu iterations, achieving final maximum over "
+        "collocation points deviation of J from target of %e\n"
+        "Proceeding with evolution using the partial result from partial "
+        "angular solve.",
+        angular_coordinate_tolerance_, max_iterations_,
+        final_angular_coordinate_deviation);
   }
+
   Parallel::printf("Finished Running!\n");
 }
 
