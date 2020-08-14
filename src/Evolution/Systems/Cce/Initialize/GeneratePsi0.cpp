@@ -162,7 +162,7 @@ void radial_evolve_psi0_condition(
     const gsl::not_null<SpinWeighted<ComplexDataVector, 2>*> volume_j_id,
     const SpinWeighted<ComplexDataVector, 2>& boundary_j,
     const SpinWeighted<ComplexDataVector, 2>& boundary_dr_j,
-    const SpinWeighted<ComplexDataVector, 2>& boundary_psi_0,
+    const SpinWeighted<ComplexDataVector, 2>& psi_0,
     const SpinWeighted<ComplexDataVector, 0>& r, const size_t l_max,
     const size_t number_of_radial_points) noexcept {
   // use the maximum to measure the scale for the vector quantities
@@ -177,43 +177,41 @@ void radial_evolve_psi0_condition(
   }
 
   const auto psi_0_condition_system =
-      [](const std::array<ComplexDataVector, 3>& bondi_j_and_i,
-         std::array<ComplexDataVector, 3>& dy_j_and_dy_i,
+      [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+         std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
-        const auto& bondi_psi_0 = bondi_j_and_i[2];
+        //const auto& bondi_psi_0 = bondi_j_and_i[2];
         dy_j_and_dy_i[1] =
             0.5 *
-            (conj(bondi_psi_0) * square(bondi_j)
+            (conj(get(psi_0).data()) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
                 2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-             bondi_psi_0) +
+             get(psi_0).data()) +
             -0.0625 *
             (square(conj(bondi_i) * bondi_j) + square(conj(bondi_j) * bondi_i) -
              2.0 * bondi_i * conj(bondi_i) * (2.0 + bondi_j * conj(bondi_j))) *
             (4.0 * bondi_j + bondi_i * (1.0 - y)) /
             (1.0 + bondi_j * conj(bondi_j));
-        dy_j_and_dy_i[2] = bondi_j_and_i[2];
+        //dy_j_and_dy_i[2] = bondi_j_and_i[2];
       };
 
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<ComplexDataVector, 3>>>>
+              std::array<ComplexDataVector, 2>>>>
       dense_stepper = boost::numeric::odeint::make_dense_output(
           1.0e-14, 1.0e-14,
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<ComplexDataVector, 3>>{});
+              std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
-      std::array<ComplexDataVector, 3>{
-          {boundary_j.data(), 0.5 * boundary_dr_j.data() * r.data(),
-           boundary_psi_0.data()}},
+      std::array<ComplexDataVector, 2>{
+          {boundary_j.data(), 0.5 * boundary_dr_j.data() * r.data()}},
       -1.0, initial_radial_step);
   auto state_buffer =
       std::array<ComplexDataVector, 3>{{ComplexDataVector{boundary_j.size()},
-                                        ComplexDataVector{boundary_j.size()},
                                         ComplexDataVector{boundary_j.size()}}};
 
   std::pair<double, double> step_range =
