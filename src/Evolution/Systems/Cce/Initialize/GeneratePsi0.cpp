@@ -176,6 +176,7 @@ void radial_evolve_psi0_condition(
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
 
+  ComplexDataVector psi_0 = boundary_psi_0.data()
   const auto psi_0_condition_system =
       [&psi_0](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
@@ -213,7 +214,7 @@ void radial_evolve_psi0_condition(
                                         ComplexDataVector{boundary_j.size()}}};
 
   std::pair<double, double> step_range =
-      dense_stepper.do_step(psi_0_condition_system, boundary_psi_0.data());
+      dense_stepper.do_step(psi_0_condition_system);
   const auto& y_collocation =
       Spectral::collocation_points<Spectral::Basis::Legendre,
                                    Spectral::Quadrature::GaussLobatto>(
@@ -221,8 +222,7 @@ void radial_evolve_psi0_condition(
   for (size_t y_collocation_point = 0;
        y_collocation_point < number_of_radial_points; ++y_collocation_point) {
     while(step_range.second < y_collocation[y_collocation_point]) {
-      step_range = dense_stepper.do_step(psi_0_condition_system,
-          boundary_psi_0.data());
+      step_range = dense_stepper.do_step(psi_0_condition_system);
     }
     if (step_range.second < y_collocation[y_collocation_point] or
         step_range.first > y_collocation[y_collocation_point]) {
