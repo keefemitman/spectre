@@ -166,7 +166,7 @@ void radial_evolve_psi0_condition(
     const size_t number_of_radial_points) noexcept {
   // use the maximum to measure the scale for the vector quantities
   const double j_scale = max(abs(boundary_j.data()));
-  const double dy_j_scale = max(abs(0.5 * boundary_dr_j.data() * r.data()));
+  const double dy_j_scale = max(abs(boundary_dr_j.data() * r.data()));
   // set initial step size according to the first couple of steps in section
   // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
   // Wanner
@@ -335,7 +335,7 @@ void GeneratePsi0::operator()(
   //      imag(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]));
   //}
 
-  detail::radial_evolve_psi_0_condition(
+  detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
       get(dr_j_at_radius), get(r), l_max, number_of_radial_points);
   const SpinWeighted<ComplexDataVector, 2> j_at_scri_view;
@@ -343,15 +343,15 @@ void GeneratePsi0::operator()(
                   (number_of_radial_points - 1) * number_of_angular_points,
                   number_of_angular_points);
 
+  bool require_convergence_ = false;
+  double angular_coordinate_tolerance_ = 1.0e-14;
+  size_t max_iterations_ = 1000;
   const double final_angular_coordinate_deviation =
       detail::adjust_angular_coordinates_for_j(
           j, cartesian_cauchy_coordinates, angular_cauchy_coordinates,
           j_at_scri_view, l_max, angular_coordinate_tolerance_, max_iterations_,
           true);
 
-  bool require_convergence_ = false;
-  double angular_coordinate_tolerance_ = 1.0e-14;
-  size_t max_iterations_ = 1000;
   if (final_angular_coordinate_deviation > angular_coordinate_tolerance_ and
       require_convergence_) {
     ERROR(
