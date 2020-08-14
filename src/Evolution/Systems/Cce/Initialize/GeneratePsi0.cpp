@@ -200,7 +200,7 @@ void radial_evolve_psi0_condition(
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<ComplexDataVector, 2>>>>
+              std::array<ComplexDataVector, 3>>>>
       dense_stepper = boost::numeric::odeint::make_dense_output(
           1.0e-14, 1.0e-14,
           boost::numeric::odeint::runge_kutta_dopri5<
