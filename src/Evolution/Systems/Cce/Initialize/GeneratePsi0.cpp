@@ -350,8 +350,8 @@ void GeneratePsi0::operator()(
           true);
 
   bool require_convergence_ = false;
-  double angular_coordinate_tolerance_ = 1.0e-10;
-  size_t max_iterations_ = 300;
+  double angular_coordinate_tolerance_ = 1.0e-14;
+  size_t max_iterations_ = 1000;
   if (final_angular_coordinate_deviation > angular_coordinate_tolerance_ and
       require_convergence_) {
     ERROR(
