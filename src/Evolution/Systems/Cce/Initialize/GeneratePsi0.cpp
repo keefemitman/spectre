@@ -176,7 +176,7 @@ void radial_evolve_psi0_condition(
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
 
-  ComplexDataVector psi_0 = boundary_psi_0.data()
+  ComplexDataVector psi_0 = boundary_psi_0.data();
   const auto psi_0_condition_system =
       [&psi_0](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
