@@ -178,18 +178,17 @@ void radial_evolve_psi0_condition(
   const auto psi_0_condition_system =
       [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
-         std::array<ComplexDataVector, 0>& psi_0,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
-        const auto& bondi_psi_0 = psi_0[0];
+        const auto& bondi_psi_0 = bondi_j_and_i[2];
         dy_j_and_dy_i[1] =
             0.5 *
             (conj(bondi_psi_0) * square(bondi_j)
-            / (2.0 + conj(bondi_j) * bondi_j +
-               2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-            bondi_psi_0) +
+             / (2.0 + conj(bondi_j) * bondi_j +
+                2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
+             bondi_psi_0) +
             -0.0625 *
             (square(conj(bondi_i) * bondi_j) + square(conj(bondi_j) * bondi_i) -
              2.0 * bondi_i * conj(bondi_i) * (2.0 + bondi_j * conj(bondi_j))) *
@@ -207,9 +206,8 @@ void radial_evolve_psi0_condition(
               std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
       std::array<ComplexDataVector, 2>{
-          {boundary_j.data(), boundary_dr_j.data() * r.data()}},
-      std::array<ComplexDataVector, 0>{
-          {boundary_psi_0.data()}},
+          {boundary_j.data(), boundary_dr_j.data() * r.data(),
+           boundary_psi_0.data()}},
       -1.0, initial_radial_step);
   auto state_buffer =
       std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
@@ -337,7 +335,8 @@ void GeneratePsi0::operator()(
 
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
-      get(dr_j_at_radius), get(r), l_max, number_of_radial_points);
+      get(dr_j_at_radius), get(psi_0), get(r),
+      l_max, number_of_radial_points);
   const SpinWeighted<ComplexDataVector, 2> j_at_scri_view;
   make_const_view(make_not_null(&j_at_scri_view), get(*j),
                   (number_of_radial_points - 1) * number_of_angular_points,
