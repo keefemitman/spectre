@@ -161,7 +161,7 @@ void radial_evolve_psi0_condition(
     const gsl::not_null<SpinWeighted<ComplexDataVector, 2>*> volume_j_id,
     const SpinWeighted<ComplexDataVector, 2>& boundary_j,
     const SpinWeighted<ComplexDataVector, 2>& boundary_dr_j,
-    const SpinWeighted<ComplexDataVector, 0>& boundary_psi_0,
+    const SpinWeighted<ComplexDataVector, 2>& boundary_psi_0,
     const SpinWeighted<ComplexDataVector, 0>& r, const size_t l_max,
     const size_t number_of_radial_points) noexcept {
   // use the maximum to measure the scale for the vector quantities
@@ -176,7 +176,7 @@ void radial_evolve_psi0_condition(
   }
 
   const auto psi_0_condition_system =
-      [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+      [](const std::array<ComplexDataVector, 3>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
@@ -205,7 +205,7 @@ void radial_evolve_psi0_condition(
           boost::numeric::odeint::runge_kutta_dopri5<
               std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
-      std::array<ComplexDataVector, 2>{
+      std::array<ComplexDataVector, 3>{
           {boundary_j.data(), boundary_dr_j.data() * r.data(),
            boundary_psi_0.data()}},
       -1.0, initial_radial_step);
