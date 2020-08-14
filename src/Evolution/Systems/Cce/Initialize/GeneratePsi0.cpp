@@ -307,7 +307,7 @@ void GeneratePsi0::operator()(
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
       0.5 * get(r_at_radius).data() * get(dr_j_at_radius).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
-      (0.5 * get(r_at_radius).data()) ** 2.0
+      square(0.5 * get(r_at_radius).data())
           * get(dr_dr_j_at_radius).data()};
 
   // compute psi_0
