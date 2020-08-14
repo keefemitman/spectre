@@ -181,11 +181,10 @@ void radial_evolve_psi0_condition(
          std::array<ComplexDataVector, 3>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
-        dy_j_and_dy_i[1] = bondi_j_and_i[2];
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
         const auto& bondi_psi_0 = bondi_j_and_i[2];
-        dy_j_and_dy_i[2] =
+        dy_j_and_dy_i[1] =
             0.5 *
             (conj(bondi_psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
@@ -196,6 +195,7 @@ void radial_evolve_psi0_condition(
              2.0 * bondi_i * conj(bondi_i) * (2.0 + bondi_j * conj(bondi_j))) *
             (4.0 * bondi_j + bondi_i * (1.0 - y)) /
             (1.0 + bondi_j * conj(bondi_j));
+        dy_j_and_dy_i[2] = bondi_j_and_i[2];
       };
 
   boost::numeric::odeint::dense_output_runge_kutta<
@@ -376,8 +376,6 @@ void GeneratePsi0::operator()(
         angular_coordinate_tolerance_, max_iterations_,
         final_angular_coordinate_deviation);
   }
-
-  Parallel::printf("Finished Running!\n");
 }
 
 void GeneratePsi0::pup(PUP::er& p) noexcept {
