@@ -178,7 +178,7 @@ void radial_evolve_psi0_condition(
   const auto psi_0_condition_system =
       [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
-         std::array<ComplexDataVector, 0>& psi_0
+         std::array<ComplexDataVector, 0>& psi_0,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
