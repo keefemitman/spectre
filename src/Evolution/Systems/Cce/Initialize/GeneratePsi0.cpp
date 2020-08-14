@@ -181,7 +181,7 @@ void radial_evolve_psi0_condition(
          std::array<ComplexDataVector, 3>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
-        dy_j_and_dy_i[0] = bondi_j_and_i[2];
+        dy_j_and_dy_i[1] = bondi_j_and_i[2];
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
         const auto& bondi_psi_0 = bondi_j_and_i[2];
