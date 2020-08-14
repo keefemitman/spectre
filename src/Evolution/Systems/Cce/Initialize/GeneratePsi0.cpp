@@ -177,18 +177,18 @@ void radial_evolve_psi0_condition(
   }
 
   const auto psi_0_condition_system =
-      [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+      [&psi_0](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
-         const double y, const ComplexDataVector bondi_psi_0) noexcept {
+         const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
         dy_j_and_dy_i[1] =
             0.5 *
-            (conj(bondi_psi_0) * square(bondi_j)
+            (conj(psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
                 2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-             bondi_psi_0) +
+             psi_0) +
             -0.0625 *
             (square(conj(bondi_i) * bondi_j) + square(conj(bondi_j) * bondi_i) -
              2.0 * bondi_i * conj(bondi_i) * (2.0 + bondi_j * conj(bondi_j))) *
@@ -207,13 +207,13 @@ void radial_evolve_psi0_condition(
   dense_stepper.initialize(
       std::array<ComplexDataVector, 2>{
           {boundary_j.data(), 0.5 * boundary_dr_j.data() * r.data()}},
-      -1.0, boundary_psi_0.data(), initial_radial_step);
+      -1.0, initial_radial_step);
   auto state_buffer =
       std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
                                         ComplexDataVector{boundary_j.size()}}};
 
   std::pair<double, double> step_range =
-      dense_stepper.do_step(psi_0_condition_system);
+      dense_stepper.do_step(psi_0_condition_system, boundary_psi_0.data());
   const auto& y_collocation =
       Spectral::collocation_points<Spectral::Basis::Legendre,
                                    Spectral::Quadrature::GaussLobatto>(
@@ -221,7 +221,8 @@ void radial_evolve_psi0_condition(
   for (size_t y_collocation_point = 0;
        y_collocation_point < number_of_radial_points; ++y_collocation_point) {
     while(step_range.second < y_collocation[y_collocation_point]) {
-      step_range = dense_stepper.do_step(psi_0_condition_system);
+      step_range = dense_stepper.do_step(psi_0_condition_system,
+          boundary_psi_0.data());
     }
     if (step_range.second < y_collocation[y_collocation_point] or
         step_range.first > y_collocation[y_collocation_point]) {
