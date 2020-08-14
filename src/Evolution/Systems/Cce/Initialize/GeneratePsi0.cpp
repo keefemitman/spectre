@@ -177,8 +177,8 @@ void radial_evolve_psi0_condition(
   }
 
   const auto psi_0_condition_system =
-      [](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
-         std::array<ComplexDataVector, 3>& dy_j_and_dy_i,
+      [](const std::array<ComplexDataVector, 3>& bondi_j_and_i,
+         std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
@@ -200,11 +200,11 @@ void radial_evolve_psi0_condition(
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<ComplexDataVector, 3>>>>
+              std::array<ComplexDataVector, 2>>>>
       dense_stepper = boost::numeric::odeint::make_dense_output(
           1.0e-14, 1.0e-14,
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<ComplexDataVector, 3>>{});
+              std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
       std::array<ComplexDataVector, 3>{
           {boundary_j.data(), 0.5 * boundary_dr_j.data() * r.data(),
