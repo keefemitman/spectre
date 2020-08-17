@@ -246,12 +246,10 @@ void radial_evolve_psi0_condition(
 }  // namespace detail
 
 GeneratePsi0::GeneratePsi0(
-    bool noincoming,
     std::vector<std::string> files,
     const size_t target_idx,
     const double target_time) noexcept
-    : noincoming_{noincoming}
-      files_{files},
+    : files_{files},
       target_idx_{target_idx},
       target_time_{target_time} {}
 
@@ -372,7 +370,6 @@ void GeneratePsi0::operator()(
 }
 
 void GeneratePsi0::pup(PUP::er& p) noexcept {
-  p | noincoming_;
   p | files_;
   p | target_idx_;
   p | target_time_;
