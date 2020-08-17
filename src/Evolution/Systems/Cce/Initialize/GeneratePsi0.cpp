@@ -172,12 +172,10 @@ void radial_evolve_psi0_condition(
   // set initial step size according to the first couple of steps in section
   // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
   // Wanner
-  Parallel::printf("start \n");
   double initial_radial_step = 1.0e-6;
   if (j_scale > 1.0e-5 and dy_j_scale > 1.0e-5) {
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
-  Parallel::printf("func \n");
   ComplexDataVector psi_0 = boundary_psi_0.data();
   ComplexDataVector r = boundary_r.data();
   const auto psi_0_condition_system =
@@ -192,8 +190,7 @@ void radial_evolve_psi0_condition(
             (conj(psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
                 2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-             psi_0)
-            / square(square(1.0 - y)) +
+             psi_0) +
             0.0625 *
             (square(conj(bondi_j) * bondi_i) -
              2.0 * (2.0 + bondi_j * conj(bondi_j)) *
@@ -201,7 +198,6 @@ void radial_evolve_psi0_condition(
                (-4.0 * bondi_j + bondi_i * (-1.0 + y))
             / (1.0 + bondi_j * conj(bondi_j));
       };
-  Parallel::printf("boost \n");
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
           boost::numeric::odeint::runge_kutta_dopri5<
@@ -217,14 +213,13 @@ void radial_evolve_psi0_condition(
   auto state_buffer =
       std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
                                         ComplexDataVector{boundary_j.size()}}};
-  Parallel::printf("step \n");
   std::pair<double, double> step_range =
       dense_stepper.do_step(psi_0_condition_system);
   const auto& y_collocation =
       Spectral::collocation_points<Spectral::Basis::Legendre,
                                    Spectral::Quadrature::GaussLobatto>(
                                        number_of_radial_points);
-  Parallel::printf("collocation");
+  Parallel::printf("collocation \n");
   for(size_t i = 0; i < y_collocation.size(); ++i) {
     Parallel::printf("%e \n",y_collocation[i]);
   }
@@ -273,7 +268,7 @@ void GeneratePsi0::operator()(
     const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r, const size_t l_max,
     const size_t number_of_radial_points) const noexcept {
-  Parallel::printf("starting \n");
+
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_container{
@@ -292,7 +287,7 @@ void GeneratePsi0::operator()(
   detail::second_derivative_of_j_from_worldtubes(
       make_not_null(&dr_dr_j_at_radius),
       dr_j_container, r_container, l_max, target_idx_);
-  Parallel::printf("compute psi0 \n");
+
   // acquire variables for psi_0
   size_t start_idx = number_of_angular_points * target_idx_;
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_at_radius;
@@ -332,10 +327,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  for(size_t i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf("%e \n",real(get(psi_0).data()[i]));
-  }
-  Parallel::printf("radially evolve \n");
+
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
       get(dr_j_at_radius), get(psi_0), get(r),
