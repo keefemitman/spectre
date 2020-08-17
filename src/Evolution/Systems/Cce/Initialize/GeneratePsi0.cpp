@@ -224,6 +224,7 @@ void radial_evolve_psi0_condition(
       Spectral::collocation_points<Spectral::Basis::Legendre,
                                    Spectral::Quadrature::GaussLobatto>(
                                        number_of_radial_points);
+  Parallel::printf("collocation");
   for(size_t i = 0; i < y_collocation.size(); ++i) {
     Parallel::printf("%e \n",real(y_collocation[i]));
   }
