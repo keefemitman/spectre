@@ -172,11 +172,12 @@ void radial_evolve_psi0_condition(
   // set initial step size according to the first couple of steps in section
   // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
   // Wanner
+  Parallel::printf("start \n");
   double initial_radial_step = 1.0e-6;
   if (j_scale > 1.0e-5 and dy_j_scale > 1.0e-5) {
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
-
+  Parallel::printf("func \n");
   ComplexDataVector psi_0 = boundary_psi_0.data();
   ComplexDataVector r = boundary_r.data();
   const auto psi_0_condition_system =
@@ -200,7 +201,7 @@ void radial_evolve_psi0_condition(
                (-4.0 * bondi_j + bondi_i * (-1.0 + y))
             / (1.0 + bondi_j * conj(bondi_j));
       };
-
+  Parallel::printf("boost \n");
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
           boost::numeric::odeint::runge_kutta_dopri5<
@@ -216,13 +217,14 @@ void radial_evolve_psi0_condition(
   auto state_buffer =
       std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
                                         ComplexDataVector{boundary_j.size()}}};
-
+  Parallel::printf("step \n");
   std::pair<double, double> step_range =
       dense_stepper.do_step(psi_0_condition_system);
   const auto& y_collocation =
       Spectral::collocation_points<Spectral::Basis::Legendre,
                                    Spectral::Quadrature::GaussLobatto>(
                                        number_of_radial_points);
+  Parallel::printf("for \n");
   for (size_t y_collocation_point = 0;
        y_collocation_point < number_of_radial_points; ++y_collocation_point) {
     while(step_range.second < y_collocation[y_collocation_point]) {
@@ -326,6 +328,9 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
+  for(size_t i = 0; i < psi_0.data().size(); ++i) {
+    Parallel::printf(std::to_string(psi_0.data()[i])+"\n");
+  }
   Parallel::printf("radially evolve \n");
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
