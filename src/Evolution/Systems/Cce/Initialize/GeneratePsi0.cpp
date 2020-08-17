@@ -328,8 +328,8 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  for(size_t i = 0; i < psi_0.data().size(); ++i) {
-    Parallel::printf(std::to_string(psi_0.data()[i])+"\n");
+  for(size_t i = 0; i < get(psi_0).data().size(); ++i) {
+    Parallel::printf(std::to_string(get(psi_0).data()[i])+"\n");
   }
   Parallel::printf("radially evolve \n");
   detail::radial_evolve_psi0_condition(
