@@ -225,7 +225,7 @@ void radial_evolve_psi0_condition(
                                    Spectral::Quadrature::GaussLobatto>(
                                        number_of_radial_points);
   for(size_t i = 0; i < y_collocation.size(); ++i) {
-    Parallel::printf(std::to_string(real(y_collocation[i]))+"\n");
+    Parallel::printf("%e \n",real(y_collocation[i]));
   }
   Parallel::printf("for \n");
   for (size_t y_collocation_point = 0;
@@ -332,7 +332,7 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
   for(size_t i = 0; i < get(psi_0).data().size(); ++i) {
-    Parallel::printf(std::to_string(real(get(psi_0).data()[i]))+"\n");
+    Parallel::printf("%e \n",real(get(psi_0).data()[i]));
   }
   Parallel::printf("radially evolve \n");
   detail::radial_evolve_psi0_condition(
