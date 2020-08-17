@@ -187,7 +187,7 @@ void radial_evolve_psi0_condition(
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
         dy_j_and_dy_i[1] =
-            8 * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) * square(r) *
+            8.0 * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) * square(r) *
             (conj(psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
                 2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
@@ -267,7 +267,7 @@ void GeneratePsi0::operator()(
     const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r, const size_t l_max,
     const size_t number_of_radial_points) const noexcept {
-
+  Parallel::printf("starting \n");
   const size_t number_of_angular_points =
       Spectral::Swsh::number_of_swsh_collocation_points(l_max);
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_container{
@@ -279,14 +279,14 @@ void GeneratePsi0::operator()(
   detail::read_in_worldtube_data(make_not_null(&j_container),
       make_not_null(&dr_j_container), make_not_null(&r_container),
       files_, l_max, target_idx_, target_time_);
-
+  Parallel::printf("get dr_dr_j \n");
   // compute dr_dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius{
       number_of_angular_points};
   detail::second_derivative_of_j_from_worldtubes(
       make_not_null(&dr_dr_j_at_radius),
       dr_j_container, r_container, l_max, target_idx_);
-
+  Parallel::printf("compute psi0 \n");
   // acquire variables for psi_0
   size_t start_idx = number_of_angular_points * target_idx_;
   Scalar<SpinWeighted<ComplexDataVector, 2>> j_at_radius;
@@ -326,7 +326,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-
+  Parallel::printf("radially evolve \n");
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
       get(dr_j_at_radius), get(psi_0), get(r),
