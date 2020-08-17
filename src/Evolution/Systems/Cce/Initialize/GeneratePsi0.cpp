@@ -163,11 +163,12 @@ void radial_evolve_psi0_condition(
     const SpinWeighted<ComplexDataVector, 2>& boundary_j,
     const SpinWeighted<ComplexDataVector, 2>& boundary_dr_j,
     const SpinWeighted<ComplexDataVector, 2>& boundary_psi_0,
-    const SpinWeighted<ComplexDataVector, 0>& r, const size_t l_max,
+    const SpinWeighted<ComplexDataVector, 0>& boundary_r, const size_t l_max,
     const size_t number_of_radial_points) noexcept {
   // use the maximum to measure the scale for the vector quantities
   const double j_scale = max(abs(boundary_j.data()));
-  const double dy_j_scale = max(abs(0.5 * boundary_dr_j.data() * r.data()));
+  const double dy_j_scale =
+      max(abs(0.5 * boundary_dr_j.data() * boundary_r.data()));
   // set initial step size according to the first couple of steps in section
   // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
   // Wanner
@@ -177,24 +178,27 @@ void radial_evolve_psi0_condition(
   }
 
   ComplexDataVector psi_0 = boundary_psi_0.data();
+  ComplexDataVector r = boundary_r.data();
   const auto psi_0_condition_system =
-      [&psi_0](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+      [&psi_0, &r](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
          std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
         dy_j_and_dy_i[1] =
-            0.5 *
+            8 * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) * square(r) *
             (conj(psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
                 2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-             psi_0) +
-            -0.0625 *
-            (square(conj(bondi_i) * bondi_j) + square(conj(bondi_j) * bondi_i) -
-             2.0 * bondi_i * conj(bondi_i) * (2.0 + bondi_j * conj(bondi_j))) *
-            (4.0 * bondi_j + bondi_i * (1.0 - y)) /
-            (1.0 + bondi_j * conj(bondi_j));
+             psi_0)
+            / square(square(1.0 - y)) +
+            0.0625 *
+            (square(conj(bondi_j) * bondi_i) -
+             2.0 * (2.0 + bondi_j * conj(bondi_j)) *
+              bondi_i * conj(bondi_i) + square(bondi_j * conj(bondi_i))) *
+               (-4.0 * bondi_j + bondi_i * (-1.0 + y))
+            / (1.0 + bondi_j * conj(bondi_j));
       };
 
   boost::numeric::odeint::dense_output_runge_kutta<
@@ -207,7 +211,7 @@ void radial_evolve_psi0_condition(
               std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
       std::array<ComplexDataVector, 2>{
-          {boundary_j.data(), 0.5 * boundary_dr_j.data() * r.data()}},
+          {boundary_j.data(), 0.5 * boundary_dr_j.data() * boundary_r.data()}},
       -1.0, initial_radial_step);
   auto state_buffer =
       std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
@@ -242,10 +246,12 @@ void radial_evolve_psi0_condition(
 }  // namespace detail
 
 GeneratePsi0::GeneratePsi0(
+    bool noincoming,
     std::vector<std::string> files,
     const size_t target_idx,
     const double target_time) noexcept
-    : files_{files},
+    : noincoming_{noincoming}
+      files_{files},
       target_idx_{target_idx},
       target_time_{target_time} {}
 
@@ -323,16 +329,6 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
 
-  //Parallel::printf("%s / %s: %s \n",
-  //    "index","number of indices","Psi_0+dr_dr_j");
-  //for(int i = 0; i < get(psi_0).data().size(); ++i) {
-  //  Parallel::printf(
-  //      "%d / %d: %e + %e i \n",
-  //      i, get(psi_0).data().size()-1,
-  //      real(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]),
-  //      imag(get(psi_0).data()[i]+get(dr_dr_j_at_radius).data()[i]));
-  //}
-
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
       get(dr_j_at_radius), get(psi_0), get(r),
@@ -376,6 +372,7 @@ void GeneratePsi0::operator()(
 }
 
 void GeneratePsi0::pup(PUP::er& p) noexcept {
+  p | noincoming_;
   p | files_;
   p | target_idx_;
   p | target_time_;
