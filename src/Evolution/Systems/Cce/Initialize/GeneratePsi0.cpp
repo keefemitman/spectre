@@ -226,7 +226,7 @@ void radial_evolve_psi0_condition(
                                        number_of_radial_points);
   Parallel::printf("collocation");
   for(size_t i = 0; i < y_collocation.size(); ++i) {
-    Parallel::printf("%e \n",real(y_collocation[i]));
+    Parallel::printf("%e \n",y_collocation[i]);
   }
   Parallel::printf("for \n");
   for (size_t y_collocation_point = 0;
