@@ -219,11 +219,7 @@ void radial_evolve_psi0_condition(
       Spectral::collocation_points<Spectral::Basis::Legendre,
                                    Spectral::Quadrature::GaussLobatto>(
                                        number_of_radial_points);
-  Parallel::printf("collocation \n");
-  for(size_t i = 0; i < y_collocation.size(); ++i) {
-    Parallel::printf("%e \n",y_collocation[i]);
-  }
-  Parallel::printf("for \n");
+
   for (size_t y_collocation_point = 0;
        y_collocation_point < number_of_radial_points; ++y_collocation_point) {
     while(step_range.second < y_collocation[y_collocation_point]) {
@@ -280,7 +276,7 @@ void GeneratePsi0::operator()(
   detail::read_in_worldtube_data(make_not_null(&j_container),
       make_not_null(&dr_j_container), make_not_null(&r_container),
       files_, l_max, target_idx_, target_time_);
-  Parallel::printf("get dr_dr_j \n");
+
   // compute dr_dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius{
       number_of_angular_points};
