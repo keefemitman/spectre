@@ -25,7 +25,7 @@ void weyl_psi0_impl(
                  (dy_j * conj(dy_j) -
                   0.25 * square(bondi_j * conj(dy_j) + conj(bondi_j) * dy_j) /
                       square(bondi_k));
-  *psi_0 = 0.0625 / (square(bondi_r) * bondi_k) *
+  *psi_0 = pow<4>(one_minus_y) * 0.0625 / (square(bondi_r) * bondi_k) *
            (dy_beta * ((1.0 + bondi_k) * dy_j -
                        square(bondi_j) * conj(dy_j) / (1.0 + bondi_k)) -
             0.5 * (1.0 + bondi_k) * dy_dy_j +

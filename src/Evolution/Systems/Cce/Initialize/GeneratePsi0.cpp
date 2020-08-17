@@ -186,11 +186,11 @@ void radial_evolve_psi0_condition(
         const auto& bondi_j = bondi_j_and_i[0];
         const auto& bondi_i = bondi_j_and_i[1];
         dy_j_and_dy_i[1] =
-            - 8.0 * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) * square(r) *
-            (conj(psi_0) * square(bondi_j)
+            - 8.0 * (1.0 - y) * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) *
+            square(r) * (conj(psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
-                2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-             psi_0) +
+              2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
+             psi_0) / 32.0 +
             0.0625 *
             (square(conj(bondi_j) * bondi_i) -
              2.0 * (2.0 + bondi_j * conj(bondi_j)) *
