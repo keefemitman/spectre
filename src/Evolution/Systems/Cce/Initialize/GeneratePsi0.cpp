@@ -323,7 +323,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  SpinWeighted<ComplexModalVector, 2>& goldberg_modes =
+  const auto goldberg_modes =
       Spectral::Swsh::libsharp_to_goldberg_modes(
           Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)), l_max);
   for(size_t i = 0; i < goldberg_modes.data()
