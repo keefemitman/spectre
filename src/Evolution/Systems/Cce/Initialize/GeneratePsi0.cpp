@@ -323,11 +323,14 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
+  Scalar<SpinWeighted<ComplexDataVector, 2>> r5psi0{
+      get(psi_0).data() *
+          square(square(get(r_at_radius).data())) * get(r_at_radius).data()};
   Parallel::printf(std::to_string(
       Spectral::Swsh::goldberg_mode_index(l_max, 2, -2))+"\n");
   const auto goldberg_modes =
       Spectral::Swsh::libsharp_to_goldberg_modes(
-          Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)*get(r_at_radius)),
+          Spectral::Swsh::swsh_transform(l_max, 1, get(r5psi0)),
       l_max);
   for(size_t i = 0; i < goldberg_modes.data().size(); ++i) {
     Parallel::printf("%e \n",real(goldberg_modes.data()[i]));
