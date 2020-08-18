@@ -323,10 +323,9 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  SpinWeighted<ComplexModalVector, 2>& goldberg_modes;
-  Spectral::Swsh::libsharp_to_goldberg_modes(
-      make_not_null(&goldberg_modes),
-      Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)), l_max);
+  SpinWeighted<ComplexModalVector, 2>& goldberg_modes =
+      Spectral::Swsh::libsharp_to_goldberg_modes(
+          Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)), l_max);
   for(size_t i = 0; i < goldberg_modes.data()
       [Spectral::Swsh::goldberg_mode_index(l_max, 2, 0)].size(); ++i) {
     Parallel::printf("%e",real(goldberg_modes.data()
