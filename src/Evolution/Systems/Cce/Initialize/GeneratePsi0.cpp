@@ -329,7 +329,7 @@ void GeneratePsi0::operator()(
       Spectral::Swsh::libsharp_to_goldberg_modes(
           Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)), l_max);
   for(size_t i = 0; i < goldberg_modes.data().size(); ++i) {
-    Parallel::printf("%e",real(goldberg_modes.data()[i]));
+    Parallel::printf("%e \n",real(goldberg_modes.data()[i]));
   }
 
   detail::radial_evolve_psi0_condition(
