@@ -327,7 +327,8 @@ void GeneratePsi0::operator()(
       Spectral::Swsh::goldberg_mode_index(l_max, 2, -2))+"\n");
   const auto goldberg_modes =
       Spectral::Swsh::libsharp_to_goldberg_modes(
-          Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)), l_max);
+          Spectral::Swsh::swsh_transform(l_max, 1, get(psi_0)*get(r_at_radius)),
+      l_max);
   for(size_t i = 0; i < goldberg_modes.data().size(); ++i) {
     Parallel::printf("%e \n",real(goldberg_modes.data()[i]));
   }
