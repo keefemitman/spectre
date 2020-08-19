@@ -328,7 +328,7 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
   Parallel::printf("prod new: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_prod{
+  Scalar<SpinWeighted<ComplexDataVector, 0>> m_prod{
       get(prod).data()};
   const auto goldberg_modes_0 =
       Spectral::Swsh::libsharp_to_goldberg_modes(
@@ -340,7 +340,7 @@ void GeneratePsi0::operator()(
                      imag(goldberg_modes_0.data()[i]));
   }
   Parallel::printf("one_plus_prod: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_one_plus_prod{
+  Scalar<SpinWeighted<ComplexDataVector, 0>> m_one_plus_prod{
       get(one_plus_prod).data()};
   const auto goldberg_modes_1 =
       Spectral::Swsh::libsharp_to_goldberg_modes(
@@ -352,7 +352,7 @@ void GeneratePsi0::operator()(
                      imag(goldberg_modes_1.data()[i]));
   }
   Parallel::printf("k: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_k{
+  Scalar<SpinWeighted<ComplexDataVector, 0>> m_k{
       get(k_at_radius).data()};
   const auto goldberg_modes =
       Spectral::Swsh::libsharp_to_goldberg_modes(
