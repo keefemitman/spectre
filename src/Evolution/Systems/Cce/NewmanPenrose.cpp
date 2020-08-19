@@ -36,8 +36,8 @@ void weyl_psi0_impl(
        (square(1.0 + bondi_k) * dy_j - square(bondi_j) * conj(dy_j)) +
       (1.0 + bondi_k) *
        (-pow<3>(bondi_j) * (1.0 + bondi_k) * square(conj(dy_j)) -
-        dy_dy_j * 2.0 * square(bondi_k * (1.0 + bondi_k)) +
-        conj(dy_dy_j) * 2.0 * square(bondi_j * bondi_k)));
+        dy_dy_j * 2.0 * square(bondi_k * (1.0 + bondi_k))));
+        //conj(dy_dy_j) * 2.0 * square(bondi_j * bondi_k)));
 }
 
 void VolumeWeyl<Tags::Psi0>::apply(
