@@ -331,7 +331,9 @@ void GeneratePsi0::operator()(
           Spectral::Swsh::swsh_transform(l_max, 1, get(m_dy_dy_j)),
       l_max);
   for(size_t i = 0; i < goldberg_modes.data().size(); ++i) {
-    Parallel::printf("%e \n",real(goldberg_modes.data()[i]));
+    Parallel::printf("%e, %e \n",
+                     real(goldberg_modes.data()[i]),
+                     imag(goldberg_modes.data()[i]);
   }
   Parallel::printf("psi0: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
