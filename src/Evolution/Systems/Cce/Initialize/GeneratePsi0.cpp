@@ -302,7 +302,7 @@ void GeneratePsi0::operator()(
           get(r_container).data().data()
               + start_idx, number_of_angular_points);
   Scalar<SpinWeighted<ComplexDataVector, 0>> prod{
-      (j_at_radius * conj(j_at_radius)).data()};
+      (get(j_at_radius) * conj(get(j_at_radius))).data()};
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_plus_prod{
       1.0 + get(j_at_radius).data() * conj(get(j_at_radius).data())};
   Scalar<SpinWeighted<ComplexDataVector, 0>> k_at_radius{
