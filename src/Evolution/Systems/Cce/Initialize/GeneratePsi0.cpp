@@ -333,7 +333,7 @@ void GeneratePsi0::operator()(
   for(size_t i = 0; i < goldberg_modes.data().size(); ++i) {
     Parallel::printf("%e, %e \n",
                      real(goldberg_modes.data()[i]),
-                     imag(goldberg_modes.data()[i]);
+                     imag(goldberg_modes.data()[i]));
   }
   Parallel::printf("psi0: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
