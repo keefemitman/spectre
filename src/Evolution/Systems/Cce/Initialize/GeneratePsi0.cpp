@@ -302,7 +302,7 @@ void GeneratePsi0::operator()(
           get(r_container).data().data()
               + start_idx, number_of_angular_points);
   Scalar<SpinWeighted<ComplexDataVector, 0>> prod{
-      (get(j_at_radius) * conj(get(j_at_radius))).data()};
+      (j_at_radius * conj(j_at_radius)).data()};
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_plus_prod{
       1.0 + get(j_at_radius).data() * conj(get(j_at_radius).data())};
   Scalar<SpinWeighted<ComplexDataVector, 0>> k_at_radius{
@@ -327,7 +327,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("prod: \n");
+  Parallel::printf("prod new: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_prod{
       get(prod).data()};
   const auto goldberg_modes_0 =
