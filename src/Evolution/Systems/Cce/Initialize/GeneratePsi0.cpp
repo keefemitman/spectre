@@ -336,10 +336,10 @@ void GeneratePsi0::operator()(
                      imag(goldberg_modes.data()[i]));
   }
   Parallel::printf("collocation dy_dy_j: \n");
-  for(size_t i = 0; i < get(dy_dy_at_radius).data().size(); ++i) {
+  for(size_t i = 0; i < get(dy_dy_j_at_radius).data().size(); ++i) {
     Parallel::printf("%e, %e \n",
-                     real(get(dy_dy_at_radius).data()[i]),
-                     imag(get(dy_dy_at_radius).data()[i]));
+                     real(get(dy_dy_j_at_radius).data()[i]),
+                     imag(get(dy_dy_j_at_radius).data()[i]));
   }
   Parallel::printf("psi0: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
