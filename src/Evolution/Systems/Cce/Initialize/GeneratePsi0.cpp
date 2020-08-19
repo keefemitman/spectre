@@ -323,7 +323,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("dy_dy_j: \n")
+  Parallel::printf("dy_dy_j: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_dy_dy_j{
       get(dy_dy_j_at_radius).data()};
   const auto goldberg_modes =
