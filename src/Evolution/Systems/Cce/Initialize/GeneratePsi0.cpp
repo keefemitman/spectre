@@ -323,23 +323,23 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("k: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 0>> m_k{
-      get(k_at_radius).data()};
+  Parallel::printf("dy_dy_j: \n");
+  Scalar<SpinWeighted<ComplexDataVector, 0>> m_dy_dy_j{
+      get(dy_dy_j_at_radius).data()};
   const auto goldberg_modes =
       Spectral::Swsh::libsharp_to_goldberg_modes(
-          Spectral::Swsh::swsh_transform(l_max, 1, get(m_k)),
+          Spectral::Swsh::swsh_transform(l_max, 1, get(m_dy_dy_j)),
       l_max);
   for(size_t i = 0; i < goldberg_modes.data().size(); ++i) {
     Parallel::printf("%e, %e \n",
                      real(goldberg_modes.data()[i]),
                      imag(goldberg_modes.data()[i]));
   }
-  Parallel::printf("collocation k: \n");
-  for(size_t i = 0; i < get(k_at_radius).data().size(); ++i) {
+  Parallel::printf("collocation dy_dy_j: \n");
+  for(size_t i = 0; i < get(dy_dy_at_radius).data().size(); ++i) {
     Parallel::printf("%e, %e \n",
-                     real(get(k_at_radius).data()[i]),
-                     imag(get(k_at_radius).data()[i]));
+                     real(get(dy_dy_at_radius).data()[i]),
+                     imag(get(dy_dy_at_radius).data()[i]));
   }
   Parallel::printf("psi0: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
