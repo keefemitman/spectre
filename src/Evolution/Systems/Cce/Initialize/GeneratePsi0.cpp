@@ -212,7 +212,7 @@ void radial_evolve_psi0_condition(
           {boundary_j, 0.5 * boundary_dr_j * boundary_r}},
       -1.0, initial_radial_step);
   auto state_buffer =
-      std::array<ComplexDataVector, 2>{
+    std::array<SpinWeighted<ComplexDataVector, 2>, 2>{
           {SpinWeighted<ComplexDataVector, 2>{boundary_j.size()},
            SpinWeighted<ComplexDataVector, 2>{boundary_j.size()}}};
   std::pair<double, double> step_range =
@@ -235,7 +235,7 @@ void radial_evolve_psi0_condition(
     }
     dense_stepper.calc_state(y_collocation[y_collocation_point], state_buffer);
     SpinWeighted<ComplexDataVector, 2> angular_view{
-        volume_j_id->data().data() +
+        volume_j_id->data() +
             y_collocation_point *
                 Spectral::Swsh::number_of_swsh_collocation_points(l_max),
         Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
