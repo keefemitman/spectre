@@ -176,15 +176,17 @@ void radial_evolve_psi0_condition(
   if (j_scale > 1.0e-5 and dy_j_scale > 1.0e-5) {
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
+  ComplexDataVector psi_0 = boundary_psi_0.data();
+  ComplexDataVector r = boundary_r.data();
   const auto psi_0_condition_system =
-      [&boundary_psi_0, &boundary_r]
+      [&psi_0, &r]
           (const std::array<ComplexDataVector, 2>& bondi_j_and_i,
            std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
            const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
-        SpinWeighted<ComplexDataVector, 2> bondi_j{bondi_j_and_i[0]};
-        SpinWeighted<ComplexDataVector, 2> bondi_i{bondi_j_and_i[1]};
-        dy_j_and_dy_i[1] = (
+        const auto& bondi_j = bondi_j_and_i[0];
+        const auto& bondi_i = bondi_j_and_i[1];
+        dy_j_and_dy_i[1] =
             - 8.0 * (1.0 - y) * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) *
             square(boundary_r) * (conj(boundary_psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
@@ -195,7 +197,7 @@ void radial_evolve_psi0_condition(
              2.0 * (2.0 + bondi_j * conj(bondi_j)) *
               bondi_i * conj(bondi_i) + square(bondi_j * conj(bondi_i))) *
                (-4.0 * bondi_j + bondi_i * (-1.0 + y))
-            / (1.0 + bondi_j * conj(bondi_j))).data();
+            / (1.0 + bondi_j * conj(bondi_j));
       };
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
@@ -322,17 +324,23 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  Parallel::printf("r: \n");
-  for(size_t i = 0; i < get(r_at_radius).data().size(); ++i) {
-    Parallel::printf("%e, %e \n",
-                     real(get(r_at_radius).data()[i]),
-                     imag(get(r_at_radius).data()[i]));
-  }
+  // Parallel::printf("r: \n");
+  // for(size_t i = 0; i < get(r_at_radius).data().size(); ++i) {
+  //   Parallel::printf("%e, %e \n",
+  //                    real(get(r_at_radius).data()[i]),
+  //                    imag(get(r_at_radius).data()[i]));
+  // }
   Parallel::printf("j: \n");
   for(size_t i = 0; i < get(j_at_radius).data().size(); ++i) {
     Parallel::printf("%e, %e \n",
                      real(get(j_at_radius).data()[i]),
                      imag(get(j_at_radius).data()[i]));
+  }
+  Parallel::printf("dr_j: \n");
+  for(size_t i = 0; i < get(dr_j_at_radius).data().size(); ++i) {
+    Parallel::printf("%e, %e \n",
+                     real(get(dr_j_at_radius).data()[i]),
+                     imag(get(dr_j_at_radius).data()[i]));
   }
   Parallel::printf("dr_dr_j: \n");
   for(size_t i = 0; i < get(dr_dr_j_at_radius).data().size(); ++i) {
@@ -340,23 +348,23 @@ void GeneratePsi0::operator()(
                      real(get(dr_dr_j_at_radius).data()[i]),
                      imag(get(dr_dr_j_at_radius).data()[i]));
   }
-  Parallel::printf("dy_dy_j: \n");
-  for(size_t i = 0; i < get(dy_dy_j_at_radius).data().size(); ++i) {
-    Parallel::printf("%e, %e \n",
-                     real(get(dy_dy_j_at_radius).data()[i]),
-                     imag(get(dy_dy_j_at_radius).data()[i]));
-  }
-  Parallel::printf("psi0: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
-      get(psi_0).data() *
-          pow<5>(get(r_at_radius).data())};
-  const auto goldberg_modes_psi0 =
-      Spectral::Swsh::libsharp_to_goldberg_modes(
-          Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0)),
-      l_max);
-  for(size_t i = 0; i < goldberg_modes_psi0.data().size(); ++i) {
-    Parallel::printf("%e \n",real(goldberg_modes_psi0.data()[i]));
-  }
+  // Parallel::printf("dy_dy_j: \n");
+  // for(size_t i = 0; i < get(dy_dy_j_at_radius).data().size(); ++i) {
+  //   Parallel::printf("%e, %e \n",
+  //                    real(get(dy_dy_j_at_radius).data()[i]),
+  //                    imag(get(dy_dy_j_at_radius).data()[i]));
+  // }
+  // Parallel::printf("psi0: \n");
+  // Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
+  //     get(psi_0).data() *
+  //         pow<5>(get(r_at_radius).data())};
+  // const auto goldberg_modes_psi0 =
+  //     Spectral::Swsh::libsharp_to_goldberg_modes(
+  //         Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0)),
+  //     l_max);
+  // for(size_t i = 0; i < goldberg_modes_psi0.data().size(); ++i) {
+  //   Parallel::printf("%e \n",real(goldberg_modes_psi0.data()[i]));
+  // }
 
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
