@@ -77,7 +77,7 @@ void read_in_worldtube_data(
         make_not_null(&variables), corrected_time);
 
     ComplexDataVector angular_view_j{
-        get(*j_container).data().data()+
+        get(*j_container).data().data() +
             get(get<Tags::BoundaryValue<Tags::BondiJ>>(
                 variables)).size() * i,
         get(get<Tags::BoundaryValue<Tags::BondiJ>>(
@@ -85,7 +85,7 @@ void read_in_worldtube_data(
     angular_view_j =
         get(get<Tags::BoundaryValue<Tags::BondiJ>>(variables)).data();
     ComplexDataVector angular_view_dr_j{
-        get(*dr_j_container).data().data()+
+        get(*dr_j_container).data().data() +
             get(get<Tags::BoundaryValue<Tags::Dr<Tags::BondiJ>>>(
                 variables)).size() * i,
         get(get<Tags::BoundaryValue<Tags::Dr<Tags::BondiJ>>>(
@@ -93,7 +93,7 @@ void read_in_worldtube_data(
     angular_view_dr_j =
         get(get<Tags::BoundaryValue<Tags::Dr<Tags::BondiJ>>>(variables)).data();
     ComplexDataVector angular_view_r{
-        get(*r_container).data().data()+
+        get(*r_container).data().data() +
             get(get<Tags::BoundaryValue<Tags::BondiR>>(
                 variables)).size() * i,
         get(get<Tags::BoundaryValue<Tags::BondiR>>(
@@ -168,7 +168,7 @@ void radial_evolve_psi0_condition(
   // use the maximum to measure the scale for the vector quantities
   const double j_scale = max(abs(boundary_j.data()));
   const double dy_j_scale =
-      max(abs(0.5 * boundary_dr_j.data() * boundary_r.data()));
+      max(abs(0.5 * (boundary_dr_j * boundary_r).data()));
   // set initial step size according to the first couple of steps in section
   // II.4 of Solving Ordinary Differential equations by Hairer, Norsett, and
   // Wanner
@@ -208,7 +208,7 @@ void radial_evolve_psi0_condition(
               std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
       std::array<ComplexDataVector, 2>{
-          {boundary_j.data(), 0.5 * boundary_dr_j.data() * boundary_r.data()}},
+          {boundary_j.data(), 0.5 * (boundary_dr_j * boundary_r).data()}},
       -1.0, initial_radial_step);
   auto state_buffer =
       std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
@@ -302,13 +302,13 @@ void GeneratePsi0::operator()(
           get(r_container).data().data()
               + start_idx, number_of_angular_points);
   Scalar<SpinWeighted<ComplexDataVector, 0>> k_at_radius{
-      sqrt(1.0 + get(j_at_radius).data() * conj(get(j_at_radius).data()))};
+      sqrt(1.0 + (get(j_at_radius) * conj(get(j_at_radius))).data())};
 
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
-      0.5 * get(r_at_radius).data() * get(dr_j_at_radius).data()};
+      0.5 * (get(r_at_radius) * get(dr_j_at_radius)).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
-      square(0.5 * get(r_at_radius).data())
-          * get(dr_dr_j_at_radius).data()};
+      square(0.5 * (get(r_at_radius)
+          * get(dr_dr_j_at_radius)).data())};
 
   // compute psi_0
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_minus_y{
@@ -334,12 +334,6 @@ void GeneratePsi0::operator()(
     Parallel::printf("%e, %e \n",
                      real(goldberg_modes.data()[i]),
                      imag(goldberg_modes.data()[i]));
-  }
-  Parallel::printf("collocation dy_dy_j: \n");
-  for(size_t i = 0; i < get(dy_dy_j_at_radius).data().size(); ++i) {
-    Parallel::printf("%e, %e \n",
-                     real(get(dy_dy_j_at_radius).data()[i]),
-                     imag(get(dy_dy_j_at_radius).data()[i]));
   }
   Parallel::printf("psi0: \n");
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
