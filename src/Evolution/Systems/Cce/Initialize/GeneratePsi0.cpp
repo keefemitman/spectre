@@ -323,7 +323,7 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
   Parallel::printf("r: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_r{
+  Scalar<SpinWeighted<ComplexDataVector, 0>> m_r{
       get(r_at_radius).data()};
   const auto goldberg_modes_r =
       Spectral::Swsh::libsharp_to_goldberg_modes(
