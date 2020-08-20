@@ -176,12 +176,11 @@ void radial_evolve_psi0_condition(
   if (j_scale > 1.0e-5 and dy_j_scale > 1.0e-5) {
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
-  SpinWeighted<ComplexDataVector, 2> psi_0 = boundary_psi_0;
-  SpinWeighted<ComplexDataVector, 0> r = boundary_r;
+  ComplexDataVector psi_0 = boundary_psi_0.data();
+  ComplexDataVector r = boundary_r.data();
   const auto psi_0_condition_system =
-      [&psi_0, &r](const std::array<SpinWeighted<ComplexDataVector, 2>, 2>&
-         bondi_j_and_i,
-         std::array<SpinWeighted<ComplexDataVector, 2>, 2>& dy_j_and_dy_i,
+      [&psi_0, &r](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+         std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
          const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
         const auto& bondi_j = bondi_j_and_i[0];
@@ -202,19 +201,18 @@ void radial_evolve_psi0_condition(
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<SpinWeighted<ComplexDataVector, 2>, 2>>>>
+              std::array<ComplexDataVector, 2>>>>
       dense_stepper = boost::numeric::odeint::make_dense_output(
           1.0e-14, 1.0e-14,
           boost::numeric::odeint::runge_kutta_dopri5<
-              std::array<SpinWeighted<ComplexDataVector, 2>, 2>>{});
+              std::array<ComplexDataVector, 2>>{});
   dense_stepper.initialize(
-      std::array<SpinWeighted<ComplexDataVector, 2>, 2>{
-          {boundary_j, 0.5 * boundary_dr_j * boundary_r}},
+      std::array<ComplexDataVector, 2>{
+          {boundary_j.data(), (0.5 * boundary_dr_j * boundary_r).data()}},
       -1.0, initial_radial_step);
   auto state_buffer =
-    std::array<SpinWeighted<ComplexDataVector, 2>, 2>{
-          {SpinWeighted<ComplexDataVector, 2>{boundary_j.size()},
-           SpinWeighted<ComplexDataVector, 2>{boundary_j.size()}}};
+      std::array<ComplexDataVector, 2>{{ComplexDataVector{boundary_j.size()},
+                                        ComplexDataVector{boundary_j.size()}}};
   std::pair<double, double> step_range =
       dense_stepper.do_step(psi_0_condition_system);
   const auto& y_collocation =
@@ -234,10 +232,11 @@ void radial_evolve_psi0_condition(
           "incompatible with the required Gauss-Lobatto point.");
     }
     dense_stepper.calc_state(y_collocation[y_collocation_point], state_buffer);
-    SpinWeighted<ComplexDataVector, 2> angular_view{
-        volume_j_id->data() +
+    ComplexDataVector angular_view{
+        volume_j_id->data().data() +
             y_collocation_point *
-                Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
+                Spectral::Swsh::number_of_swsh_collocation_points(l_max),
+        Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
     angular_view = state_buffer[0];
   }
 }
