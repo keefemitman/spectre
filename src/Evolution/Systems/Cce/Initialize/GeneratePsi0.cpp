@@ -237,8 +237,7 @@ void radial_evolve_psi0_condition(
     SpinWeighted<ComplexDataVector, 2> angular_view{
         volume_j_id->data() +
             y_collocation_point *
-                Spectral::Swsh::number_of_swsh_collocation_points(l_max),
-        Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
+                Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
     angular_view = state_buffer[0];
   }
 }
