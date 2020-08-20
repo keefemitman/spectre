@@ -176,27 +176,26 @@ void radial_evolve_psi0_condition(
   if (j_scale > 1.0e-5 and dy_j_scale > 1.0e-5) {
     initial_radial_step = 0.01 * j_scale / dy_j_scale;
   }
-  ComplexDataVector psi_0 = boundary_psi_0.data();
-  ComplexDataVector r = boundary_r.data();
   const auto psi_0_condition_system =
-      [&psi_0, &r](const std::array<ComplexDataVector, 2>& bondi_j_and_i,
-         std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
-         const double y) noexcept {
+      [&boundary_psi_0, &boundary_r]
+          (const std::array<ComplexDataVector, 2>& bondi_j_and_i,
+           std::array<ComplexDataVector, 2>& dy_j_and_dy_i,
+           const double y) noexcept {
         dy_j_and_dy_i[0] = bondi_j_and_i[1];
-        const auto& bondi_j = bondi_j_and_i[0];
-        const auto& bondi_i = bondi_j_and_i[1];
-        dy_j_and_dy_i[1] =
+        SpinWeighted<ComplexDataVector, 2> bondi_j{bondi_j_and_i[0]};
+        SpinWeighted<ComplexDataVector, 2> bondi_i{bondi_j_and_i[1]};
+        dy_j_and_dy_i[1] = (
             - 8.0 * (1.0 - y) * (1.0 + sqrt(1.0 + conj(bondi_j) * bondi_j)) *
-            square(r) * (conj(psi_0) * square(bondi_j)
+            square(boundary_r) * (conj(boundary_psi_0) * square(bondi_j)
              / (2.0 + conj(bondi_j) * bondi_j +
               2.0 * sqrt(1.0 + conj(bondi_j) * bondi_j)) +
-             psi_0) / 32.0 +
+             boundary_psi_0) / 32.0 +
             0.0625 *
             (square(conj(bondi_j) * bondi_i) -
              2.0 * (2.0 + bondi_j * conj(bondi_j)) *
               bondi_i * conj(bondi_i) + square(bondi_j * conj(bondi_i))) *
                (-4.0 * bondi_j + bondi_i * (-1.0 + y))
-            / (1.0 + bondi_j * conj(bondi_j));
+            / (1.0 + bondi_j * conj(bondi_j))).data();
       };
   boost::numeric::odeint::dense_output_runge_kutta<
       boost::numeric::odeint::controlled_runge_kutta<
