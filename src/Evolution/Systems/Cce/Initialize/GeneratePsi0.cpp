@@ -44,9 +44,13 @@ namespace InitializeJ {
 namespace detail {
 
 double relative_error(const ComplexDataVector A,
-    const ComplexDataVector B) noexcept {
+    const ComplexDataVector B, bool print) noexcept {
   double average = 0;
   for(size_t i = 0; i < A.size(); ++i) {
+    if(print) {
+      Parallel::printf("%e %e; %e %e\n",real(A[i]),imag(A[i]),
+          real(B[i]),imag(B[i]));
+    }
     double rel_error = abs((A[i] - B[i])/B[i])*100;
 
     average += rel_error;
@@ -346,6 +350,9 @@ void GeneratePsi0::operator()(
   double average_j_dr_j = detail::relative_error(
       -get(j_at_radius).data()/get(r_at_radius).data(),
       get(dr_j_at_radius).data());
+  Parallel::printf("J vs. dr_dr_J: %e percent\n",average_j_dr_dr_j);
+  Parallel::printf("dr_J vs. dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
+  Parallel::printf("J vs. dr_J: %e percent\n\n",average_j_dr_j);
 
   // compute dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_j_at_radius_interp{
@@ -355,11 +362,8 @@ void GeneratePsi0::operator()(
       j_container, r_container, l_max, target_idx_);
   double average_dr_j_dr_j = detail::relative_error(
       get(dr_j_at_radius_interp).data(),
-      get(dr_j_at_radius).data());
+      get(dr_j_at_radius).data(),true);
 
-  Parallel::printf("J vs. dr_dr_J: %e percent\n",average_j_dr_dr_j);
-  Parallel::printf("dr_J vs. dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
-  Parallel::printf("J vs. dr_J: %e percent\n\n",average_j_dr_j);
   Parallel::printf("dr_J vs. dr_J: %e percent\n",average_dr_j_dr_j);
   // Parallel::printf("psi0: \n");
   // Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
