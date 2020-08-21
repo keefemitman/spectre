@@ -53,7 +53,7 @@ double relative_error(const ComplexDataVector A,
   }
   average /= A.size();
 
-  return average
+  return average;
 }
 
 void read_in_worldtube_data(
@@ -337,13 +337,13 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  average_j_dr_dr_j = detail::relative_error(
+  double average_j_dr_dr_j = detail::relative_error(
       2.0*get(j_at_radius).data()/square(get(r_at_radius).data()),
       get(dr_dr_j_at_radius).data());
-  average_dr_j_dr_dr_j = detail::relative_error(
+  double average_dr_j_dr_dr_j = detail::relative_error(
       -2.0*get(dr_j_at_radius).data()/get(r_at_radius).data(),
       get(dr_dr_j_at_radius).data());
-  average_j_dr_j = detail::relative_error(
+  double average_j_dr_j = detail::relative_error(
       -get(j_at_radius).data()/get(r_at_radius).data(),
       get(dr_j_at_radius).data());
 
@@ -353,7 +353,7 @@ void GeneratePsi0::operator()(
   detail::second_derivative_of_j_from_worldtubes(
       make_not_null(&dr_j_at_radius_interp),
       j_container, r_container, l_max, target_idx_);
-  average_dr_j_dr_j = detail::relative_error(
+  double average_dr_j_dr_j = detail::relative_error(
       get(dr_j_at_radius_interp).data(),
       get(dr_dr_j_at_radius).data());
 
