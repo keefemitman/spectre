@@ -352,7 +352,7 @@ void GeneratePsi0::operator()(
       get(dr_j_at_radius).data(), false);
   Parallel::printf("J vs. dr_dr_J: %e percent\n",average_j_dr_dr_j);
   Parallel::printf("dr_J vs. dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
-  Parallel::printf("J vs. dr_J: %e percent\n\n",average_j_dr_j);
+  Parallel::printf("J vs. dr_J: %e percent\n",average_j_dr_j);
 
   // compute dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_j_at_radius_interp{
@@ -362,7 +362,7 @@ void GeneratePsi0::operator()(
       j_container, r_container, l_max, target_idx_);
   double average_dr_j_dr_j = detail::relative_error(
       get(dr_j_at_radius_interp).data(),
-      get(dr_j_at_radius).data(), true);
+      get(dr_j_at_radius).data(), false);
 
   Parallel::printf("dr_J vs. dr_J: %e percent\n",average_dr_j_dr_j);
   // Parallel::printf("psi0: \n");
