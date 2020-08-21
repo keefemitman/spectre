@@ -91,46 +91,46 @@ void read_in_worldtube_data(
     const double ext_radius = buffer_updater.get_extraction_radius();
     double diff = 0;
     if(target_radius == 100.0) {
-      if(ext_radius = 267.0) {
+      if(ext_radius == 267.0) {
         diff = 2.0;
       }
-      else if(ext_radius = 433.0) {
+      else if(ext_radius == 433.0) {
         diff = 2.5;
       }
-      else if(ext_radius = 600.0) {
+      else if(ext_radius == 600.0) {
         diff = 2.7;
       }
     }
     else if(target_radius == 267.0) {
-      if(ext_radius = 100.0) {
+      if(ext_radius == 100.0) {
         diff = -2.0;
       }
-      else if(ext_radius = 433.0) {
+      else if(ext_radius == 433.0) {
         diff = 0.5;
       }
-      else if(ext_radius = 600.0) {
+      else if(ext_radius == 600.0) {
         diff = 0.7;
       }
     }
     else if(target_radius == 433.0) {
-      if(ext_radius = 100.0) {
+      if(ext_radius == 100.0) {
         diff = -2.5;
       }
-      else if(ext_radius = 267.0) {
+      else if(ext_radius == 267.0) {
         diff = -0.5;
       }
-      else if(ext_radius = 600.0) {
+      else if(ext_radius == 600.0) {
         diff = 0.2;
       }
     }
     else if(target_radius == 600.0) {
-      if(ext_radius = 100.0) {
+      if(ext_radius == 100.0) {
         diff = -2.7;
       }
-      else if(ext_radius = 267.0) {
+      else if(ext_radius == 267.0) {
         diff = -0.7;
       }
-      else if(ext_radius = 433.0) {
+      else if(ext_radius == 433.0) {
         diff = -0.2;
       }
     }
