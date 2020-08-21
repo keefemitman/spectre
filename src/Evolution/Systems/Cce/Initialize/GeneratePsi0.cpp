@@ -375,8 +375,8 @@ void GeneratePsi0::operator()(
   for(size_t i = 0; i < goldberg_modes_psi0.data().size(); ++i) {
     Parallel::printf("%e %e; %e %e \n",
         real(goldberg_modes_psi0.data()[i]),
-        imag(goldberg_modes_psi0.data()[i])
-        real(goldberg_modes_psi0_approx.data()[i])
+        imag(goldberg_modes_psi0.data()[i]),
+        real(goldberg_modes_psi0_approx.data()[i]),
         imag(goldberg_modes_psi0_approx.data()[i]));
   }
 
