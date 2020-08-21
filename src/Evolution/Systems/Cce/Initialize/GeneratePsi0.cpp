@@ -89,52 +89,7 @@ void read_in_worldtube_data(
             intrp::BarycentricRationalSpanInterpolator>(10_st, 10_st)};
 
     const double ext_radius = buffer_updater.get_extraction_radius();
-    double diff = 0;
-    if(target_radius == 100.0) {
-      if(ext_radius == 267.0) {
-        diff = 2.0;
-      }
-      else if(ext_radius == 433.0) {
-        diff = 2.5;
-      }
-      else if(ext_radius == 600.0) {
-        diff = 2.7;
-      }
-    }
-    else if(target_radius == 267.0) {
-      if(ext_radius == 100.0) {
-        diff = -2.0;
-      }
-      else if(ext_radius == 433.0) {
-        diff = 0.5;
-      }
-      else if(ext_radius == 600.0) {
-        diff = 0.7;
-      }
-    }
-    else if(target_radius == 433.0) {
-      if(ext_radius == 100.0) {
-        diff = -2.5;
-      }
-      else if(ext_radius == 267.0) {
-        diff = -0.5;
-      }
-      else if(ext_radius == 600.0) {
-        diff = 0.2;
-      }
-    }
-    else if(target_radius == 600.0) {
-      if(ext_radius == 100.0) {
-        diff = -2.7;
-      }
-      else if(ext_radius == 267.0) {
-        diff = -0.7;
-      }
-      else if(ext_radius == 433.0) {
-        diff = -0.2;
-      }
-    }
-    const double corrected_time = (ext_radius - target_radius + diff)
+    const double corrected_time = (ext_radius - target_radius)
         + target_time;
     data_manager.populate_hypersurface_boundary_data(
         make_not_null(&variables), corrected_time);
@@ -367,18 +322,25 @@ void GeneratePsi0::operator()(
               + start_idx, number_of_angular_points);
   Scalar<SpinWeighted<ComplexDataVector, 0>> k_at_radius{
       sqrt(1.0 + (get(j_at_radius) * conj(get(j_at_radius)))).data()};
+  Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius_approx{
+      -2.0 * dr_j_at_radius.data() / r_at_radius.data()};
 
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
       (0.5 * get(r_at_radius) * get(dr_j_at_radius)).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
       (square(0.5 * get(r_at_radius))
           * get(dr_dr_j_at_radius)).data()};
+  Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius_approx{
+      (square(0.5 * get(r_at_radius))
+          * get(dr_dr_j_at_radius_approx)).data()};
 
   // compute psi_0
   Scalar<SpinWeighted<ComplexDataVector, 0>> one_minus_y{
       number_of_angular_points};
   get(one_minus_y).data() = std::complex<double>(2.0,0.0);
   Scalar<SpinWeighted<ComplexDataVector, 2>> psi_0{
+      number_of_angular_points};
+  Scalar<SpinWeighted<ComplexDataVector, 2>> psi_0_approx{
       number_of_angular_points};
   VolumeWeyl<Tags::Psi0>::apply(make_not_null(&psi_0),
                                 j_at_radius,
@@ -387,41 +349,36 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  double average_j_dr_dr_j = detail::relative_error(
-      2.0*get(j_at_radius).data()/square(get(r_at_radius).data()),
-      get(dr_dr_j_at_radius).data(), false);
-  double average_dr_j_dr_dr_j = detail::relative_error(
-      -2.0*get(dr_j_at_radius).data()/get(r_at_radius).data(),
-      get(dr_dr_j_at_radius).data(), false);
-  double average_j_dr_j = detail::relative_error(
-      -get(j_at_radius).data()/get(r_at_radius).data(),
-      get(dr_j_at_radius).data(), false);
-  Parallel::printf("J vs. dr_dr_J: %e percent\n",average_j_dr_dr_j);
-  Parallel::printf("dr_J vs. dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
-  Parallel::printf("J vs. dr_J: %e percent\n",average_j_dr_j);
+  VolumeWeyl<Tags::Psi0>::apply(make_not_null(&psi_0_approx),
+                                j_at_radius,
+                                dy_j_at_radius,
+                                dy_dy_j_at_radius_approx,
+                                k_at_radius,
+                                r_at_radius,
+                                one_minus_y);
 
-  // compute dr_j
-  Scalar<SpinWeighted<ComplexDataVector, 2>> dr_j_at_radius_interp{
-      number_of_angular_points};
-  detail::second_derivative_of_j_from_worldtubes(
-      make_not_null(&dr_j_at_radius_interp),
-      j_container, r_container, l_max, target_idx_);
-  double average_dr_j_dr_j = detail::relative_error(
-      get(dr_j_at_radius_interp).data(),
-      get(dr_j_at_radius).data(), false);
-
-  Parallel::printf("dr_J vs. dr_J: %e percent\n",average_dr_j_dr_j);
-  // Parallel::printf("psi0: \n");
-  // Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
-  //     get(psi_0).data() *
-  //         pow<5>(get(r_at_radius).data())};
-  // const auto goldberg_modes_psi0 =
-  //     Spectral::Swsh::libsharp_to_goldberg_modes(
-  //         Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0)),
-  //     l_max);
-  // for(size_t i = 0; i < goldberg_modes_psi0.data().size(); ++i) {
-  //   Parallel::printf("%e \n",real(goldberg_modes_psi0.data()[i]));
-  // }
+  Parallel::printf("psi0: \n");
+  Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
+      get(psi_0).data() *
+          pow<5>(get(r_at_radius).data())};
+  Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0_approx{
+      get(psi_0).data() *
+          pow<5>(get(r_at_radius).data())};
+  const auto goldberg_modes_psi0 =
+      Spectral::Swsh::libsharp_to_goldberg_modes(
+          Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0)),
+      l_max);
+  const auto goldberg_modes_psi0_approx =
+      Spectral::Swsh::libsharp_to_goldberg_modes(
+          Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0_approx)),
+      l_max);
+  for(size_t i = 0; i < goldberg_modes_psi0.data().size(); ++i) {
+    Parallel::printf("%e %e; %e %e \n",
+        real(goldberg_modes_psi0.data()[i]),
+        imag(goldberg_modes_psi0.data()[i])
+        real(goldberg_modes_psi0_approx.data()[i])
+        imag(goldberg_modes_psi0_approx.data()[i]));
+  }
 
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
