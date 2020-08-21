@@ -43,6 +43,34 @@ namespace Cce {
 namespace InitializeJ {
 namespace detail {
 
+void relative_error(const Scalar<SpinWeighted<ComplexDataVector, 2>> j,
+    const Scalar<SpinWeighted<ComplexDataVector, 2>> dr_j,
+    const Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j,
+    const Scalar<SpinWeighted<ComplexDataVector, 0>> r) noexcept {
+  double average_j_dr_dr_j = 0;
+  double average_dr_j_dr_dr_j = 0;
+  double average_j_dr_j = 0;
+  for(size_t i = 0; i < get(A).data.size(); ++i) {
+    double rel_error_j_dr_dr_j = abs((2.0*get(j).data()[i]
+      /square(get(r).data()[i])
+      - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i]*100);
+    double rel_error_dr_j_dr_dr_j = abs((-2.0*get(dr_j).data()[i]
+      /get(r).data()[i]
+      - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i]*100);
+    double rel_error_j_dr_j = abs((-get(j).data()[i]
+      /get(r).data()[i]
+      - get(dr_j).data()[i])/get(dr_j).data()[i]*100);
+
+    average_j_dr_dr_j += rel_error_j_dr_dr_j;
+    average_dr_j_dr_dr_j += rel_error_dr_j_dr_dr_j;
+    average_j_dr_j += rel_error_j_dr_j;
+
+    Parallel::printf("J vs dr_dr_J: %e \n",average_j_dr_dr_j);
+    Parallel::printf("dr_J vs dr_dr_J: %e \n",average_dr_j_dr_dr_j);
+    Parallel::printf("J vs dr_J: %e \n",average_j_dr_j);
+  }
+}
+
 void read_in_worldtube_data(
     const gsl::not_null<Scalar<SpinWeighted<ComplexDataVector, 2>>*>
         j_container,
@@ -324,36 +352,7 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  // Parallel::printf("r: \n");
-  // for(size_t i = 0; i < get(r_at_radius).data().size(); ++i) {
-  //   Parallel::printf("%e, %e \n",
-  //                    real(get(r_at_radius).data()[i]),
-  //                    imag(get(r_at_radius).data()[i]));
-  // }
-  Parallel::printf("j: \n");
-  for(size_t i = 0; i < get(j_at_radius).data().size(); ++i) {
-    Parallel::printf("%e, %e \n",
-                     real(get(j_at_radius).data()[i]),
-                     imag(get(j_at_radius).data()[i]));
-  }
-  Parallel::printf("dr_j: \n");
-  for(size_t i = 0; i < get(dr_j_at_radius).data().size(); ++i) {
-    Parallel::printf("%e, %e \n",
-                     real(get(dr_j_at_radius).data()[i]),
-                     imag(get(dr_j_at_radius).data()[i]));
-  }
-  Parallel::printf("dr_dr_j: \n");
-  for(size_t i = 0; i < get(dr_dr_j_at_radius).data().size(); ++i) {
-    Parallel::printf("%e, %e \n",
-                     real(get(dr_dr_j_at_radius).data()[i]),
-                     imag(get(dr_dr_j_at_radius).data()[i]));
-  }
-  // Parallel::printf("dy_dy_j: \n");
-  // for(size_t i = 0; i < get(dy_dy_j_at_radius).data().size(); ++i) {
-  //   Parallel::printf("%e, %e \n",
-  //                    real(get(dy_dy_j_at_radius).data()[i]),
-  //                    imag(get(dy_dy_j_at_radius).data()[i]));
-  // }
+  relative_error(j_at_radius, dr_j_at_radius, dr_dr_j_at_radius, r_at_radius);
   // Parallel::printf("psi0: \n");
   // Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
   //     get(psi_0).data() *
