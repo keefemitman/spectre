@@ -355,7 +355,7 @@ void GeneratePsi0::operator()(
       j_container, r_container, l_max, target_idx_);
   double average_dr_j_dr_j = detail::relative_error(
       get(dr_j_at_radius_interp).data(),
-      get(dr_dr_j_at_radius).data());
+      get(dr_j_at_radius).data());
 
   Parallel::printf("J vs. dr_dr_J: %e percent\n",average_j_dr_dr_j);
   Parallel::printf("dr_J vs. dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
