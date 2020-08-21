@@ -64,11 +64,14 @@ void relative_error(const Scalar<SpinWeighted<ComplexDataVector, 2>> j,
     average_j_dr_dr_j += rel_error_j_dr_dr_j;
     average_dr_j_dr_dr_j += rel_error_dr_j_dr_dr_j;
     average_j_dr_j += rel_error_j_dr_j;
-
-    Parallel::printf("J vs dr_dr_J: %e percent\n",average_j_dr_dr_j);
-    Parallel::printf("dr_J vs dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
-    Parallel::printf("J vs dr_J: %e percent\n",average_j_dr_j);
   }
+  average_j_dr_dr_j /= get(j).data().size();
+  average_dr_j_dr_dr_j /= get(j).data().size();
+  average_j_dr_j /= get(j).data().size();
+
+  Parallel::printf("J vs dr_dr_J: %e percent\n",average_j_dr_dr_j);
+  Parallel::printf("dr_J vs dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
+  Parallel::printf("J vs dr_J: %e percent\n",average_j_dr_j);
 }
 
 void read_in_worldtube_data(
