@@ -362,7 +362,7 @@ void GeneratePsi0::operator()(
       get(psi_0).data() *
           pow<5>(get(r_at_radius).data())};
   Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0_approx{
-      get(psi_0).data() *
+      get(psi_0_approx).data() *
           pow<5>(get(r_at_radius).data())};
   const auto goldberg_modes_psi0 =
       Spectral::Swsh::libsharp_to_goldberg_modes(
