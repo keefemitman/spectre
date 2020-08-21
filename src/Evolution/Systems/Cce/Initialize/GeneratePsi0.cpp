@@ -382,7 +382,7 @@ void GeneratePsi0::operator()(
 
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
-      get(dr_j_at_radius), get(psi_0), get(r),
+      get(dr_j_at_radius), get(psi_0_approx), get(r),
       l_max, number_of_radial_points);
   const SpinWeighted<ComplexDataVector, 2> j_at_scri_view;
   make_const_view(make_not_null(&j_at_scri_view), get(*j),
