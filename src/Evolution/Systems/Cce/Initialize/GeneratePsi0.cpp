@@ -323,7 +323,7 @@ void GeneratePsi0::operator()(
   Scalar<SpinWeighted<ComplexDataVector, 0>> k_at_radius{
       sqrt(1.0 + (get(j_at_radius) * conj(get(j_at_radius)))).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius_approx{
-      -2.0 * dr_j_at_radius.data() / r_at_radius.data()};
+      (-2.0 * get(dr_j_at_radius) / get(r_at_radius)).data()};
 
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
       (0.5 * get(r_at_radius) * get(dr_j_at_radius)).data()};
