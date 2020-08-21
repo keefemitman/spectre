@@ -50,24 +50,24 @@ void relative_error(const Scalar<SpinWeighted<ComplexDataVector, 2>> j,
   double average_j_dr_dr_j = 0;
   double average_dr_j_dr_dr_j = 0;
   double average_j_dr_j = 0;
-  for(size_t i = 0; i < get(A).data.size(); ++i) {
+  for(size_t i = 0; i < get(j).data.size(); ++i) {
     double rel_error_j_dr_dr_j = abs((2.0*get(j).data()[i]
       /square(get(r).data()[i])
-      - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i]*100);
+      - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i])*100;
     double rel_error_dr_j_dr_dr_j = abs((-2.0*get(dr_j).data()[i]
       /get(r).data()[i]
-      - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i]*100);
+      - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i])*100;
     double rel_error_j_dr_j = abs((-get(j).data()[i]
       /get(r).data()[i]
-      - get(dr_j).data()[i])/get(dr_j).data()[i]*100);
+      - get(dr_j).data()[i])/get(dr_j).data()[i])*100;
 
     average_j_dr_dr_j += rel_error_j_dr_dr_j;
     average_dr_j_dr_dr_j += rel_error_dr_j_dr_dr_j;
     average_j_dr_j += rel_error_j_dr_j;
 
-    Parallel::printf("J vs dr_dr_J: %e \n",average_j_dr_dr_j);
-    Parallel::printf("dr_J vs dr_dr_J: %e \n",average_dr_j_dr_dr_j);
-    Parallel::printf("J vs dr_J: %e \n",average_j_dr_j);
+    Parallel::printf("J vs dr_dr_J: %e percent\n",average_j_dr_dr_j);
+    Parallel::printf("dr_J vs dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
+    Parallel::printf("J vs dr_J: %e percent\n",average_j_dr_j);
   }
 }
 
