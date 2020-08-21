@@ -50,7 +50,7 @@ void relative_error(const Scalar<SpinWeighted<ComplexDataVector, 2>> j,
   double average_j_dr_dr_j = 0;
   double average_dr_j_dr_dr_j = 0;
   double average_j_dr_j = 0;
-  for(size_t i = 0; i < get(j).data.size(); ++i) {
+  for(size_t i = 0; i < get(j).data().size(); ++i) {
     double rel_error_j_dr_dr_j = abs((2.0*get(j).data()[i]
       /square(get(r).data()[i])
       - get(dr_dr_j).data()[i])/get(dr_dr_j).data()[i])*100;
