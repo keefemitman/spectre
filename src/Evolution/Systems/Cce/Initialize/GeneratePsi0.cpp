@@ -343,13 +343,13 @@ void GeneratePsi0::operator()(
                                 one_minus_y);
   double average_j_dr_dr_j = detail::relative_error(
       2.0*get(j_at_radius).data()/square(get(r_at_radius).data()),
-      get(dr_dr_j_at_radius).data());
+      get(dr_dr_j_at_radius).data(), false);
   double average_dr_j_dr_dr_j = detail::relative_error(
       -2.0*get(dr_j_at_radius).data()/get(r_at_radius).data(),
-      get(dr_dr_j_at_radius).data());
+      get(dr_dr_j_at_radius).data(), false);
   double average_j_dr_j = detail::relative_error(
       -get(j_at_radius).data()/get(r_at_radius).data(),
-      get(dr_j_at_radius).data());
+      get(dr_j_at_radius).data(), false);
   Parallel::printf("J vs. dr_dr_J: %e percent\n",average_j_dr_dr_j);
   Parallel::printf("dr_J vs. dr_dr_J: %e percent\n",average_dr_j_dr_dr_j);
   Parallel::printf("J vs. dr_J: %e percent\n\n",average_j_dr_j);
@@ -362,7 +362,7 @@ void GeneratePsi0::operator()(
       j_container, r_container, l_max, target_idx_);
   double average_dr_j_dr_j = detail::relative_error(
       get(dr_j_at_radius_interp).data(),
-      get(dr_j_at_radius).data(),true);
+      get(dr_j_at_radius).data(), true);
 
   Parallel::printf("dr_J vs. dr_J: %e percent\n",average_dr_j_dr_j);
   // Parallel::printf("psi0: \n");
