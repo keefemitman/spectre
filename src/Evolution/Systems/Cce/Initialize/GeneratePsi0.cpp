@@ -352,7 +352,8 @@ void GeneratePsi0::operator()(
                                 k_at_radius,
                                 r_at_radius,
                                 one_minus_y);
-  relative_error(j_at_radius, dr_j_at_radius, dr_dr_j_at_radius, r_at_radius);
+  detail::relative_error(
+      j_at_radius, dr_j_at_radius, dr_dr_j_at_radius, r_at_radius);
   // Parallel::printf("psi0: \n");
   // Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
   //     get(psi_0).data() *
