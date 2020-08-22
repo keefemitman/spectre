@@ -322,14 +322,13 @@ void GeneratePsi0::operator()(
               + start_idx, number_of_angular_points);
   Scalar<SpinWeighted<ComplexDataVector, 0>> k_at_radius{
       sqrt(1.0 + (get(j_at_radius) * conj(get(j_at_radius)))).data()};
-  Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius_approx{
-      (-2.0 * get(dr_j_at_radius) / get(r_at_radius)).data()};
 
+  // convert to y coordinates
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_j_at_radius{
       (0.5 * get(r_at_radius) * get(dr_j_at_radius)).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius{
-      (square(0.5 * get(r_at_radius))
-          * get(dr_dr_j_at_radius)).data()};
+      (square(0.5 * get(r_at_radius)) * get(dr_dr_j_at_radius)
+          + 0.5 * get(r_at_radius) * get(dr_j_at_radius)).data()};
   Scalar<SpinWeighted<ComplexDataVector, 2>> dy_dy_j_at_radius_approx{
       (-(get(j_at_radius) / 2.0 + get(dy_j_at_radius))).data()};
 
@@ -381,7 +380,7 @@ void GeneratePsi0::operator()(
 
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
-      get(dr_j_at_radius), get(psi_0_approx), get(r),
+      get(dr_j_at_radius), get(psi_0), get(r),
       l_max, number_of_radial_points);
   const SpinWeighted<ComplexDataVector, 2> j_at_scri_view;
   make_const_view(make_not_null(&j_at_scri_view), get(*j),
