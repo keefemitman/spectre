@@ -299,9 +299,9 @@ void GeneratePsi0::operator()(
   // compute dr_dr_j
   Scalar<SpinWeighted<ComplexDataVector, 2>> dr_dr_j_at_radius{
       number_of_angular_points};
-  detail::second_derivative_of_j_from_worldtubes(
-      make_not_null(&dr_dr_j_at_radius),
-      dr_j_container, r_container, l_max, target_idx_);
+  // detail::second_derivative_of_j_from_worldtubes(
+  //     make_not_null(&dr_dr_j_at_radius),
+  //     dr_j_container, r_container, l_max, target_idx_);
 
   // acquire variables for psi_0
   size_t start_idx = number_of_angular_points * target_idx_;
@@ -340,13 +340,13 @@ void GeneratePsi0::operator()(
       number_of_angular_points};
   Scalar<SpinWeighted<ComplexDataVector, 2>> psi_0_approx{
       number_of_angular_points};
-  VolumeWeyl<Tags::Psi0>::apply(make_not_null(&psi_0),
-                                j_at_radius,
-                                dy_j_at_radius,
-                                dy_dy_j_at_radius,
-                                k_at_radius,
-                                r_at_radius,
-                                one_minus_y);
+  // VolumeWeyl<Tags::Psi0>::apply(make_not_null(&psi_0),
+  //                               j_at_radius,
+  //                               dy_j_at_radius,
+  //                               dy_dy_j_at_radius,
+  //                               k_at_radius,
+  //                               r_at_radius,
+  //                               one_minus_y);
   VolumeWeyl<Tags::Psi0>::apply(make_not_null(&psi_0_approx),
                                 j_at_radius,
                                 dy_j_at_radius,
@@ -355,32 +355,9 @@ void GeneratePsi0::operator()(
                                 r_at_radius,
                                 one_minus_y);
 
-  Parallel::printf("psi0: \n");
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0{
-      get(psi_0).data() *
-          pow<5>(get(r_at_radius).data())};
-  Scalar<SpinWeighted<ComplexDataVector, 2>> m_psi0_approx{
-      get(psi_0_approx).data() *
-          pow<5>(get(r_at_radius).data())};
-  const auto goldberg_modes_psi0 =
-      Spectral::Swsh::libsharp_to_goldberg_modes(
-          Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0)),
-      l_max);
-  const auto goldberg_modes_psi0_approx =
-      Spectral::Swsh::libsharp_to_goldberg_modes(
-          Spectral::Swsh::swsh_transform(l_max, 1, get(m_psi0_approx)),
-      l_max);
-  for(size_t i = 0; i < goldberg_modes_psi0.data().size(); ++i) {
-    Parallel::printf("%e %e; %e %e \n",
-        real(goldberg_modes_psi0.data()[i]),
-        imag(goldberg_modes_psi0.data()[i]),
-        real(goldberg_modes_psi0_approx.data()[i]),
-        imag(goldberg_modes_psi0_approx.data()[i]));
-  }
-
   detail::radial_evolve_psi0_condition(
       make_not_null(&get(*j)), get(j_at_radius),
-      get(dr_j_at_radius), get(psi_0), get(r),
+      get(dr_j_at_radius), get(psi_0_approx), get(r),
       l_max, number_of_radial_points);
   const SpinWeighted<ComplexDataVector, 2> j_at_scri_view;
   make_const_view(make_not_null(&j_at_scri_view), get(*j),
