@@ -596,13 +596,18 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
           (interpolate_derivative_matrix * minus_m_time_collocation_values)[0] /
           (time_points[interpolation_span_size - 1] - time_points[0]);
 
-      spin_weighted_buffer.set_data_ref(
-          get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
-              .get(indices...)
-              .data(),
-          get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
-              .get(indices...)
-              .size());
+      if constexpr (std::is_same_v<tag, Tags::detail::Strain> or
+          std::is_same_v<tag, Tags::detail::Lapse> or
+          std::is_same_v<tag, Tags::detail::Shift> or
+          std::is_same_v<tag, Tags::detail::ConformalFactor>) {
+        spin_weighted_buffer.set_data_ref(
+            get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
+                .get(indices...)
+                .data(),
+            get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
+                .get(indices...)
+                .size());
+      }
 
       Spectral::Swsh::goldberg_modes_to_libsharp_modes_single_pair(
           libsharp_mode, make_not_null(&spin_weighted_buffer), 0,
@@ -639,13 +644,15 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
       Spectral::Swsh::swsh_transform(l_max_, 1, make_not_null(&offset),
                                      pre_transform);
     }
-    get<Tags::detail::Dr<tag>>(interpolated_coefficients_buffers_)
-        .get(indices...) =
-        -get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
-             .get(indices...) -
-        (get<tag>(interpolated_coefficients_buffers_).get(indices...) -
-         offset.data()) /
-            extraction_radius_;
+    if constexpr (std::is_same_v<tag, Tags::detail::Strain>) {
+      get<Tags::detail::Dr<tag>>(interpolated_coefficients_buffers_)
+          .get(indices...) =
+          -get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
+               .get(indices...) -
+          (get<tag>(interpolated_coefficients_buffers_).get(indices...) -
+           offset.data()) /
+              extraction_radius_;
+    }
   };
 
   // the ComplexModalVectors should be provided from the buffer_updater_ in
@@ -654,7 +661,8 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
   tmpl::for_each<cce_pn_input_tags>(
       [this, &set_modes_for_tag](auto tag_v) noexcept {
         using tag = typename decltype(tag_v)::type;
-        if constexpr (std::is_same_v<tag, Tags::detail::Shift>) {
+        if constexpr (std::is_same_v<tag, Tags::detail::Shift> or
+            std::is_same_v<tag, Tags::detail::Dr<Tags::detail::Shift>>) {
           for (size_t i = 0; i < 3; ++i) {
             set_modes_for_tag(tag_v, i);
           }
@@ -859,20 +867,24 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
 double find_first_downgoing_zero_crossing(
     const std::unique_ptr<WorldtubeDataManager> manager,
     const double start_time, const double time_step) noexcept {
+  Parallel::printf("starting\n");
   const size_t l_max = manager->get_l_max();
   Variables<Tags::characteristic_worldtube_boundary_tags<Tags::BoundaryValue>>
       boundary_buffer{Spectral::Swsh::number_of_swsh_collocation_points(l_max)};
   SpinWeighted<ComplexModalVector, 2> goldberg_buffer{square(l_max + 1)};
   const auto get_re22_mode = [&goldberg_buffer, &boundary_buffer, &manager,
                               &l_max](const double time) {
+    Parallel::printf("start get\n");
     manager->populate_hypersurface_boundary_data(
         make_not_null(&boundary_buffer), time);
+    Parallel::printf("spectral\n");
     Spectral::Swsh::libsharp_to_goldberg_modes(
         make_not_null(&goldberg_buffer),
         Spectral::Swsh::swsh_transform(
             l_max, 1,
             get(get<Tags::BoundaryValue<Tags::BondiH>>(boundary_buffer))),
         l_max);
+    Parallel::printf("return\n");
     return real(goldberg_buffer.data()[8]);
   };
   // below is a shitty root-find. let's implement an non-shitty root find soon.
@@ -881,7 +893,6 @@ double find_first_downgoing_zero_crossing(
     current_time += time_step;
   }
   while (get_re22_mode(current_time) > 0.0) {
-    Parallel::printf("mode: %e\n", get_re22_mode(current_time));
     current_time += time_step;
   }
   const double previous_re22_mode = get_re22_mode(current_time - time_step);

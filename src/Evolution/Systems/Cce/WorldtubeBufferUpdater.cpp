@@ -453,14 +453,17 @@ ModeSetBoundaryH5BufferUpdater::ModeSetBoundaryH5BufferUpdater(
       "/Strain";
   get<Tags::detail::InputDataSet<Tags::detail::Shift>>(dataset_names_) =
       "/Shift";
-  // get<Tags::detail::InputDataSet<Tags::detail::Dr<Tags::detail::Shift>>>(
-      // dataset_names_) = "/DrShift";
+  get<Tags::detail::InputDataSet<Tags::detail::Dr<Tags::detail::Shift>>>(
+      dataset_names_) = "/DrShift";
   get<Tags::detail::InputDataSet<Tags::detail::Lapse>>(dataset_names_) =
       "/Lapse";
-  // get<Tags::detail::InputDataSet<Tags::detail::Dr<Tags::detail::Lapse>>>(
-      // dataset_names_) = "/DrLapse";
+  get<Tags::detail::InputDataSet<Tags::detail::Dr<Tags::detail::Lapse>>>(
+      dataset_names_) = "/DrLapse";
   get<Tags::detail::InputDataSet<Tags::detail::ConformalFactor>>(
       dataset_names_) = "/ConformalFactor";
+  get<Tags::detail::InputDataSet<Tags::detail::Dr<
+      Tags::detail::ConformalFactor>>>(
+        dataset_names_) = "/DrConformalFactor";
 
   // assume that any valid mode file has at least the 2, 2 mode.
   const auto& mode22_data = mode_file_.get<h5::Dat>("/Strain/Y_l2_m2");
@@ -502,7 +505,8 @@ double ModeSetBoundaryH5BufferUpdater::update_buffer_for_time(
                                      columns, time_span_start,
                                      time_span_end](auto tag_v) noexcept {
     using tag = typename decltype(tag_v)::type;
-    if constexpr(std::is_same_v<tag, Tags::detail::Shift>) {
+    if constexpr(std::is_same_v<tag, Tags::detail::Shift> or
+        std::is_same_v<tag, Tags::detail::Dr<Tags::detail::Shift>>) {
       for (size_t i = 0; i < 3; ++i) {
         get<tag>(*buffer).get(i) = 0.0;
       }
@@ -513,7 +517,8 @@ double ModeSetBoundaryH5BufferUpdater::update_buffer_for_time(
                                                            : l_min_;
          l <= static_cast<int>(std::min(computation_l_max, l_max_)); ++l) {
       for (int m = -l; m <= l; ++m) {
-        if constexpr (std::is_same_v<tag, Tags::detail::Shift>) {
+        if constexpr (std::is_same_v<tag, Tags::detail::Shift> or
+            std::is_same_v<tag, Tags::detail::Dr<Tags::detail::Shift>>) {
           for (size_t i = 0; i < 3; ++i) {
             const h5::Dat& read_data = mode_file_.get<h5::Dat>(
                 MakeString{}

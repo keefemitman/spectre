@@ -113,9 +113,10 @@ using cce_bondi_input_tags =
                Spectral::Swsh::Tags::SwshTransform<Tags::Du<Tags::BondiR>>>;
 
 using cce_pn_input_tags =
-    tmpl::list<Tags::detail::Shift,// Tags::detail::Dr<Tags::detail::Shift>,
-               Tags::detail::Lapse,// Tags::detail::Dr<Tags::detail::Lapse>,
-               Tags::detail::Strain, Tags::detail::ConformalFactor>;
+    tmpl::list<Tags::detail::Shift, Tags::detail::Dr<Tags::detail::Shift>,
+               Tags::detail::Lapse, Tags::detail::Dr<Tags::detail::Lapse>,
+               Tags::detail::Strain, Tags::detail::ConformalFactor,
+               Tags::detail::Dr<Tags::detail::ConformalFactor>>;
 
 using interpolated_cce_pn_input_tags =
     tmpl::list<Tags::detail::Shift, Tags::detail::Dr<Tags::detail::Shift>,
