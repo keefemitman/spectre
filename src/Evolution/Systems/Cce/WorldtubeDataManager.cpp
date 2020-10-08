@@ -607,11 +607,11 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
             get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
                 .get(indices...)
                 .size());
-      }
 
-      Spectral::Swsh::goldberg_modes_to_libsharp_modes_single_pair(
-          libsharp_mode, make_not_null(&spin_weighted_buffer), 0,
-          dt_plus_m_mode, dt_minus_m_mode);
+        Spectral::Swsh::goldberg_modes_to_libsharp_modes_single_pair(
+            libsharp_mode, make_not_null(&spin_weighted_buffer), 0,
+            dt_plus_m_mode, dt_minus_m_mode);
+      }
 
       spin_weighted_buffer.set_data_ref(
           get<tag>(interpolated_coefficients_buffers_).get(indices...).data(),
@@ -629,8 +629,8 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
               Spectral::Swsh::goldberg_mode_index(
                   l_max_, libsharp_mode.l, -static_cast<int>(libsharp_mode.m)),
               time));
-
     }
+
     // for now, because we don't have the precise value for the dr_f modes, we
     // approximate them as dr_f = -dt_f - f/r (assuming f = F(u)/r)
     decltype(spin_weighted_buffer) offset{
@@ -874,17 +874,14 @@ double find_first_downgoing_zero_crossing(
   SpinWeighted<ComplexModalVector, 2> goldberg_buffer{square(l_max + 1)};
   const auto get_re22_mode = [&goldberg_buffer, &boundary_buffer, &manager,
                               &l_max](const double time) {
-    Parallel::printf("start get\n");
     manager->populate_hypersurface_boundary_data(
         make_not_null(&boundary_buffer), time);
-    Parallel::printf("spectral\n");
     Spectral::Swsh::libsharp_to_goldberg_modes(
         make_not_null(&goldberg_buffer),
         Spectral::Swsh::swsh_transform(
             l_max, 1,
             get(get<Tags::BoundaryValue<Tags::BondiH>>(boundary_buffer))),
         l_max);
-    Parallel::printf("return\n");
     return real(goldberg_buffer.data()[8]);
   };
   // below is a shitty root-find. let's implement an non-shitty root find soon.

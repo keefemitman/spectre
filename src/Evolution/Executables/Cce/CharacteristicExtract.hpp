@@ -62,7 +62,8 @@ struct EvolutionMetavars {
                  Cce::Tags::ScriPlus<Cce::Tags::Psi0>,
                  Cce::Tags::Du<Cce::Tags::TimeIntegral<
                      Cce::Tags::ScriPlus<Cce::Tags::Psi4>>>,
-                 Cce::Tags::EthInertialRetardedTime>;
+                 Cce::Tags::EthInertialRetardedTime,
+                 Cce::Tags::BetaOut>;
 
   using cce_scri_tags =
       tmpl::list<Cce::Tags::News, Cce::Tags::ScriPlus<Cce::Tags::Strain>,
@@ -71,7 +72,8 @@ struct EvolutionMetavars {
                  Cce::Tags::ScriPlus<Cce::Tags::Psi1>,
                  Cce::Tags::ScriPlus<Cce::Tags::Psi0>,
                  Cce::Tags::TimeIntegral<Cce::Tags::ScriPlus<Cce::Tags::Psi4>>,
-                 Cce::Tags::EthInertialRetardedTime>;
+                 Cce::Tags::EthInertialRetardedTime,
+                 Cce::Tags::BetaOut>;
   using cce_integrand_tags = tmpl::flatten<tmpl::transform<
       Cce::bondi_hypersurface_step_tags,
       tmpl::bind<Cce::integrand_terms_to_compute_for_bondi_variable,

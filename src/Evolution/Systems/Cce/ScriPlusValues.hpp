@@ -18,7 +18,8 @@ using scri_plus_interpolation_set =
                Tags::ScriPlus<Tags::Psi3>, Tags::ScriPlus<Tags::Psi2>,
                Tags::ScriPlus<Tags::Psi1>, Tags::ScriPlus<Tags::Psi0>,
                Tags::Du<Tags::TimeIntegral<Tags::ScriPlus<Tags::Psi4>>>,
-               Tags::EthInertialRetardedTime>;
+               Tags::EthInertialRetardedTime,
+               Tags::BetaOut>;
 
 template <typename Tag>
 struct CalculateScriPlusValue;
@@ -413,6 +414,16 @@ struct CalculateScriPlusValue<Tags::EthInertialRetardedTime> {
       size_t l_max) noexcept;
 };
 
+template<>
+struct CalculateScriPlusValue<Tags::BetaOut> {
+  using return_tags = tmpl::list<Tags::BetaOut>;
+  using argument_tags = tmpl::list<Tags::BondiBeta>;
+
+  static void apply(
+      gsl::not_null<Scalar<SpinWeighted<ComplexDataVector, 0>>*> beta,
+      const Scalar<SpinWeighted<ComplexDataVector, 0>>& bondi_beta) noexcept;
+};
+
 /// Initialize the \f$\mathcal I^+\f$ value `Tag` for the first hypersurface.
 template <typename Tag>
 struct InitializeScriPlusValue;
@@ -427,6 +438,9 @@ struct InitializeScriPlusValue<Tags::InertialRetardedTime> {
   static void apply(const gsl::not_null<Scalar<DataVector>*> inertial_time,
                     const double initial_time = 0.0) noexcept {
     // this is arbitrary, and has to do with choosing a BMS frame.
+    //for (int i = 0; i < sizeof(initial_time); i++) {
+    //  printf("%e\n",initial_time);
+    // }
     get(*inertial_time) = initial_time;
   }
 };

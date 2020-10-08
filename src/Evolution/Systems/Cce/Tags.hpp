@@ -176,6 +176,10 @@ struct EthInertialRetardedTime : db::SimpleTag {
   using type = Scalar<SpinWeighted<ComplexDataVector, 1>>;
 };
 
+struct BetaOut : db::SimpleTag {
+  using type = Scalar<SpinWeighted<ComplexDataVector, 0>>;
+};
+
 /// Complex storage form for the asymptotically inertial retarded time, for
 /// taking spin-weighted derivatives
 struct ComplexInertialRetardedTime : db::SimpleTag {

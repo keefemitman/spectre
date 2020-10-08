@@ -355,6 +355,12 @@ void CalculateScriPlusValue<Tags::EthInertialRetardedTime>::apply(
       l_max, 1, make_not_null(&get(*eth_inertial_time)), get(inertial_time));
 }
 
+void CalculateScriPlusValue<Tags::BetaOut>::apply(
+    gsl::not_null<Scalar<SpinWeighted<ComplexDataVector, 0>>*> beta,
+    const Scalar<SpinWeighted<ComplexDataVector, 0>>& bondi_beta) noexcept {
+  get(*beta) = get(bondi_beta).data();
+}
+
 void CalculateScriPlusValue<::Tags::dt<Tags::InertialRetardedTime>>::apply(
     const gsl::not_null<Scalar<DataVector>*> dt_inertial_time,
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& exp_2_beta) noexcept {
