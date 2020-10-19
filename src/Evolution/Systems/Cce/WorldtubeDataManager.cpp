@@ -785,17 +785,17 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
           std::complex<double>(1.0, 0.0) * square(extraction_radius_) *
               (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
                    inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                   real(dr_strain) / extraction_radius_ +
+               real(dr_strain) / extraction_radius_ +
                (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                    inverse_cartesian_to_spherical_jacobian.get(j, 2) +
+                   inverse_cartesian_to_spherical_jacobian.get(j, 2) +
                 inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                    inverse_cartesian_to_spherical_jacobian.get(i, 2)) *
-                   imag(dr_strain) / extraction_radius_ -
+                   inverse_cartesian_to_spherical_jacobian.get(i, 2)) *
+               imag(dr_strain) / extraction_radius_ -
                inverse_cartesian_to_spherical_jacobian.get(i, 2) *
                    inverse_cartesian_to_spherical_jacobian.get(j, 2) *
-                   real(dr_strain) / extraction_radius_) +
-          (i == j ? 4.0 * pow<3>(conformal_factor) * dr_conformal_factor
-                  : ComplexDataVector{size, 0.0});
+               real(dr_strain) / extraction_radius_ ) +
+          (i == j ? 4.0 * pow<3>(conformal_factor) * dr_conformal_factor :
+               ComplexDataVector{size, 0.0});
       transform_view.set_data_ref(
           get<Tags::detail::Dr<Tags::detail::SpatialMetric>>(
               metric_coefficients_)
@@ -820,8 +820,7 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
                inverse_cartesian_to_spherical_jacobian.get(i, 2) *
                    inverse_cartesian_to_spherical_jacobian.get(j, 2) *
                    real(dt_strain) / extraction_radius_) +
-          (i == j ? 4.0 * pow<3>(conformal_factor) * dt_conformal_factor /
-                        extraction_radius_
+          (i == j ? 4.0 * pow<3>(conformal_factor) * dt_conformal_factor
                   : ComplexDataVector{size, 0.0});
       transform_view.set_data_ref(
           get<::Tags::dt<Tags::detail::SpatialMetric>>(metric_coefficients_)

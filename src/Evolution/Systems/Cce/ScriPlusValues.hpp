@@ -19,7 +19,8 @@ using scri_plus_interpolation_set =
                Tags::ScriPlus<Tags::Psi1>, Tags::ScriPlus<Tags::Psi0>,
                Tags::Du<Tags::TimeIntegral<Tags::ScriPlus<Tags::Psi4>>>,
                Tags::EthInertialRetardedTime,
-               Tags::BetaOut>;
+               Tags::BetaOut,
+               Tags::WOut>;
 
 template <typename Tag>
 struct CalculateScriPlusValue;
@@ -417,11 +418,22 @@ struct CalculateScriPlusValue<Tags::EthInertialRetardedTime> {
 template<>
 struct CalculateScriPlusValue<Tags::BetaOut> {
   using return_tags = tmpl::list<Tags::BetaOut>;
-  using argument_tags = tmpl::list<Tags::BondiBeta>;
+  using argument_tags = tmpl::list<Tags::Exp2Beta>;
 
   static void apply(
-      gsl::not_null<Scalar<SpinWeighted<ComplexDataVector, 0>>*> beta,
-      const Scalar<SpinWeighted<ComplexDataVector, 0>>& bondi_beta) noexcept;
+      gsl::not_null<Scalar<SpinWeighted<ComplexDataVector, 0>>*> exp2beta,
+      const Scalar<SpinWeighted<ComplexDataVector, 0>>& bondi_exp2beta)
+          noexcept;
+};
+
+template<>
+struct CalculateScriPlusValue<Tags::WOut> {
+  using return_tags = tmpl::list<Tags::WOut>;
+  using argument_tags = tmpl::list<Tags::BondiW>;
+
+  static void apply(
+      gsl::not_null<Scalar<SpinWeighted<ComplexDataVector, 0>>*> W,
+      const Scalar<SpinWeighted<ComplexDataVector, 0>>& bondi_W) noexcept;
 };
 
 /// Initialize the \f$\mathcal I^+\f$ value `Tag` for the first hypersurface.
