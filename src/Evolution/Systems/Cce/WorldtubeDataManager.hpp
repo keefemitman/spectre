@@ -297,6 +297,7 @@ class PnWorldtubeDataManager : public WorldtubeDataManager {
 
 double find_first_downgoing_zero_crossing(
     const std::unique_ptr<WorldtubeDataManager> manager,
-    const double start_time, const double time_step) noexcept;
+    const double start_time, const double time_step, const std::string name)
+        noexcept;
 
 }  // namespace Cce

@@ -570,10 +570,11 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
                             &interpolation_span_size,
                             &time](auto tag_v, auto... indices) noexcept {
     using tag = typename decltype(tag_v)::type;
-    tmpl::conditional_t<std::is_same_v<tag, Tags::detail::Strain>,
-                        SpinWeighted<ComplexModalVector, 2>,
-                        SpinWeighted<ComplexModalVector, 0>>
-        spin_weighted_buffer;
+    //tmpl::conditional_t<std::is_same_v<tag, Tags::detail::Strain>,
+    //                    SpinWeighted<ComplexModalVector, 2>,
+    //                    SpinWeighted<ComplexModalVector, 0>>
+    //   spin_weighted_buffer;
+    SpinWeighted<ComplexModalVector, 0> spin_weighted_buffer;
     for (const auto& libsharp_mode :
          Spectral::Swsh::cached_coefficients_metadata(l_max_)) {
       // optimization note: consider a larger buffer and apply_matrices
@@ -596,7 +597,7 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
           (interpolate_derivative_matrix * minus_m_time_collocation_values)[0] /
           (time_points[interpolation_span_size - 1] - time_points[0]);
 
-      if constexpr (std::is_same_v<tag, Tags::detail::Strain> or
+      if constexpr (std::is_same_v<tag, Tags::detail::TTMetric> or
           std::is_same_v<tag, Tags::detail::Lapse> or
           std::is_same_v<tag, Tags::detail::Shift> or
           std::is_same_v<tag, Tags::detail::ConformalFactor>) {
@@ -633,26 +634,26 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
 
     // for now, because we don't have the precise value for the dr_f modes, we
     // approximate them as dr_f = -dt_f - f/r (assuming f = F(u)/r)
-    decltype(spin_weighted_buffer) offset{
-        Spectral::Swsh::size_of_libsharp_coefficient_vector(l_max_)};
-    offset.data() = 0.0;
-    if constexpr (std::is_same_v<tag, Tags::detail::Lapse> or
-                  std::is_same_v<tag, Tags::detail::ConformalFactor>) {
-      SpinWeighted<ComplexDataVector, 0> pre_transform{
-          Spectral::Swsh::number_of_swsh_collocation_points(l_max_)};
-      pre_transform.data() = 1.0;
-      Spectral::Swsh::swsh_transform(l_max_, 1, make_not_null(&offset),
-                                     pre_transform);
-    }
-    if constexpr (std::is_same_v<tag, Tags::detail::Strain>) {
-      get<Tags::detail::Dr<tag>>(interpolated_coefficients_buffers_)
-          .get(indices...) =
-          -get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
-               .get(indices...) -
-          (get<tag>(interpolated_coefficients_buffers_).get(indices...) -
-           offset.data()) /
-              extraction_radius_;
-    }
+    //decltype(spin_weighted_buffer) offset{
+    //    Spectral::Swsh::size_of_libsharp_coefficient_vector(l_max_)};
+    //offset.data() = 0.0;
+    //if constexpr (std::is_same_v<tag, Tags::detail::Lapse> or
+    //              std::is_same_v<tag, Tags::detail::ConformalFactor>) {
+    //  SpinWeighted<ComplexDataVector, 0> pre_transform{
+    //      Spectral::Swsh::number_of_swsh_collocation_points(l_max_)};
+    //  pre_transform.data() = 1.0;
+    //  Spectral::Swsh::swsh_transform(l_max_, 1, make_not_null(&offset),
+    //                                 pre_transform);
+    //}
+    //if constexpr (std::is_same_v<tag, Tags::detail::Strain>) {
+    //  get<Tags::detail::Dr<tag>>(interpolated_coefficients_buffers_)
+    //      .get(indices...) =
+    //      -get<::Tags::dt<tag>>(interpolated_coefficients_buffers_)
+    //           .get(indices...) -
+    //      (get<tag>(interpolated_coefficients_buffers_).get(indices...) -
+    //       offset.data()) /
+    //          extraction_radius_;
+    //}
   };
 
   // the ComplexModalVectors should be provided from the buffer_updater_ in
@@ -666,82 +667,85 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
           for (size_t i = 0; i < 3; ++i) {
             set_modes_for_tag(tag_v, i);
           }
+        } else if constexpr (std::is_same_v<tag, Tags::detail::TTMetric> or
+            std::is_same_v<tag, Tags::detail::Dr<Tags::detail::TTMetric>>) {
+            for (size_t i = 0; i < 3; ++i) {
+              for (size_t j = 0; j < 3; ++j) {
+                set_modes_for_tag(tag_v, i, j);
+              }
+            }
         } else {
           set_modes_for_tag(tag_v);
         }
       });
 
   const size_t size = Spectral::Swsh::number_of_swsh_collocation_points(l_max_);
-  Variables<tmpl::list<Tags::detail::CosPhi, Tags::detail::CosTheta,
-                       Tags::detail::SinPhi, Tags::detail::SinTheta,
-                       Tags::detail::CartesianCoordinates,
-                       Tags::detail::CartesianToSphericalJacobian,
-                       Tags::detail::InverseCartesianToSphericalJacobian>>
-      computation_variables{size};
+  //Variables<tmpl::list<Tags::detail::CosPhi, Tags::detail::CosTheta,
+  //                   Tags::detail::SinPhi, Tags::detail::SinTheta,
+  //                   Tags::detail::CartesianCoordinates,
+  //                   Tags::detail::CartesianToSphericalJacobian,
+  //                   Tags::detail::InverseCartesianToSphericalJacobian>>
+  //  computation_variables{size};
 
-  auto& cos_phi = get<Tags::detail::CosPhi>(computation_variables);
-  auto& cos_theta = get<Tags::detail::CosTheta>(computation_variables);
-  auto& sin_phi = get<Tags::detail::SinPhi>(computation_variables);
-  auto& sin_theta = get<Tags::detail::SinTheta>(computation_variables);
-  trigonometric_functions_on_swsh_collocation(
-      make_not_null(&cos_phi), make_not_null(&cos_theta),
-      make_not_null(&sin_phi), make_not_null(&sin_theta), l_max_);
+  //auto& cos_phi = get<Tags::detail::CosPhi>(computation_variables);
+  //auto& cos_theta = get<Tags::detail::CosTheta>(computation_variables);
+  //auto& sin_phi = get<Tags::detail::SinPhi>(computation_variables);
+  //auto& sin_theta = get<Tags::detail::SinTheta>(computation_variables);
+  //trigonometric_functions_on_swsh_collocation(
+  //   make_not_null(&cos_phi), make_not_null(&cos_theta),
+  //  make_not_null(&sin_phi), make_not_null(&sin_theta), l_max_);
 
-  auto& cartesian_coords =
-      get<Tags::detail::CartesianCoordinates>(computation_variables);
-  auto& cartesian_to_spherical_jacobian =
-      get<Tags::detail::CartesianToSphericalJacobian>(computation_variables);
-  auto& inverse_cartesian_to_spherical_jacobian =
-      get<Tags::detail::InverseCartesianToSphericalJacobian>(
-          computation_variables);
-  cartesian_to_spherical_coordinates_and_jacobians(
-      make_not_null(&cartesian_coords),
-      make_not_null(&cartesian_to_spherical_jacobian),
-      make_not_null(&inverse_cartesian_to_spherical_jacobian), cos_phi,
-      cos_theta, sin_phi, sin_theta, extraction_radius_);
+  //auto& cartesian_coords =
+  //  get<Tags::detail::CartesianCoordinates>(computation_variables);
+  //auto& cartesian_to_spherical_jacobian =
+  //  get<Tags::detail::CartesianToSphericalJacobian>(computation_variables);
+  //auto& inverse_cartesian_to_spherical_jacobian =
+  //  get<Tags::detail::InverseCartesianToSphericalJacobian>(
+  //      computation_variables);
+  //cartesian_to_spherical_coordinates_and_jacobians(
+  //  make_not_null(&cartesian_coords),
+  //  make_not_null(&cartesian_to_spherical_jacobian),
+  //  make_not_null(&inverse_cartesian_to_spherical_jacobian), cos_phi,
+  //  cos_theta, sin_phi, sin_theta, extraction_radius_);
 
   // The (pfaffian) components of the TT angular part are:
   //     [Re(J)   Im(J)]
   // r^2 [Im(J)  -Re(J)]
   // and we need to include the conformal factor as well.
-  Variables<tmpl::list<Tags::BondiJ, Tags::Dr<Tags::BondiJ>,
-                       ::Tags::dt<Tags::BondiJ>, Tags::BondiW,
+
+  Variables<tmpl::list<Tags::BondiBeta,
+                       Tags::Dr<Tags::BondiBeta>,
+                       ::Tags::dt<Tags::BondiBeta>, Tags::BondiW,
                        Tags::Dr<Tags::BondiW>, ::Tags::dt<Tags::BondiW>>>
       strain_collocation{size};
 
-  tmpl::for_each<
-      tmpl::list<Tags::BondiJ, Tags::BondiW>>([this, &strain_collocation,
-                                               &size](auto tag_v) noexcept {
-    using tag = typename decltype(tag_v)::type;
-    SpinWeighted<ComplexModalVector, tag::type::type::spin> spin_weighted_view;
-    using input_tag = tmpl::conditional_t<std::is_same_v<Tags::BondiJ, tag>,
-                                          Tags::detail::Strain,
-                                          Tags::detail::ConformalFactor>;
-    spin_weighted_view.set_data_ref(
-        get(get<input_tag>(interpolated_coefficients_buffers_)).data(),
-        get(get<input_tag>(interpolated_coefficients_buffers_)).size());
-    Spectral::Swsh::inverse_swsh_transform(
-        l_max_, 1, make_not_null(&get(get<tag>(strain_collocation))),
-        spin_weighted_view);
+  // BondiW
+  SpinWeighted<ComplexModalVector, 0> spin_weighted_view;
+  using input_tag = Tags::detail::ConformalFactor;
+  spin_weighted_view.set_data_ref(
+      get(get<input_tag>(interpolated_coefficients_buffers_)).data(),
+      get(get<input_tag>(interpolated_coefficients_buffers_)).size());
+  Spectral::Swsh::inverse_swsh_transform(
+      l_max_, 1, make_not_null(&get(get<Tags::BondiW>(strain_collocation))),
+      spin_weighted_view);
 
-    spin_weighted_view.set_data_ref(get(get<Tags::detail::Dr<input_tag>>(
-                                            interpolated_coefficients_buffers_))
-                                        .data(),
-                                    size);
-    Spectral::Swsh::inverse_swsh_transform(
-        l_max_, 1,
-        make_not_null(&get(get<Tags::Dr<tag>>(strain_collocation))),
-        spin_weighted_view);
+  spin_weighted_view.set_data_ref(get(get<Tags::detail::Dr<input_tag>>(
+                                           interpolated_coefficients_buffers_))
+                                      .data(),
+                                  size);
+  Spectral::Swsh::inverse_swsh_transform(
+      l_max_, 1,
+      make_not_null(&get(get<Tags::Dr<Tags::BondiW>>(strain_collocation))),
+      spin_weighted_view);
 
-    spin_weighted_view.set_data_ref(
-        get(get<::Tags::dt<input_tag>>(interpolated_coefficients_buffers_))
-            .data(),
-        size);
-    Spectral::Swsh::inverse_swsh_transform(
-        l_max_, 1,
-        make_not_null(&get(get<::Tags::dt<tag>>(strain_collocation))),
-        spin_weighted_view);
-  });
+  spin_weighted_view.set_data_ref(
+      get(get<::Tags::dt<input_tag>>(interpolated_coefficients_buffers_))
+          .data(),
+      size);
+  Spectral::Swsh::inverse_swsh_transform(
+      l_max_, 1,
+      make_not_null(&get(get<::Tags::dt<Tags::BondiW>>(strain_collocation))),
+      spin_weighted_view);
 
   const size_t coefficients_size =
       Spectral::Swsh::size_of_libsharp_coefficient_vector(l_max_);
@@ -751,21 +755,44 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
 
   auto conformal_factor = get(get<Tags::BondiW>(strain_collocation)).data();
   for (size_t i = 0; i < 3; ++i) {
-    for (size_t j = i; j < 3; ++j) {
-      auto strain = get(get<Tags::BondiJ>(strain_collocation)).data();
+    for (size_t j = 0; j < 3; ++j) {
+
+      SpinWeighted<ComplexModalVector, 0> spin_weighted_view;
+      using input_tag = Tags::detail::TTMetric;
+
+      spin_weighted_view.set_data_ref(
+          get<input_tag>(interpolated_coefficients_buffers_).get(i,j).data(),
+          get<input_tag>(interpolated_coefficients_buffers_).get(i,j).size());
+      Spectral::Swsh::inverse_swsh_transform(
+          l_max_, 1, make_not_null(&get(
+              get<Tags::BondiBeta>(strain_collocation))),
+          spin_weighted_view);
+
+      spin_weighted_view.set_data_ref(
+          get<Tags::detail::Dr<input_tag>>(
+              interpolated_coefficients_buffers_).get(i,j)
+              .data(),
+          size);
+      Spectral::Swsh::inverse_swsh_transform(
+          l_max_, 1,
+          make_not_null(&get(
+              get<Tags::Dr<Tags::BondiBeta>>(strain_collocation))),
+          spin_weighted_view);
+
+      spin_weighted_view.set_data_ref(
+          get<::Tags::dt<input_tag>>(
+              interpolated_coefficients_buffers_).get(i,j)
+              .data(),
+           size);
+      Spectral::Swsh::inverse_swsh_transform(
+          l_max_, 1,
+          make_not_null(&get(
+              get<::Tags::dt<Tags::BondiBeta>>(strain_collocation))),
+          spin_weighted_view);
+
+      auto TT_metric = get(get<Tags::BondiBeta>(strain_collocation)).data();
       pre_transform_buffer.data() =
-          std::complex<double>(1.0, 0.0) * square(extraction_radius_) *
-              (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                   real(strain) / extraction_radius_ +
-               (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                    inverse_cartesian_to_spherical_jacobian.get(j, 2) +
-                inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                    inverse_cartesian_to_spherical_jacobian.get(i, 2)) *
-                   imag(strain) / extraction_radius_ -
-               inverse_cartesian_to_spherical_jacobian.get(i, 2) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 2) *
-                   real(strain) / extraction_radius_) +
+          TT_metric +
           (i == j ? pow<4>(conformal_factor) : ComplexDataVector{size, 0.0});
       transform_view.set_data_ref(
           get<Tags::detail::SpatialMetric>(metric_coefficients_)
@@ -773,27 +800,16 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
               .data(),
           coefficients_size);
       Spectral::Swsh::swsh_transform(l_max_, 1, make_not_null(&transform_view),
-                                     pre_transform_buffer);
+                                   pre_transform_buffer);
 
-      auto dr_strain =
-          get(get<Tags::Dr<Tags::BondiJ>>(strain_collocation)).data();
+      auto dr_TT_metric =
+          get(get<Tags::Dr<Tags::BondiBeta>>(strain_collocation)).data();
       auto dr_conformal_factor =
           get(get<Tags::Dr<Tags::BondiW>>(strain_collocation)).data();
       auto dt_conformal_factor =
           get(get<::Tags::dt<Tags::BondiW>>(strain_collocation)).data();
       pre_transform_buffer.data() =
-          std::complex<double>(1.0, 0.0) * square(extraction_radius_) *
-              (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-               real(dr_strain) / extraction_radius_ +
-               (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 2) +
-                inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                   inverse_cartesian_to_spherical_jacobian.get(i, 2)) *
-               imag(dr_strain) / extraction_radius_ -
-               inverse_cartesian_to_spherical_jacobian.get(i, 2) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 2) *
-               real(dr_strain) / extraction_radius_ ) +
+          dr_TT_metric +
           (i == j ? 4.0 * pow<3>(conformal_factor) * dr_conformal_factor :
                ComplexDataVector{size, 0.0});
       transform_view.set_data_ref(
@@ -805,21 +821,10 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
       Spectral::Swsh::swsh_transform(l_max_, 1, make_not_null(&transform_view),
                                      pre_transform_buffer);
 
-      auto dt_strain =
-          get(get<::Tags::dt<Tags::BondiJ>>(strain_collocation)).data();
+      auto dt_TT_metric =
+          get(get<::Tags::dt<Tags::BondiBeta>>(strain_collocation)).data();
       pre_transform_buffer.data() =
-          std::complex<double>(1.0, 0.0) * square(extraction_radius_) *
-              (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                   real(dt_strain) / extraction_radius_ +
-               (inverse_cartesian_to_spherical_jacobian.get(i, 1) *
-                    inverse_cartesian_to_spherical_jacobian.get(j, 2) +
-                inverse_cartesian_to_spherical_jacobian.get(j, 1) *
-                    inverse_cartesian_to_spherical_jacobian.get(i, 2)) *
-                   imag(dt_strain) / extraction_radius_ -
-               inverse_cartesian_to_spherical_jacobian.get(i, 2) *
-                   inverse_cartesian_to_spherical_jacobian.get(j, 2) *
-                   real(dt_strain) / extraction_radius_) +
+          dt_TT_metric +
           (i == j ? 4.0 * pow<3>(conformal_factor) * dt_conformal_factor
                   : ComplexDataVector{size, 0.0});
       transform_view.set_data_ref(
@@ -865,8 +870,9 @@ bool PnWorldtubeDataManager::populate_hypersurface_boundary_data(
 
 double find_first_downgoing_zero_crossing(
     const std::unique_ptr<WorldtubeDataManager> manager,
-    const double start_time, const double time_step) noexcept {
-  Parallel::printf("starting\n");
+    const double start_time, const double time_step, const std::string name)
+        noexcept {
+  Parallel::printf("starting %s\n", name);
   const size_t l_max = manager->get_l_max();
   Variables<Tags::characteristic_worldtube_boundary_tags<Tags::BoundaryValue>>
       boundary_buffer{Spectral::Swsh::number_of_swsh_collocation_points(l_max)};

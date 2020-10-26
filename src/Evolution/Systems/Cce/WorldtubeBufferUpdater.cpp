@@ -1,4 +1,4 @@
-// Distributed under the MIT License.
+B1;95;0c// Distributed under the MIT License.
 // See LICENSE.txt for details.
 
 #include "Evolution/Systems/Cce/WorldtubeBufferUpdater.hpp"
@@ -449,8 +449,11 @@ ModeSetBoundaryH5BufferUpdater::ModeSetBoundaryH5BufferUpdater(
     : mode_file_{cce_data_filename},
       filename_{cce_data_filename},
       l_max_{l_max} {
-  get<Tags::detail::InputDataSet<Tags::detail::Strain>>(dataset_names_) =
-      "/Strain";
+  get<Tags::detail::InputDataSet<Tags::detail::TTMetric>>(dataset_names_) =
+      "/g";
+  get<Tags::detail::InputDataSet<Tags::detail::Dr<
+      Tags::detail::TTMetric>>>(
+        dataset_names_) = "/Drg";
   get<Tags::detail::InputDataSet<Tags::detail::Shift>>(dataset_names_) =
       "/Shift";
   get<Tags::detail::InputDataSet<Tags::detail::Dr<Tags::detail::Shift>>>(
@@ -466,7 +469,7 @@ ModeSetBoundaryH5BufferUpdater::ModeSetBoundaryH5BufferUpdater(
         dataset_names_) = "/DrConformalFactor";
 
   // assume that any valid mode file has at least the 2, 2 mode.
-  const auto& mode22_data = mode_file_.get<h5::Dat>("/Strain/Y_l2_m2");
+  const auto& mode22_data = mode_file_.get<h5::Dat>("/Lapse/Y_l2_m2");
   const auto data_table_dimensions = mode22_data.get_dimensions();
   const Matrix time_matrix = mode22_data.get_data_subset(
       std::vector<size_t>{0}, 0, data_table_dimensions[0]);
@@ -510,11 +513,17 @@ double ModeSetBoundaryH5BufferUpdater::update_buffer_for_time(
       for (size_t i = 0; i < 3; ++i) {
         get<tag>(*buffer).get(i) = 0.0;
       }
+    } else if constexpr(std::is_same_v<tag, Tags::detail::TTMetric> or
+        std::is_same_v<tag, Tags::detail::Dr<Tags::detail::TTMetric>>) {
+        for (size_t i = 0; i < 3; ++i) {
+          for (size_t j = 0; j < 3; ++j) {
+            get<tag>(*buffer).get(i, j) = 0.0;
+          }
+        }
     } else {
       get(get<tag>(*buffer)) = 0.0;
     }
-    for (int l = std::is_same_v<tag, Tags::detail::Strain> ? strain_l_min_
-                                                           : l_min_;
+    for (int l = l_min_;
          l <= static_cast<int>(std::min(computation_l_max, l_max_)); ++l) {
       for (int m = -l; m <= l; ++m) {
         if constexpr (std::is_same_v<tag, Tags::detail::Shift> or
@@ -540,6 +549,42 @@ double ModeSetBoundaryH5BufferUpdater::update_buffer_for_time(
               mode_file_.close_current_object();
             }
           }
+          } else if constexpr (std::is_same_v<tag, Tags::detail::TTMetric> or
+                               std::is_same_v<tag, Tags::detail::Dr<
+                                   Tags::detail::TTMetric>>) {
+            for (size_t i = 0; i < 3; ++i) {
+              for (size_t j = 0; j < 3; ++j) {
+                const h5::Dat& read_data = j > i ?
+                   mode_file_.get<h5::Dat>(
+                     MakeString{}
+                     << get<Tags::detail::InputDataSet<tag>>(dataset_names_)
+                     << static_cast<char>(static_cast<int>('x') + i)
+                     << static_cast<char>(static_cast<int>('x') + j)
+                     << "/Y_l" << l << "_m" << m) :
+                   mode_file_.get<h5::Dat>(
+                     MakeString{}
+                     << get<Tags::detail::InputDataSet<tag>>(dataset_names_)
+                     << static_cast<char>(static_cast<int>('x') + j)
+                     << static_cast<char>(static_cast<int>('x') + i)
+                     << "/Y_l" << l << "_m" << m);
+
+                const Matrix data_matrix = read_data.get_data_subset(
+                   columns, *time_span_start,
+                   *time_span_end - *time_span_start);
+
+                for (size_t time_row = 0;
+                     time_row < *time_span_end - *time_span_start; ++time_row) {
+                  get<tag>(*buffer).get(
+                      i, j)[Spectral::Swsh::goldberg_mode_index(
+                                computation_l_max, static_cast<size_t>(l), m) *
+                                (*time_span_end - *time_span_start) +
+                            time_row] = std::complex<double>(
+                                            data_matrix(time_row, 0),
+                                            data_matrix(time_row, 1));
+                  mode_file_.close_current_object();
+                }
+              }
+            }
         } else {
           const h5::Dat& read_data =
               mode_file_.get<h5::Dat>(

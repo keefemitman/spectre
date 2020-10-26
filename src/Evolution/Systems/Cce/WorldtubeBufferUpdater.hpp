@@ -38,12 +38,12 @@ using SpatialMetric =
 using Shift = gr::Tags::Shift<3, ::Frame::Inertial, ComplexModalVector>;
 using Lapse = gr::Tags::Lapse<ComplexModalVector>;
 
-struct Strain : db::SimpleTag {
+struct ConformalFactor : db::SimpleTag {
   using type = Scalar<ComplexModalVector>;
 };
 
-struct ConformalFactor : db::SimpleTag {
-  using type = Scalar<ComplexModalVector>;
+struct TTMetric : db::SimpleTag {
+  using type = tnsr::ii<ComplexModalVector, 3>;
 };
 
 // radial derivative prefix tag to be used with the modal input worldtube data
@@ -115,18 +115,22 @@ using cce_bondi_input_tags =
 using cce_pn_input_tags =
     tmpl::list<Tags::detail::Shift, Tags::detail::Dr<Tags::detail::Shift>,
                Tags::detail::Lapse, Tags::detail::Dr<Tags::detail::Lapse>,
-               Tags::detail::Strain, Tags::detail::ConformalFactor,
-               Tags::detail::Dr<Tags::detail::ConformalFactor>>;
+               Tags::detail::ConformalFactor,
+               Tags::detail::Dr<Tags::detail::ConformalFactor>,
+               Tags::detail::TTMetric,
+               Tags::detail::Dr<Tags::detail::TTMetric>>;
 
 using interpolated_cce_pn_input_tags =
     tmpl::list<Tags::detail::Shift, Tags::detail::Dr<Tags::detail::Shift>,
                ::Tags::dt<Tags::detail::Shift>, Tags::detail::Lapse,
                Tags::detail::Dr<Tags::detail::Lapse>,
-               ::Tags::dt<Tags::detail::Lapse>, Tags::detail::Strain,
-               Tags::detail::Dr<Tags::detail::Strain>,
-               ::Tags::dt<Tags::detail::Strain>, Tags::detail::ConformalFactor,
+               ::Tags::dt<Tags::detail::Lapse>,
+               Tags::detail::ConformalFactor,
                Tags::detail::Dr<Tags::detail::ConformalFactor>,
-               ::Tags::dt<Tags::detail::ConformalFactor>>;
+               ::Tags::dt<Tags::detail::ConformalFactor>,
+               Tags::detail::TTMetric,
+               Tags::detail::Dr<Tags::detail::TTMetric>,
+               ::Tags::dt<Tags::detail::TTMetric>>;
 
 /// \cond
 class MetricWorldtubeH5BufferUpdater;

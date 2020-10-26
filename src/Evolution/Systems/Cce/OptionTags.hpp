@@ -401,7 +401,7 @@ struct StartTimeFromFile<MainRun> : Tags::StartTime, db::SimpleTag {
         std::make_unique<BondiWorldtubeDataManager>(
             h5_boundary_updater.get_clone(), l_max, number_of_lookahead_times,
             interpolator->get_clone()),
-        start_time, 0.1 * initial_time_step);
+        start_time, 0.1 * initial_time_step, "start");
     return start_time;
   }
 };
@@ -489,7 +489,7 @@ struct EndTimeFromFile<InitializationRun> : db::SimpleTag {
             std::make_unique<ModeSetBoundaryH5BufferUpdater>(filename, 8_st),
             l_max, number_of_lookahead_times, extraction_radius,
             interpolator->get_clone()),
-        end_time, 0.1 * initial_time_step);
+        end_time, 0.1 * initial_time_step, "end");
   }
 };
 
