@@ -155,10 +155,12 @@ struct InitializeFirstHypersurface<MainRun> {
           // shell_interpolated_j.data(), mesh.extents());
         });
 
-    db::mutate_apply<InitializeJ::InitializeJ::mutate_tags,
-                     InitializeJ::InitializeJ::argument_tags>(
-        InitializeJ::InitializeJCoordinatesForVolumeValue{1.0e-15, 1000_st},
-        /*InitializeJ::InverseCubic(),*/ make_not_null(&box));
+    db::mutate_apply<GaugeUpdateAngularFromCartesian<Tags::CauchyAngularCoords,
+        Tags::CauchyCartesianCoords>>(make_not_null(&box));
+    // db::mutate_apply<InitializeJ::InitializeJ::mutate_tags,
+    //                  InitializeJ::InitializeJ::argument_tags>(
+    //     InitializeJ::InitializeJCoordinatesForVolumeValue{1.0e-15, 1000_st},
+    //     /*InitializeJ::InverseCubic(),*/ make_not_null(&box));
     // db::mutate<Tags::InertialRetardedTime>(
     // make_not_null(&box),
     // [&initialization_j_hypersurface_data](

@@ -1,4 +1,4 @@
-B1;95;0c// Distributed under the MIT License.
+// Distributed under the MIT License.
 // See LICENSE.txt for details.
 
 #include "Evolution/Systems/Cce/WorldtubeBufferUpdater.hpp"
