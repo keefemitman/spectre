@@ -104,7 +104,8 @@ struct InverseCubic;
 struct InitializeJ : public PUP::able {
   using boundary_tags = tmpl::list<Tags::BoundaryValue<Tags::BondiJ>,
                                    Tags::BoundaryValue<Tags::Dr<Tags::BondiJ>>,
-                                   Tags::BoundaryValue<Tags::BondiR>>;
+                                   Tags::BoundaryValue<Tags::BondiR>,
+                                   Tags::BoundaryValue<Tags::BondiBeta>>;
 
   using mutate_tags = tmpl::list<Tags::BondiJ, Tags::CauchyCartesianCoords,
                                  Tags::CauchyAngularCoords>;
@@ -126,7 +127,8 @@ struct InitializeJ : public PUP::able {
           angular_cauchy_coordinates,
       const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_j,
       const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
-      const Scalar<SpinWeighted<ComplexDataVector, 0>>& r, size_t l_max,
+      const Scalar<SpinWeighted<ComplexDataVector, 0>>& r,
+      const Scalar<SpinWeighted<ComplexDataVector, 0>>& beta, size_t l_max,
       size_t number_of_radial_points) const noexcept = 0;
 };
 }  // namespace InitializeJ
