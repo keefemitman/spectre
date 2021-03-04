@@ -19,8 +19,6 @@
 #include "Utilities/Gsl.hpp"
 #include "Utilities/TMPL.hpp"
 
-#include "Parallel/Printf.hpp"
-
 namespace Cce::InitializeJ {
 
 std::unique_ptr<InitializeJ> InverseCubic::get_clone() const
@@ -37,13 +35,12 @@ void InverseCubic::operator()(
     const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_j,
     const Scalar<SpinWeighted<ComplexDataVector, 2>>& boundary_dr_j,
     const Scalar<SpinWeighted<ComplexDataVector, 0>>& r,
-    const Scalar<SpinWeighted<ComplexDataVector, 0>>& beta, const size_t l_max,
-    const size_t number_of_radial_points) const noexcept {
+    const Scalar<SpinWeighted<ComplexDataVector, 0>>& /*beta*/,
+    const size_t l_max, const size_t number_of_radial_points) const noexcept {
   const DataVector one_minus_y_collocation =
       1.0 - Spectral::collocation_points<Spectral::Basis::Legendre,
                                          Spectral::Quadrature::GaussLobatto>(
                 number_of_radial_points);
-  ComplexDataVector one_minus_y_coefficient{get(boundary_j).size()};
   for (size_t i = 0; i < number_of_radial_points; i++) {
     ComplexDataVector angular_view_j{
         get(*j).data().data() + get(boundary_j).size() * i,
@@ -51,25 +48,12 @@ void InverseCubic::operator()(
     // auto is acceptable here as these two values are only used once in the
     // below computation. `auto` causes an expression template to be
     // generated, rather than allocating.
-    one_minus_y_coefficient = get(boundary_j).data();
-    Parallel::printf("diagnostic: one minus y coeff:\n");
-    for(auto val : one_minus_y_coefficient) {
-      Parallel::printf("%e %e\n", real(val), imag(val));
-    }
-    Parallel::printf("done\n");
-    // tweak the inverse-r solution to give approximately vanishing beta
-    // asymptotically.
-    one_minus_y_coefficient =
-        one_minus_y_coefficient *
-        sqrt(-4.0 * get(beta).data() /
-             (one_minus_y_coefficient * conj(one_minus_y_coefficient)));
-    Parallel::printf("diagnostic: one minus y coeff after scaling:\n");
-    for (auto val : one_minus_y_coefficient) {
-      Parallel::printf("%e %e\n", real(val), imag(val));
-    }
-    Parallel::printf("done\n");
+    const auto one_minus_y_coefficient =
+        0.25 * (3.0 * get(boundary_j).data() +
+                get(r).data() * get(boundary_dr_j).data());
     const auto one_minus_y_cubed_coefficient =
-        0.125 * (get(boundary_j).data() - 2.0 * one_minus_y_coefficient);
+        -0.0625 *
+        (get(boundary_j).data() + get(r).data() * get(boundary_dr_j).data());
     angular_view_j =
         one_minus_y_collocation[i] * one_minus_y_coefficient +
         pow<3>(one_minus_y_collocation[i]) * one_minus_y_cubed_coefficient;
