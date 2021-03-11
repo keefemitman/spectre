@@ -8,10 +8,6 @@
 #include <memory>
 #include <type_traits>
 
-#include <iostream>
-#include <fstream>
-#include <string>
-
 #include "DataStructures/ComplexDataVector.hpp"
 #include "DataStructures/DataVector.hpp"
 #include "DataStructures/SpinWeighted.hpp"
@@ -52,6 +48,10 @@ double adjust_angular_coordinates_for_omega(
   const size_t number_of_theta_points =
       Spectral::Swsh::number_of_swsh_theta_collocation_points(l_max);
 
+  Parallel::printf("\n");
+  Parallel::printf("Operating with (Tolerance, Max Steps): (%e, %zu)\n",
+                   tolerance, max_steps);
+
   const auto& collocation = Spectral::Swsh::cached_collocation_metadata<
       Spectral::Swsh::ComplexRepresentation::Interleaved>(l_max);
   for (const auto collocation_point : collocation) {
@@ -60,6 +60,15 @@ double adjust_angular_coordinates_for_omega(
     get<1>(*angular_cauchy_coordinates)[collocation_point.offset] =
         collocation_point.phi;
   }
+
+  get<0>(*cartesian_cauchy_coordinates) =
+      sin(get<0>(*angular_cauchy_coordinates)) *
+      cos(get<1>(*angular_cauchy_coordinates));
+  get<1>(*cartesian_cauchy_coordinates) =
+      sin(get<0>(*angular_cauchy_coordinates)) *
+      sin(get<1>(*angular_cauchy_coordinates));
+  get<2>(*cartesian_cauchy_coordinates) =
+      cos(get<0>(*angular_cauchy_coordinates));
 
   Variables<tmpl::list<
       // gauge Jacobians
@@ -75,6 +84,9 @@ double adjust_angular_coordinates_for_omega(
                            std::integral_constant<int, 0>>,
       // Integral Result
       ::Tags::SpinWeighted<::Tags::TempScalar<4, ComplexDataVector>,
+                           std::integral_constant<int, 0>>,
+      // Interpolated target omega
+      ::Tags::SpinWeighted<::Tags::TempScalar<5, ComplexDataVector>,
                            std::integral_constant<int, 0>>>>
     computation_buffers{number_of_angular_points};
 
@@ -92,90 +104,118 @@ double adjust_angular_coordinates_for_omega(
                                std::integral_constant<int, 0>>>(
           computation_buffers);
 
-  // Compute the Integrand
   auto& integral_input =
       get<::Tags::SpinWeighted<::Tags::TempScalar<3, ComplexDataVector>,
                                std::integral_constant<int, 0>>>(
           computation_buffers);
 
-  // Note that there is no factor of sin(\theta) because this is
-  // removed to convert the integration to the angular domain.
-  get(integral_input).data() =
-      pow(target_omega.data(), 2.0);
-
-  // Obtain theta via Integration (loop over the phis)
   auto& integral_result =
       get<::Tags::SpinWeighted<::Tags::TempScalar<4, ComplexDataVector>,
                                std::integral_constant<int, 0>>>(
           computation_buffers);
 
-  const Mesh<2> Mesh2d{
-      {{number_of_phi_points, number_of_theta_points}},
-      {{Spectral::Basis::Legendre, Spectral::Basis::Legendre}},
-      {{Spectral::Quadrature::Gauss, Spectral::Quadrature::Gauss}}};
-  indefinite_integral(make_not_null(&get(integral_result).data()),
-                      get(integral_input).data(),
-                      Mesh2d,
-                      1);
-
-  // this is just for debugging
-  Parallel::printf("\n");
-  Parallel::printf("Omega Min Max: %e %e\n",
-      min(real(target_omega.data())),
-      max(real(target_omega.data())));
-  Parallel::printf("Integrand Min Max: %e %e\n",
-      min(real(get(integral_input).data())),
-      max(real(get(integral_input).data())));
-  Parallel::printf("Integral Min Max: %e %e\n",
-      min(real(get(integral_result).data())),
-      max(real(get(integral_result).data())));
-  Parallel::printf("Result Min Max: %e %e\n",
-      min(-real(get(integral_result).data()) + 1.0),
-      max(-real(get(integral_result).data()) + 1.0));
-  Parallel::printf("ArcCos Min Max: %e %e\n",
-      acos(max(-real(get(integral_result).data()) + 1.0)),
-      acos(min(-real(get(integral_result).data()) + 1.0)));
-
-  for (size_t i = 0; i < get<0>(*angular_cauchy_coordinates).size(); ++i) {
-    get<0>(*angular_cauchy_coordinates)[i] =
-      acos(-real(get(integral_result).data()[i]) + 1.0);
-  }
-
-  // Update the Cartesian coordinates
-  get<0>(*cartesian_cauchy_coordinates) =
-      sin(get<0>(*angular_cauchy_coordinates)) *
-      cos(get<1>(*angular_cauchy_coordinates));
-  get<1>(*cartesian_cauchy_coordinates) =
-      sin(get<0>(*angular_cauchy_coordinates)) *
-      sin(get<1>(*angular_cauchy_coordinates));
-  get<2>(*cartesian_cauchy_coordinates) =
-      cos(get<0>(*angular_cauchy_coordinates));
+  auto& interpolated_target_omega =
+      get(get<::Tags::SpinWeighted<::Tags::TempScalar<5, ComplexDataVector>,
+                                   std::integral_constant<int, 0>>>(
+          computation_buffers));
+  // Initialize
+  interpolated_target_omega.data() = target_omega.data();
 
   // Update angular coordinates so they are formatted correctly,
   // i.e., phi in [-pi, pi]
   GaugeUpdateAngularFromCartesian<
-      Tags::CauchyAngularCoords,
-      Tags::CauchyCartesianCoords>::apply(angular_cauchy_coordinates,
-                                          cartesian_cauchy_coordinates);
-
-  // Use the new coordinates to create new gauge_c, gauge_d
-  GaugeUpdateJacobianFromCoordinates<
-      Tags::GaugeC, Tags::GaugeD, Tags::CauchyAngularCoords,
-      Tags::CauchyCartesianCoords>::apply(make_not_null(&gauge_c),
-                                          make_not_null(&gauge_d),
-                                          angular_cauchy_coordinates,
-                                          *cartesian_cauchy_coordinates,
-                                          l_max);
-
-  // Compute omega and check the error
-  get(gauge_omega).data() =
-      0.5 * sqrt(get(gauge_d).data() * conj(get(gauge_d).data()) -
-                 get(gauge_c).data() * conj(get(gauge_c).data()));
+        Tags::CauchyAngularCoords,
+        Tags::CauchyCartesianCoords>::apply(angular_cauchy_coordinates,
+                                            cartesian_cauchy_coordinates);
 
   double max_error = 1.0;
-  max_error = max(abs(get(gauge_omega).data() - target_omega.data()));
+  size_t number_of_steps = 0;
+  while (true) {
+    // Compute the Integrand
+    // Note that there is no factor of sin(\theta) because this is
+    // removed to convert the integration to the angular domain.
+    get(integral_input).data() =
+        pow(interpolated_target_omega.data(), 2.0);
 
-  // then run
+    // Obtain theta via Integration
+    const Mesh<2> Mesh2d{
+        {{number_of_phi_points, number_of_theta_points}},
+        {{Spectral::Basis::Legendre, Spectral::Basis::Legendre}},
+        {{Spectral::Quadrature::Gauss, Spectral::Quadrature::Gauss}}};
+    indefinite_integral(make_not_null(&get(integral_result).data()),
+                        get(integral_input).data(),
+                        Mesh2d,
+                        1);
+
+    // Update the angular coordinates
+    for(size_t i = 0; i < get<0>(*angular_cauchy_coordinates).size(); ++i) {
+      get<0>(*angular_cauchy_coordinates)[i] =
+          acos(-real(get(integral_result).data()[i]) + 1.0);
+    }
+
+    // Update the Cartesian coordinates
+    get<0>(*cartesian_cauchy_coordinates) =
+        sin(get<0>(*angular_cauchy_coordinates)) *
+        cos(get<1>(*angular_cauchy_coordinates));
+    get<1>(*cartesian_cauchy_coordinates) =
+        sin(get<0>(*angular_cauchy_coordinates)) *
+        sin(get<1>(*angular_cauchy_coordinates));
+    get<2>(*cartesian_cauchy_coordinates) =
+        cos(get<0>(*angular_cauchy_coordinates));
+
+    // Update angular coordinates so they are formatted correctly,
+    // i.e., phi in [-pi, pi]
+    GaugeUpdateAngularFromCartesian<
+        Tags::CauchyAngularCoords,
+        Tags::CauchyCartesianCoords>::apply(angular_cauchy_coordinates,
+                                            cartesian_cauchy_coordinates);
+
+    // Update Jacobian factors
+    GaugeUpdateJacobianFromCoordinates<
+        Tags::GaugeC, Tags::GaugeD, Tags::CauchyAngularCoords,
+        Tags::CauchyCartesianCoords>::apply(make_not_null(&gauge_c),
+                                            make_not_null(&gauge_d),
+                                            angular_cauchy_coordinates,
+                                            *cartesian_cauchy_coordinates,
+                                            l_max);
+
+    // Compute omega from new angular coordinates
+    get(gauge_omega).data() =
+        0.5 * sqrt(get(gauge_d).data() * conj(get(gauge_d).data()) -
+                   get(gauge_c).data() * conj(get(gauge_c).data()));
+
+    // Interpolate target omega onto new angular coordinates
+    Spectral::Swsh::SwshInterpolator iteration_interpolator{
+        get<0>(*angular_cauchy_coordinates),
+        get<1>(*angular_cauchy_coordinates), l_max};
+
+    iteration_interpolator.interpolate(
+        make_not_null(&interpolated_target_omega),
+        target_omega);
+
+    max_error = max(abs(get(gauge_omega).data()
+                        - interpolated_target_omega.data()));
+    Parallel::printf("Debug Integral solve: %e\n", max_error);
+    ++number_of_steps;
+    if (max_error > 2.0e+0) {
+      ERROR(
+          "Iterative solve for surface coordinates of initial data failed. The "
+          "strain is too large to be fully eliminated by a well-behaved "
+          "alteration of the spherical mesh. For this data, please use an "
+          "alternative initial data generator such as "
+          "`InitializeJConformalFactor`.\n");
+    }
+    if (max_error < tolerance) {
+      Parallel::printf("Tolerance Reached!\n");
+      break;
+    }
+    if (number_of_steps > max_steps) {
+      Parallel::printf("Max Number of Steps Exceeded...\n");
+      break;
+    }
+  }
+
+  // Use the finalied coordinates to update J
   GaugeAdjustInitialJ::apply(volume_j, gauge_c, gauge_d, gauge_omega,
                              *angular_cauchy_coordinates, l_max);
 
